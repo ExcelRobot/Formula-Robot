@@ -1,0 +1,523 @@
+{
+  "Commands": [
+    {
+      "Name": "Apply Filter To Array",
+      "Description": "Create Filter formula based on top row spill range formula.",
+      "Type": "VBAMacroCommand",
+      "UserContextFilter": "ExcelActiveCellContainsFormula",
+      "MacroExpression": "modApplyFilterToArray.ApplyFilterToArray([[ActiveCell]],[[ActiveCell.Offset(1,1)]])",
+      "Tags": [
+        "Formula"
+      ]
+    },
+    {
+      "Name": "Auto Fill Down",
+      "Description": "Fill formula or value in active cell down using smart automation.",
+      "Type": "VBAMacroCommand",
+      "UserContextFilter": "ExcelSelectionIsSingleArea",
+      "LaunchCodes": [
+        "d",
+        "fd",
+        "afd"
+      ],
+      "MacroExpression": "modFillArray.FillDown([[Selection]])",
+      "Tags": [
+        "Fill"
+      ]
+    },
+    {
+      "Name": "Auto Fill To Right",
+      "Description": "Fill formula or value in active cell to right using smart automation.",
+      "Type": "VBAMacroCommand",
+      "UserContextFilter": "ExcelSelectionIsSingleArea",
+      "LaunchCodes": [
+        "r",
+        "fr",
+        "afr"
+      ],
+      "MacroExpression": "modFillArray.FillToRight([[Selection]])",
+      "Tags": [
+        "Fill"
+      ]
+    },
+    {
+      "Name": "Auto-Fit Formula Bar",
+      "Description": "Autofit formula bar height based on formula length so that whole formula is visible.",
+      "Type": "VBAMacroCommand",
+      "UserContextFilter": "ExcelActiveCellContainsFormula|ExcelActiveCellIsSpillParent|ExcelActiveCellIsNotEmpty",
+      "MacroExpression": "modAutofitFormula.AutofitFormulaBar([[ActiveCell]])",
+      "Tags": [
+        "Formula"
+      ]
+    },
+    {
+      "Name": "Cancel Named Range Edit",
+      "Description": "Cancel edit named range edit mode and use named range name instead of it's refers to and delete the comment.",
+      "Type": "VBAMacroCommand",
+      "UserContextFilter": "ExcelActiveCellContainsFormula;ExcelSelectionIsSingleCell",
+      "LaunchCodes": [
+        "cnr"
+      ],
+      "MacroExpression": "modNamedRange.CancelNamedRangeEdit([[ActiveCell]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Compact Formula Format",
+      "Description": "Compact formula format of selected cells containing formulas.",
+      "Type": "VBAMacroCommand",
+      "UserContextFilter": "ExcelActiveCellContainsFormula",
+      "CommandAfter": "Auto-Fit Formula Bar",
+      "MacroExpression": "modAutofitFormula.FormatFormulas([[Selection]],TRUE)",
+      "Tags": [
+        "Formula"
+      ]
+    },
+    {
+      "Name": "Convert Formula To Structural Ref",
+      "Description": "Replace ActiveCell formula precedency range reference with their structured form like A1:D3 is named range and ActiveCell formula use A1:D3 then it will replace A1:D3 with it's named range name.",
+      "Type": "VBAMacroCommand",
+      "UserContextFilter": "ExcelActiveCellContainsFormula;ExcelSelectionIsSingleCell",
+      "Note": "Structured reference means using Table, Named Range or # for spill formula. Instead of using A1:D3 this will try to find possible structured reference for that range and use that.",
+      "MacroExpression": "modStructuredReference.ConvertFormulaToStructuredRef([[ActiveCell]])",
+      "Tags": [
+        "Formula"
+      ]
+    },
+    {
+      "Name": "Convert Global Named Ranges To Local",
+      "Description": "Convert all globally scoped named ranges in selection to local.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.ConvertGlobalToLocal([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Convert Local Named Ranges To Global",
+      "Description": "Converts all locally scoped named ranges in selection to global.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.ConvertLocalToGlobal([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Copy Formula To English",
+      "Description": "Translate ActiveCell formula to en-us locale and copy to clipboard.",
+      "Type": "VBAMacroCommand",
+      "Parameters": [
+        {
+          "Name": "SaveToClipboard",
+          "Type": "DefaultParameter",
+          "CopyToClipboard": true
+        }
+      ],
+      "UserContextFilter": "ExcelActiveCellContainsFormula",
+      "ReturnValueParameterName": "SaveToClipboard",
+      "MacroExpression": "modTranslation.CopyFormulaToEnglish([[ActiveCell]])",
+      "Tags": [
+        "Translate"
+      ]
+    },
+    {
+      "Name": "Create Global Named Range",
+      "Description": "Creates a global named range based on selection.",
+      "Type": "VBAMacroCommand",
+      "ShortCutSendKeyString": "ctrl+shift+n",
+      "LaunchCodes": [
+        "cnr",
+        "n",
+        "nr"
+      ],
+      "MacroExpression": "modNamedRange.AddNameRange([[Selection]], False)",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Create Local Named Range",
+      "Description": "Creates a local named range based on selection.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.AddNameRange([[Selection]], True,True)",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Create Relative Column Named Range",
+      "Description": "Create named range from ActiveCell where it will use relative range reference for row e.g. $A2.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.CreateRelativeColumnNamedRange()",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Create Relative Row Named Range",
+      "Description": "Create named range from ActiveCell by keeping row absolute e.g A$2.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.CreateRelativeRowNamedRange()",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Create Table Column Local Named Ranges",
+      "Description": "Creates a local named range for each table column included in selection in the form <table name>_<column name>.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.AddTableColumnNamedRange([[Selection]],True)",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Create Table Column Named Ranges",
+      "Description": "Creates a global named range for each table column included in selection in the form <table name>_<column name>.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.AddTableColumnNamedRange([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Edit Named Range",
+      "Description": "Replace ActiveCell formula which has a named range with that named range RefersTo e.g. A1 formula = MyName then it will replace MyName with it RefersTo.",
+      "Type": "VBAMacroCommand",
+      "UserContextFilter": "ExcelActiveCellContainsFormula;ExcelSelectionIsSingleCell",
+      "LaunchCodes": [
+        "enr"
+      ],
+      "MacroExpression": "modNamedRange.EditNamedRange([[ActiveCell]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Expand Named Range",
+      "Description": "Expand previously created range reference with current selection. If only one named range reference first cell is the same as the first cell of current selection then it will update reference to use current selection instead of old selection.",
+      "Type": "VBAMacroCommand",
+      "LaunchCodes": [
+        "xnr"
+      ],
+      "MacroExpression": "modNamedRange.ExpandNamedRange([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Format Formulas",
+      "Description": "Format formulas from selected cells. It will only change cell formula which has a formula.",
+      "Type": "VBAMacroCommand",
+      "LaunchCodes": [
+        "ff"
+      ],
+      "MacroExpression": "modAutofitFormula.FormatFormulas([[Selection]])",
+      "Tags": [
+        "Formula"
+      ]
+    },
+    {
+      "Name": "Generate Table Lookup Lambdas",
+      "Description": "Generate lambdas for each column of an Excel Table.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modTableLookupLambda.GenerateTableLookupLambdas([[ActiveCell]], [[Selection]])",
+      "Tags": [
+        "Table"
+      ]
+    },
+    {
+      "Name": "Map To Array",
+      "Description": "Convert spill parent cell formula to use Map for all the cell of the spill range.",
+      "Type": "VBAMacroCommand",
+      "UserContextFilter": "ExcelActiveCellContainsFormula",
+      "LaunchCodes": [
+        "map",
+        "tile"
+      ],
+      "MacroExpression": "modMapToArray.MapToArray([[ActiveCell]])",
+      "Tags": [
+        "Formula"
+      ]
+    },
+    {
+      "Name": "Name All Table Data Columns",
+      "Description": "Find table or named range from ActiveCell and Create named range for all column.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.NameAllTableDataColumns([[ActiveCell]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Name Local Parameter Cells",
+      "Description": "Automatically name each cell in selection based on adjacent labels using local scope.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.AddNameToParameterCells([[Selection]],True)",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Name Parameter Cells",
+      "Description": "Automatically name each cell in selection based on adjacent labels using global scope.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.AddNameToParameterCells([[Selection]],False)",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Name Parameter Cells As Column_Row",
+      "Description": "Automatically name each cell in selection as <column label>_<row label>.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.AddNameToParameterCellsByColumnRow([[Selection]],False)",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Name Parameter Cells As Row_Column",
+      "Description": "Automatically name each cell in selection as <row label>_<column label>.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.AddNameToParameterCellsByRowColumn([[Selection]],False)",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Name Parameter Column",
+      "Description": "Create named range for each selected column where label will be searched in upper rows only.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.NameParameterColumn([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Name Parameter Row",
+      "Description": "Create named range for each selected row where label will be searched in left columns only.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.NameParameterRow([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Name Table Data Column",
+      "Description": "Create named range for active column of a table or named range. It will only work on table or named range cells.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.NameTableDataColumn([[ActiveCell]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Paste As References",
+      "Description": "Paste clipboard range address to active cell.",
+      "Type": "ExcelFormulaCommand",
+      "UserContextFilter": "ClipboardHasExcelData",
+      "LaunchCodes": [
+        "pr"
+      ],
+      "Formula": "=[[Clipboard::Address]]",
+      "DestinationRangeAddress": "[[ActiveCell]]",
+      "Tags": [
+        "Paste",
+        "Formula"
+      ]
+    },
+    {
+      "Name": "Paste As Structured References",
+      "Description": "Paste clipboard range as dynamic address to active cell.",
+      "Type": "ExcelFormulaCommand",
+      "UserContextFilter": "ClipboardHasExcelData",
+      "LaunchCodes": [
+        "psr"
+      ],
+      "Formula": "=[[Clipboard::DynamicReference]]",
+      "DestinationRangeAddress": "[[ActiveCell]]",
+      "Tags": [
+        "Paste",
+        "Formula"
+      ]
+    },
+    {
+      "Name": "Paste Auto Fill Down",
+      "Description": "Fill formula or value from clipboard range down using smart automation.",
+      "Type": "VBAMacroCommand",
+      "UserContextFilter": "ExcelSelectionIsSingleArea;ClipboardHasExcelData",
+      "LaunchCodes": [
+        "pd",
+        "pf",
+        "pfd"
+      ],
+      "MacroExpression": "modFillArray.PasteFillDown([Clipboard],[[ActiveCell]])",
+      "Tags": [
+        "Fill",
+        "Paste"
+      ]
+    },
+    {
+      "Name": "Paste Auto Fill To Right",
+      "Description": "Fill formula or value from clipboard range to right using smart automation.",
+      "Type": "VBAMacroCommand",
+      "UserContextFilter": "ExcelSelectionIsSingleArea;ClipboardHasExcelData",
+      "LaunchCodes": [
+        "pr",
+        "pfr"
+      ],
+      "MacroExpression": "modFillArray.PasteFillToRight([Clipboard],[[ActiveCell]])",
+      "Tags": [
+        "Fill",
+        "Paste"
+      ]
+    },
+    {
+      "Name": "Paste Translate Formula",
+      "Description": "Given text in clipboard containing an Excel formula in en-us format, translates it to local languange, and puts it in active cell.",
+      "Type": "VBAMacroCommand",
+      "UserContextFilter": "ExcelActiveCellIsEmpty;ExcelSelectionIsSingleCell",
+      "MacroExpression": "modTranslation.PasteTranslateFormula({{Clipboard}},[[ActiveCell]])",
+      "Tags": [
+        "Paste",
+        "Translate"
+      ]
+    },
+    {
+      "Name": "Reassign Global Named Range",
+      "Description": "Find global scoped named range from label and if exist then update it's reference to use current selection.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.ReAssignGlobalNamedRange([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Reassign Local Named Range",
+      "Description": "Find local scoped named range from label and if exist then update it's reference to use current selection.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.ReAssignLocalNamedRange([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Remove All Named Ranges In Workbook",
+      "Description": "Remove all named ranges from active workbook.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.RemoveAllNamedRanges()",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Remove Named Range From Selection",
+      "Description": "Remove all named range from selected cells.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.DeleteNamedRangeOnly([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Remove Named Ranges With Errors",
+      "Description": "Remove all named ranges with #REF! errors from active workbook.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.DeleteNamedRangesHavingError()",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Remove Outer Function",
+      "Description": "Remove the outer function from ActiveCell formula e.g. ActiveCell formula =DROP(SEQUENCE(10,2),2,1) and after running the command it will be =SEQUENCE(10,2)",
+      "Type": "VBAMacroCommand",
+      "ShortCutSendKeyString": "^+z",
+      "CommandBefore": "Select Spill Parent",
+      "LaunchCodes": [
+        "ro",
+        "z"
+      ],
+      "MacroExpression": "modRemoveOuterFunction.RemoveOuterFunction([[Selection]])",
+      "Tags": [
+        "Formula"
+      ]
+    },
+    {
+      "Name": "Remove Outer Function X 2",
+      "Description": "Run Remove Outer Function command twice.",
+      "Type": "SequenceCommand",
+      "LaunchCodes": [
+        "ro2"
+      ],
+      "Commands": [
+        "Remove Outer Function",
+        "Remove Outer Function"
+      ],
+      "Tags": [
+        "Formula"
+      ]
+    },
+    {
+      "Name": "Remove Outer Function X 3",
+      "Description": "Run Remove Outer Function command three times.",
+      "Type": "SequenceCommand",
+      "LaunchCodes": [
+        "ro3"
+      ],
+      "Commands": [
+        "Remove Outer Function",
+        "Remove Outer Function",
+        "Remove Outer Function"
+      ],
+      "Tags": [
+        "Formula"
+      ]
+    },
+    {
+      "Name": "Rename Named Range",
+      "Description": "Rename the named range associated with the current selection.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.RenameNamedRange([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Save Named Range",
+      "Description": "Save ActiveCell formula as named range. It will check cell comment and use that as Named Range name if present.",
+      "Type": "VBAMacroCommand",
+      "LaunchCodes": [
+        "snr"
+      ],
+      "MacroExpression": "modNamedRange.SaveNamedRange([[ActiveCell]],False)",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Select Spill Parent",
+      "Description": "Select dynamic array formula cell. If no spill in ActiveCell then do nothing.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modDynamicFormula.SelectSpillParent()",
+      "Tags": [
+        "Formula"
+      ]
+    },
+    {
+      "Name": "Toggle Expand Formula Bar",
+      "Description": "If formula bar height is 1 then autofit it otherwise make it 1.",
+      "Type": "VBAMacroCommand",
+      "ShortCutSendKeyString": "^+u",
+      "LaunchCodes": [
+        "fb"
+      ],
+      "MacroExpression": "modAutofitFormula.ToggleExpandFormulaBar([[ActiveCell]])",
+      "Tags": [
+        "Formula"
+      ]
+    }
+  ]
+}

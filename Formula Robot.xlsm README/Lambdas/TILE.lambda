@@ -1,0 +1,1 @@
+TILE =LAMBDA(params,function, LET(firstrow, function(INDEX(params, 1, 1)), stacker, LAMBDA(stack,param, VSTACK(stack, function(param))), firstcol, IF(ROWS(params) = 1, firstrow, REDUCE(firstrow, DROP(TAKE(params, , 1), 1), stacker)), IF(COLUMNS(params) = 1, firstcol, HSTACK(firstcol, TILE(DROP(params, , 1), function)))));

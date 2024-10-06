@@ -1,0 +1,578 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="14"
+    ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s23">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="16"
+    ss:Color="#000000" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s24">
+   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="11"
+    ss:Color="#000000"/>
+  </Style>
+  <Style ss:ID="s25">
+   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="11"
+    ss:Color="#000000" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s26">
+   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="11"
+    ss:Color="#000000" ss:Italic="1"/>
+  </Style>
+  <Style ss:ID="s27">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#747474"/>
+   </Borders>
+   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="14"
+    ss:Color="#000000" ss:Bold="1" ss:Italic="1"/>
+  </Style>
+  <Style ss:ID="s28">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="14"
+    ss:Color="#000000" ss:Bold="1" ss:Italic="1"/>
+  </Style>
+  <Style ss:ID="s29">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="11"
+    ss:Color="#000000" ss:Italic="1"/>
+  </Style>
+  <Style ss:ID="s30">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="11"
+    ss:Color="#000000"/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="_xleta.ASC" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xleta.CHOOSECOLS" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xleta.IF" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xleta.ISNUMBER" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xleta.REPLACE" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlop.b" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlop.c" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlop.column_list" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlop.FilterFunction" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlop.FXName_Criteria" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlop.InstanceNum" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlop.lookup_value" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.\\LambdaName" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.\\Note" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._2" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._3" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._4" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._ColumnIndex1" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._Criteria" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._Criteria1" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._Data" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._Filtered" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._FilteredDataWithHeader" ss:RefersTo="=#NAME?"
+   ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._Header" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._LookupColumn1" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._Param1" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._Result" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._ReturnColumnIndex" ss:RefersTo="=#NAME?"
+   ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._ReturnColumns" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._Step1" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._Table" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.a" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.accum" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.activesheetname" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.addresstest" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.ArgCount" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.ArgNo" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Argument" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.ArgumentCount" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.ArgumentEnd" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.ArgumentStart" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.ARRAY_TYPE_VALUE" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.ArrayCount" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.b" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Body" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.c" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.cell" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.CellOrFormulaText" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.cellsheetname" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Char" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.CharCodes" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.CharCount" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.CharIndex" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Chars" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.col_data" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.ColSeq" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.column_index" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.column_list" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Combined" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.ConsolidateTokens" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.CorrectedFormulaText" ss:RefersTo="=#NAME?"
+   ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.d" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.end" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.EndInvokeIndex" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.EndParamIndex" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Exclude" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FilteredList" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FilterFunction" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FirstBody" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.firstcol" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FirstFunctionFirstArgument" ss:RefersTo="=#NAME?"
+   ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FirstInvoke" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FirstList" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.firstrow" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FirstUsedFunction" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.fnConcatTokens" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.fnCriteria" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.fnSort" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.fnSortOrder" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Formula" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FormulaCell" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FormulaCellOrText" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FormulaFunctionFirstRowSecondColumn"
+   ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FormulaFunctionResult" ss:RefersTo="=#NAME?"
+   ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FormulaText" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.function" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FunctionEnd" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FunctionList" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FunctionName" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FunctionParens" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Functions" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FunctionSets" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FunctionStart" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.FXName_Criteria" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Idx" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.InArray" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Indexes" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.InDoubleQuote" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.InputIndexes" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Inputs" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.InputText" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.InSheetName" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.InstanceNum" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.InvocationSet" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.InvokeFunctions" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.InvokeIndex" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.InvokeParamSet" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Invokes" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.InvokeSeperators" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.InvokeTokens" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.isaddress" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsArgSeperator" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsArrayColSeperator" ss:RefersTo="=#NAME?"
+   ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsArrayRowSeperator" ss:RefersTo="=#NAME?"
+   ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsBothReturnError" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsBV" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsCloseArray" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsCloseParen" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsComparison" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsEligible" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsEV" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsExponent" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsF" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsLambdaArgumentsNameReturnError"
+   ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsLetStepsNameReturnError" ss:RefersTo="=#NAME?"
+   ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsNextNumber" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsNotExponent" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsNumber" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsNV" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsO" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsOpenArray" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsOpenParen" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsOperator" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsPosNegSign" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsPriorPriorNumber" ss:RefersTo="=#NAME?"
+   ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsQuote" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsR" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.isreference" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsT" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsTerm" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsTV" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.IsWhiteSpace" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.l" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.LAMBDA_TYPE_VALUE" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.LambdaArgumentsName" ss:RefersTo="=#NAME?"
+   ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.LambdaFunctions" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.LambdaParts" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.LambdaSetId" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.LastBody" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.LastInvoke" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.LetStepsName" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.lookup_value" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.mappedURLs" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.MaxArgCount" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.n" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.NeededInfo" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.new" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.NextChar" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.NextChars" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.NextTokenType" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.NextTokenTypePass1" ss:RefersTo="=#NAME?"
+   ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.NotInQuote" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.OpenParenIndex" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.OperatorList" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.OperatorOrTerm" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Other" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.param" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Parameters" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.params" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.ParenCount" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.ParenLevel" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.ParenPairs" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.ParenSet" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.ParenSetNo" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Pivoted" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.precedents" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.PriorChar" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.PriorCharExWS" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.PriorChars" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.PriorPriorChars" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.QuoteChar" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.QuoteCount" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.r" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.relativeaddresstest" ss:RefersTo="=#NAME?"
+   ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.relativetoactivesheet" ss:RefersTo="=#NAME?"
+   ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.relativetocell" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.removeactivesheet" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.RemoveBlanks" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Result" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.ReturnSameFormula" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.ro" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.row" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.RowC" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.RowCount" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.RowI" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.RowIn" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.RowInd" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.RowInde" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.RowIndex" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.s" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.SecondList" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.SelectedFunctions" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.SelectedSets" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.SeperatorCount" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.SeperatorIndex" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Seperators" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Set" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.SetCount" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.SetFunction" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.stack" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.stacker" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.start" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.StartInvokeIndex" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.StartParamIndex" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.TermType" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Token" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.TokenIndex" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.TokenIndex2" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Tokenize" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.tokenized" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.TokenizedFormula" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.TokenizedParenthesis" ss:RefersTo="=#NAME?"
+   ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.TokenizedSecondRowSecondColumnValue"
+   ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.TokenizeFormulaParenSets" ss:RefersTo="=#NAME?"
+   ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.tokens" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.Tokens2" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.TokenType" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.TokenTypeLookup" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.TokenTypePass0" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.TokenTypePass1" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.TokenTypePass2" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.TokenTypePass3" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.tokentypes" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.tot" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.typenum" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.UniqueFunctionName" ss:RefersTo="=#NAME?"
+   ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.val" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.vals" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.WrapWithSumByRowLambda" ss:RefersTo="=#NAME?"
+   ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.x" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.x_" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.x_1" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.x_1ToRow" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.x_2" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.x_2ToRow" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.x_3" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.x_3ToRow" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.x_4" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.x_4ToRow" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.XL" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.y" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.z" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+ </Names>
+ <Worksheet ss:Name="Notes">
+  <Table ss:ExpandedColumnCount="3" ss:ExpandedRowCount="70" ss:StyleID="s24"
+   ss:DefaultColumnWidth="66" ss:DefaultRowHeight="15">
+   <Column ss:StyleID="s24" ss:AutoFitWidth="0" ss:Width="20.25"/>
+   <Column ss:StyleID="s25" ss:Width="207.75"/>
+   <Column ss:StyleID="s26" ss:Width="906.75"/>
+   <Row ss:Height="21">
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Formula Robot</Data></Cell>
+   </Row>
+   <Row ss:Index="3" ss:Height="18.75" ss:StyleID="s27">
+    <Cell ss:Index="2"><Data ss:Type="String">Fill Related Commands</Data></Cell>
+   </Row>
+   <Row ss:Index="5">
+    <Cell ss:Index="2"><Data ss:Type="String">Auto Fill Down</Data></Cell>
+    <Cell><Data ss:Type="String">Fill down formula or value (dyanmic array formula or normal formula or native fill down).</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Auto Fill To Right</Data></Cell>
+    <Cell><Data ss:Type="String">Fill to right by using either Array formula behavior or vba smart fill down or native excel fill down.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Paste Fill Down</Data></Cell>
+    <Cell><Data ss:Type="String">Fill down formula or value from clipboard range(dyanmic array formula or normal formula or native fill down).</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Paste Fill To Right</Data></Cell>
+    <Cell><Data ss:Type="String">Fill to right from clipboard range by using either Array formula behavior or vba smart fill down or native excel fill down.</Data></Cell>
+   </Row>
+   <Row ss:Index="10" ss:Height="18.75" ss:StyleID="s27">
+    <Cell ss:Index="2"><Data ss:Type="String">Formula Related Commands</Data></Cell>
+   </Row>
+   <Row ss:Index="12">
+    <Cell ss:Index="2"><Data ss:Type="String">Apply Filter To Array</Data></Cell>
+    <Cell><Data ss:Type="String">Create Filter formula based on top row spill range formula.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Auto-Fit Formula Bar</Data></Cell>
+    <Cell><Data ss:Type="String">Autofit formula bar height based on formula length so that whole formula is visible.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Compact Formula Format</Data></Cell>
+    <Cell><Data ss:Type="String">Compact formula format of selected cells containing formulas.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Convert Formula To Structural Ref</Data></Cell>
+    <Cell><Data ss:Type="String">Replace ActiveCell formula precedency range reference with their structured form like A1:D3 is named range and ActiveCell formula use A1:D3 then it will replace A1:D3 with it's named range name.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Format Formulas</Data></Cell>
+    <Cell><Data ss:Type="String">Format formulas from selected cells. It will only change cell formula which has a formula.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Map To Array</Data></Cell>
+    <Cell><Data ss:Type="String">Convert Spill parent cell formula to use Map for all the cell of the spill range.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Paste As References</Data></Cell>
+    <Cell><Data ss:Type="String">Paste clipboard range address to ActiveCell.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Paste As Structured References</Data></Cell>
+    <Cell><Data ss:Type="String">Paste clipboard range dynamic address(A1#) by using VB.Net implementation.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Remove Outer Function</Data></Cell>
+    <Cell><Data ss:Type="String">Remove the outer function from ActiveCell formula e.g. ActiveCell formula =DROP(SEQUENCE(10,2),2,1) and after running the command it will be =SEQUENCE(10,2)</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Remove Outer Function X 2</Data></Cell>
+    <Cell><Data ss:Type="String">Run Remove Outer Function command twice.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Remove Outer Function X 3</Data></Cell>
+    <Cell><Data ss:Type="String">Run Remove Outer Function command three times.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Select Spill Parent</Data></Cell>
+    <Cell><Data ss:Type="String">Select dynamic array formula cell. If no spill in ActiveCell then do nothing.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Toggle Expand Formula Bar</Data></Cell>
+    <Cell><Data ss:Type="String">If formula bar height is 1 then autofit it otherwise make it 1.</Data></Cell>
+   </Row>
+   <Row ss:Index="26" ss:Height="18.75" ss:StyleID="s27">
+    <Cell ss:Index="2"><Data ss:Type="String">Name Related Commands</Data></Cell>
+   </Row>
+   <Row ss:Index="28">
+    <Cell ss:Index="2"><Data ss:Type="String">Cancel Named Range Edit</Data></Cell>
+    <Cell><Data ss:Type="String">Cancel edit named range edit mode and use named range name instead of it's refers to and delete the comment.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Convert Global Named Ranges To Local</Data></Cell>
+    <Cell><Data ss:Type="String">Convert all globally scoped named ranges in selection to local.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Convert Local Named Ranges To Global</Data></Cell>
+    <Cell><Data ss:Type="String">Converts all locally scoped named ranges in selection to global.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Create Global Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Creates a global named range based on selection.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Create Local Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Creates a local named range based on selection.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Create Relative Row Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Create named range from ActiveCell by keeping row absolute e.g A$2.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Create Relative Column Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Create named range from ActiveCell where it will use relative range reference for row e.g. $A2.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Create Table Column Local Named Ranges</Data></Cell>
+    <Cell><Data ss:Type="String">Creates a local named range for each table column included in selection in the form &lt;table name&gt;_&lt;column name&gt;.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Create Table Column Named Ranges</Data></Cell>
+    <Cell><Data ss:Type="String">Creates a global named range for each table column included in selection in the form &lt;table name&gt;_&lt;column name&gt;.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Edit Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Replace ActiveCell formula which has a named range with that named range RefersTo e.g. A1 formula = MyName then it will replace MyName with it RefersTo.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Expand Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Expand previously created range reference with current selection. If only one named range reference first cell is the same as the first cell of current selection then it will update reference to use current selection instead of old selection.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Name All Table Data Columns</Data></Cell>
+    <Cell><Data ss:Type="String">Find table or named range from ActiveCell and Create named range for all column.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Name Local Parameter Cells</Data></Cell>
+    <Cell><Data ss:Type="String">Automatically name each cell in selection based on adjacent labels using local scope.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Name Parameter Cells</Data></Cell>
+    <Cell><Data ss:Type="String">Automatically name each cell in selection based on adjacent labels using global scope.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Name Parameter Cells As Column_Row</Data></Cell>
+    <Cell><Data ss:Type="String">Automatically name each cell in selection as &lt;column label&gt;_&lt;row label&gt;.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Name Parameter Cells As Row_Column</Data></Cell>
+    <Cell><Data ss:Type="String">Automatically name each cell in selection as &lt;row label&gt;_&lt;column label&gt;.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Name Parameter Column</Data></Cell>
+    <Cell><Data ss:Type="String">Create named range for each selected column where label will be searched in upper rows only.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Name Parameter Row</Data></Cell>
+    <Cell><Data ss:Type="String">Create named range for each selected row where label will be searched in left columns only.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Name Table Data Column</Data></Cell>
+    <Cell><Data ss:Type="String">Create named range for active column of a table or named range. It will only work on table or named range cells.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Reassign Global Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Find global scoped named range from label and if exist then update it's reference to use current selection.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Reassign Local Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Find local scoped named range from label and if exist then update it's reference to use current selection.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Remove All Named Ranges In Workbook</Data></Cell>
+    <Cell><Data ss:Type="String">Remove all named ranges from active workbook.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Remove Named Range From Selection</Data></Cell>
+    <Cell><Data ss:Type="String">Remove all named range from selected cells.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Remove Named Ranges With Errors</Data></Cell>
+    <Cell><Data ss:Type="String">Remove all named ranges with #REF! errors from active workbook.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Rename Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Rename the named range associated with the current selection.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Save Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Save ActiveCell formula as named range. It will check cell comment and use that as Named Range name if present.</Data></Cell>
+   </Row>
+   <Row ss:Index="55" ss:Height="18.75" ss:StyleID="s30">
+    <Cell ss:StyleID="s24"/>
+    <Cell ss:StyleID="s28"><Data ss:Type="String">Paste Related Commands</Data></Cell>
+    <Cell ss:StyleID="s28"/>
+   </Row>
+   <Row ss:Index="57">
+    <Cell ss:Index="2"><Data ss:Type="String">Paste As References</Data></Cell>
+    <Cell><Data ss:Type="String">Paste clipboard range address to ActiveCell.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Paste As Structured References</Data></Cell>
+    <Cell><Data ss:Type="String">Paste clipboard range dynamic address(A1#) by using VB.Net implementation.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Paste Fill Down</Data></Cell>
+    <Cell><Data ss:Type="String">Fill down formula or value from clipboard range(dyanmic array formula or normal formula or native fill down).</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Paste Fill To Right</Data></Cell>
+    <Cell><Data ss:Type="String">Fill to right from clipboard range by using either Array formula behavior or vba smart fill down or native excel fill down.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Paste Translate Formula</Data></Cell>
+    <Cell><Data ss:Type="String">Given text in clipboard containing an Excel formula in en-us format, translates it to local languange, and puts it in active cell.</Data></Cell>
+   </Row>
+   <Row ss:Index="63" ss:Height="18.75" ss:StyleID="s30">
+    <Cell ss:StyleID="s24"/>
+    <Cell ss:StyleID="s28"><Data ss:Type="String">Table Lookup Related Commands</Data></Cell>
+    <Cell ss:StyleID="s28"/>
+   </Row>
+   <Row ss:Index="65">
+    <Cell ss:Index="2"><Data ss:Type="String">Generate Table Lookup Lambdas</Data></Cell>
+    <Cell><Data ss:Type="String">Generate lambdas for each column of an Excel Table.</Data></Cell>
+   </Row>
+   <Row ss:Index="67" ss:Height="18.75" ss:StyleID="s30">
+    <Cell ss:StyleID="s24"/>
+    <Cell ss:StyleID="s28"><Data ss:Type="String">Translation Related Commands</Data></Cell>
+    <Cell ss:StyleID="s29"/>
+   </Row>
+   <Row ss:Index="69" ss:Height="14.4375">
+    <Cell ss:Index="2"><Data ss:Type="String">Copy Formula To English</Data></Cell>
+    <Cell><Data ss:Type="String">Translate ActiveCell formula to en-us locale and copy to clipboard.</Data></Cell>
+   </Row>
+   <Row ss:Height="14.4375">
+    <Cell ss:Index="2"><Data ss:Type="String">Paste Translate Formula</Data></Cell>
+    <Cell><Data ss:Type="String">Given text in clipboard containing an Excel formula in en-us format, translates it to local languange, and puts it in active cell.</Data></Cell>
+   </Row>
+  </Table>
+ </Worksheet>
+</Workbook>

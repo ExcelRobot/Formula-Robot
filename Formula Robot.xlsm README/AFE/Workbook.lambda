@@ -1,0 +1,18 @@
+// --- Workbook module ---
+// A file of name definitions of the form:
+//    name = definition;
+
+/*
+Name:  Tile (TILE)
+Description:  Tile the outputs of a single-parameter function given an array map of parameters.
+Parameters:
+   params - array of parameters arranged how function results to be tiled
+   function - single-parameter Lambda name or function
+Source:  Excel Robot (@ExcelRobot), but inspired by Owen Price's STACKER lambda (https://www.youtube.com/watch?v=wEBLT9QfQRw).
+*/
+TILE = LAMBDA(params,function,LET(
+   firstrow, function(INDEX(params,1,1)),
+   stacker, LAMBDA(stack,param,VSTACK(stack,function(param))),
+   firstcol, IF(ROWS(params)=1,firstrow,REDUCE(firstrow,DROP(TAKE(params,,1),1),stacker)),
+   IF(COLUMNS(params)=1,firstcol,HSTACK(firstcol,TILE(DROP(params,,1),function)))
+));
