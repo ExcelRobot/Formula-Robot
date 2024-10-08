@@ -245,9 +245,8 @@
 | Property | Value |
 | --- | --- |
 | Macro Expression | <code>[modTranslation.CopyFormulaToEnglish](./VBA/modTranslation.bas#L36)([[ActiveCell]])</code> |
-| Parameters | SaveToClipboard |
 | User Context Filter | ExcelActiveCellContainsFormula |
-| Return Value Parameter Name | <code>SaveToClipboard</code> |
+| Outputs | <ol><li>Message To User</li><li>Save To Clipboard</li></ol> |
 
 [^Top](#oa-robot-definitions)
 

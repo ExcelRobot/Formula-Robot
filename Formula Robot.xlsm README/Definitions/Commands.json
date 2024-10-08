@@ -107,15 +107,21 @@
       "Name": "Copy Formula To English",
       "Description": "Translate ActiveCell formula to en-us locale and copy to clipboard.",
       "Type": "VBAMacroCommand",
-      "Parameters": [
+      "UserContextFilter": "ExcelActiveCellContainsFormula",
+      "Outputs": [
         {
-          "Name": "SaveToClipboard",
-          "Type": "DefaultParameter",
-          "CopyToClipboard": true
+          "Name": "Message To User",
+          "Description": "Message to user.",
+          "Type": "MessageBoxOutput",
+          "Title": "Copy Formula To English",
+          "TextBefore": "Copied to clipboard:\r\n\r\n"
+        },
+        {
+          "Name": "Save To Clipboard",
+          "Description": "Save to clipboard.",
+          "Type": "ClipboardOutput"
         }
       ],
-      "UserContextFilter": "ExcelActiveCellContainsFormula",
-      "ReturnValueParameterName": "SaveToClipboard",
       "MacroExpression": "modTranslation.CopyFormulaToEnglish([[ActiveCell]])",
       "Tags": [
         "Translate"

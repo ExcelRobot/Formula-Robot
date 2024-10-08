@@ -565,11 +565,11 @@
     <Cell ss:StyleID="s28"><Data ss:Type="String">Translation Related Commands</Data></Cell>
     <Cell ss:StyleID="s29"/>
    </Row>
-   <Row ss:Index="69" ss:Height="14.4375">
+   <Row ss:Index="69">
     <Cell ss:Index="2"><Data ss:Type="String">Copy Formula To English</Data></Cell>
     <Cell><Data ss:Type="String">Translate ActiveCell formula to en-us locale and copy to clipboard.</Data></Cell>
    </Row>
-   <Row ss:Height="14.4375">
+   <Row>
     <Cell ss:Index="2"><Data ss:Type="String">Paste Translate Formula</Data></Cell>
     <Cell><Data ss:Type="String">Given text in clipboard containing an Excel formula in en-us format, translates it to local languange, and puts it in active cell.</Data></Cell>
    </Row>
