@@ -9,57 +9,42 @@
   <Style ss:ID="Default" ss:Name="Normal">
    <Alignment ss:Vertical="Bottom"/>
    <Borders/>
-   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="14"
-    ss:Color="#000000"/>
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#000000"/>
    <Interior/>
    <NumberFormat/>
    <Protection/>
   </Style>
-  <Style ss:ID="s23">
+  <Style ss:ID="s16" ss:Name="Normal 2">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="14" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s17" ss:Parent="s16">
    <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
-   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="16"
-    ss:Color="#000000" ss:Bold="1"/>
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="16" ss:Color="#000000"
+    ss:Bold="1"/>
   </Style>
-  <Style ss:ID="s24">
-   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="11"
-    ss:Color="#000000"/>
+  <Style ss:ID="s18" ss:Parent="s16">
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#000000"
+    ss:Bold="1"/>
   </Style>
-  <Style ss:ID="s25">
-   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="11"
-    ss:Color="#000000" ss:Bold="1"/>
+  <Style ss:ID="s19" ss:Parent="s16">
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#000000"
+    ss:Italic="1"/>
   </Style>
-  <Style ss:ID="s26">
-   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="11"
-    ss:Color="#000000" ss:Italic="1"/>
+  <Style ss:ID="s20" ss:Parent="s16">
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#000000"/>
   </Style>
-  <Style ss:ID="s27">
+  <Style ss:ID="s21" ss:Parent="s16">
    <Borders>
     <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
-     ss:Color="#747474"/>
+     ss:Color="#757171"/>
    </Borders>
-   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="14"
-    ss:Color="#000000" ss:Bold="1" ss:Italic="1"/>
-  </Style>
-  <Style ss:ID="s28">
-   <Borders>
-    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
-   </Borders>
-   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="14"
-    ss:Color="#000000" ss:Bold="1" ss:Italic="1"/>
-  </Style>
-  <Style ss:ID="s29">
-   <Borders>
-    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
-   </Borders>
-   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="11"
-    ss:Color="#000000" ss:Italic="1"/>
-  </Style>
-  <Style ss:ID="s30">
-   <Borders>
-    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
-   </Borders>
-   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="11"
-    ss:Color="#000000"/>
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="14" ss:Color="#000000"
+    ss:Bold="1" ss:Italic="1"/>
   </Style>
  </Styles>
  <Names>
@@ -337,134 +322,120 @@
   <NamedRange ss:Name="_xlpm.z" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
  </Names>
  <Worksheet ss:Name="Notes">
-  <Table ss:ExpandedColumnCount="3" ss:ExpandedRowCount="41" ss:StyleID="s24"
+  <Table ss:ExpandedColumnCount="3" ss:ExpandedRowCount="30" ss:StyleID="s20"
    ss:DefaultColumnWidth="61.5" ss:DefaultRowHeight="14.5">
-   <Column ss:StyleID="s24" ss:AutoFitWidth="0" ss:Width="19"/>
-   <Column ss:StyleID="s25" ss:Width="194"/>
-   <Column ss:StyleID="s26" ss:Width="846.5"/>
+   <Column ss:StyleID="s20" ss:AutoFitWidth="0" ss:Width="19"/>
+   <Column ss:StyleID="s18" ss:Width="194"/>
+   <Column ss:StyleID="s19" ss:Width="846.5"/>
    <Row ss:Height="21">
-    <Cell ss:StyleID="s23"><Data ss:Type="String">Formula Robot</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">Formula Robot</Data></Cell>
    </Row>
-   <Row ss:Index="3" ss:Height="18.5" ss:StyleID="s27">
-    <Cell ss:Index="2"><Data ss:Type="String">Fill Related Commands</Data></Cell>
+   <Row ss:Index="3" ss:Height="18.5" ss:StyleID="s21">
+    <Cell ss:Index="2"><Data ss:Type="String">Name Related Commands</Data></Cell>
    </Row>
    <Row ss:Index="5">
-    <Cell ss:Index="2"><Data ss:Type="String">Auto Fill Down</Data></Cell>
-    <Cell><Data ss:Type="String">Fill down formula or value (dyanmic array formula or normal formula or native fill down).</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Cancel Named Range Edit</Data></Cell>
+    <Cell><Data ss:Type="String">Cancel edit named range edit mode and use named range name instead of it's refers to and delete the comment.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Auto Fill To Right</Data></Cell>
-    <Cell><Data ss:Type="String">Fill to right by using either Array formula behavior or vba smart fill down or native excel fill down.</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Convert Global Named Ranges To Local</Data></Cell>
+    <Cell><Data ss:Type="String">Convert all globally scoped named ranges in selection to local.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Paste Fill Down</Data></Cell>
-    <Cell><Data ss:Type="String">Fill down formula or value from clipboard range(dyanmic array formula or normal formula or native fill down).</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Convert Local Named Ranges To Global</Data></Cell>
+    <Cell><Data ss:Type="String">Converts all locally scoped named ranges in selection to global.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Paste Fill To Right</Data></Cell>
-    <Cell><Data ss:Type="String">Fill to right from clipboard range by using either Array formula behavior or vba smart fill down or native excel fill down.</Data></Cell>
-   </Row>
-   <Row ss:Index="10" ss:Height="18.5" ss:StyleID="s27">
-    <Cell ss:Index="2"><Data ss:Type="String">Formula Related Commands</Data></Cell>
-   </Row>
-   <Row ss:Index="12">
-    <Cell ss:Index="2"><Data ss:Type="String">Apply Filter To Array</Data></Cell>
-    <Cell><Data ss:Type="String">Create Filter formula based on top row spill range formula.</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Create Global Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Creates a global named range based on selection.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Auto-Fit Formula Bar</Data></Cell>
-    <Cell><Data ss:Type="String">Autofit formula bar height based on formula length so that whole formula is visible.</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Create Local Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Creates a local named range based on selection.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Compact Formula Format</Data></Cell>
-    <Cell><Data ss:Type="String">Compact formula format of selected cells containing formulas.</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Create Relative Row Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Create named range from ActiveCell by keeping row absolute e.g A$2.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Convert Formula To Structural Ref</Data></Cell>
-    <Cell><Data ss:Type="String">Replace ActiveCell formula precedency range reference with their structured form like A1:D3 is named range and ActiveCell formula use A1:D3 then it will replace A1:D3 with it's named range name.</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Create Relative Column Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Create named range from ActiveCell where it will use relative range reference for row e.g. $A2.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Format Formulas</Data></Cell>
-    <Cell><Data ss:Type="String">Format formulas from selected cells. It will only change cell formula which has a formula.</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Create Table Column Local Named Ranges</Data></Cell>
+    <Cell><Data ss:Type="String">Creates a local named range for each table column included in selection in the form &lt;table name&gt;_&lt;column name&gt;.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Map To Array</Data></Cell>
-    <Cell><Data ss:Type="String">Convert Spill parent cell formula to use Map for all the cell of the spill range.</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Create Table Column Named Ranges</Data></Cell>
+    <Cell><Data ss:Type="String">Creates a global named range for each table column included in selection in the form &lt;table name&gt;_&lt;column name&gt;.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Paste As References</Data></Cell>
-    <Cell><Data ss:Type="String">Paste clipboard range address to ActiveCell.</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Edit Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Replace ActiveCell formula which has a named range with that named range RefersTo e.g. A1 formula = MyName then it will replace MyName with it RefersTo.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Paste As Structured References</Data></Cell>
-    <Cell><Data ss:Type="String">Paste clipboard range dynamic address(A1#) by using VB.Net implementation.</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Expand Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Expand previously created range reference with current selection. If only one named range reference first cell is the same as the first cell of current selection then it will update reference to use current selection instead of old selection.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Remove Outer Function</Data></Cell>
-    <Cell><Data ss:Type="String">Remove the outer function from ActiveCell formula e.g. ActiveCell formula =DROP(SEQUENCE(10,2),2,1) and after running the command it will be =SEQUENCE(10,2)</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Name All Table Data Columns</Data></Cell>
+    <Cell><Data ss:Type="String">Find table or named range from ActiveCell and Create named range for all column.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Remove Outer Function X 2</Data></Cell>
-    <Cell><Data ss:Type="String">Run Remove Outer Function command twice.</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Name Local Parameter Cells</Data></Cell>
+    <Cell><Data ss:Type="String">Automatically name each cell in selection based on adjacent labels using local scope.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Remove Outer Function X 3</Data></Cell>
-    <Cell><Data ss:Type="String">Run Remove Outer Function command three times.</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Name Parameter Cells</Data></Cell>
+    <Cell><Data ss:Type="String">Automatically name each cell in selection based on adjacent labels using global scope.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Select Spill Parent</Data></Cell>
-    <Cell><Data ss:Type="String">Select dynamic array formula cell. If no spill in ActiveCell then do nothing.</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Name Parameter Cells As Column_Row</Data></Cell>
+    <Cell><Data ss:Type="String">Automatically name each cell in selection as &lt;column label&gt;_&lt;row label&gt;.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Toggle Expand Formula Bar</Data></Cell>
-    <Cell><Data ss:Type="String">If formula bar height is 1 then autofit it otherwise make it 1.</Data></Cell>
-   </Row>
-   <Row ss:Index="26" ss:Height="18.5" ss:StyleID="s30">
-    <Cell ss:StyleID="s24"/>
-    <Cell ss:StyleID="s28"><Data ss:Type="String">Paste Related Commands</Data></Cell>
-    <Cell ss:StyleID="s28"/>
-   </Row>
-   <Row ss:Index="28">
-    <Cell ss:Index="2"><Data ss:Type="String">Paste As References</Data></Cell>
-    <Cell><Data ss:Type="String">Paste clipboard range address to ActiveCell.</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Name Parameter Cells As Row_Column</Data></Cell>
+    <Cell><Data ss:Type="String">Automatically name each cell in selection as &lt;row label&gt;_&lt;column label&gt;.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Paste As Structured References</Data></Cell>
-    <Cell><Data ss:Type="String">Paste clipboard range dynamic address(A1#) by using VB.Net implementation.</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Name Parameter Column</Data></Cell>
+    <Cell><Data ss:Type="String">Create named range for each selected column where label will be searched in upper rows only.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Paste Fill Down</Data></Cell>
-    <Cell><Data ss:Type="String">Fill down formula or value from clipboard range(dyanmic array formula or normal formula or native fill down).</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Name Parameter Row</Data></Cell>
+    <Cell><Data ss:Type="String">Create named range for each selected row where label will be searched in left columns only.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Paste Fill To Right</Data></Cell>
-    <Cell><Data ss:Type="String">Fill to right from clipboard range by using either Array formula behavior or vba smart fill down or native excel fill down.</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Name Table Data Column</Data></Cell>
+    <Cell><Data ss:Type="String">Create named range for active column of a table or named range. It will only work on table or named range cells.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Paste Translate Formula</Data></Cell>
-    <Cell><Data ss:Type="String">Given text in clipboard containing an Excel formula in en-us format, translates it to local languange, and puts it in active cell.</Data></Cell>
-   </Row>
-   <Row ss:Index="34" ss:Height="18.5" ss:StyleID="s30">
-    <Cell ss:StyleID="s24"/>
-    <Cell ss:StyleID="s28"><Data ss:Type="String">Table Lookup Related Commands</Data></Cell>
-    <Cell ss:StyleID="s28"/>
-   </Row>
-   <Row ss:Index="36">
-    <Cell ss:Index="2"><Data ss:Type="String">Generate Table Lookup Lambdas</Data></Cell>
-    <Cell><Data ss:Type="String">Generate lambdas for each column of an Excel Table.</Data></Cell>
-   </Row>
-   <Row ss:Index="38" ss:Height="18.5" ss:StyleID="s30">
-    <Cell ss:StyleID="s24"/>
-    <Cell ss:StyleID="s28"><Data ss:Type="String">Translation Related Commands</Data></Cell>
-    <Cell ss:StyleID="s29"/>
-   </Row>
-   <Row ss:Index="40">
-    <Cell ss:Index="2"><Data ss:Type="String">Copy Formula To English</Data></Cell>
-    <Cell><Data ss:Type="String">Translate ActiveCell formula to en-us locale and copy to clipboard.</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Reassign Global Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Find global scoped named range from label and if exist then update it's reference to use current selection.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Paste Translate Formula</Data></Cell>
-    <Cell><Data ss:Type="String">Given text in clipboard containing an Excel formula in en-us format, translates it to local languange, and puts it in active cell.</Data></Cell>
+    <Cell ss:Index="2"><Data ss:Type="String">Reassign Local Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Find local scoped named range from label and if exist then update it's reference to use current selection.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Remove All Named Ranges In Workbook</Data></Cell>
+    <Cell><Data ss:Type="String">Remove all named ranges from active workbook.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Remove Named Range From Selection</Data></Cell>
+    <Cell><Data ss:Type="String">Remove all named range from selected cells.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Remove Named Ranges With Errors</Data></Cell>
+    <Cell><Data ss:Type="String">Remove all named ranges with #REF! errors from active workbook.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Rename Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Rename the named range associated with the current selection.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Save Named Range</Data></Cell>
+    <Cell><Data ss:Type="String">Save ActiveCell formula as named range. It will check cell comment and use that as Named Range name if present.</Data></Cell>
    </Row>
   </Table>
  </Worksheet>

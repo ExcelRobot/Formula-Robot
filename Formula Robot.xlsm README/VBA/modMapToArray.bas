@@ -69,7 +69,7 @@ Public Sub MapToArray(ByVal FormulaCell As Range, Optional ByVal PlaceFormulaToC
     
     If IsTileFormula(FullFormula) Then AddTILEIfNotPresent FormulaCell.Worksheet.Parent
     MapToArrayUndoColl.Add UndoHandler.Create(DYNAMIC_ARRAY_VERSION, PlaceFormulaToCell, PlaceFormulaToCell.Formula2)
-    PlaceFormulaToCell.Formula2 = FullFormula
+    PlaceFormulaToCell.Formula2 = ReplaceInvalidCharFromFormulaWithValid(FullFormula)
     AssingOnUndo "MapToArray"
     
 End Sub
@@ -86,7 +86,7 @@ Public Sub MapToArray_Undo()
     Dim OldFormula As String
     OldFormula = Item.FirstCellOldFormula
     If Not PlaceOnCell Is Nothing Then
-        PlaceOnCell.Formula2 = OldFormula
+        PlaceOnCell.Formula2 = ReplaceInvalidCharFromFormulaWithValid(OldFormula)
     End If
     Set MapToArrayUndoColl = Nothing
     

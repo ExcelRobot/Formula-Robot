@@ -82,7 +82,7 @@ Public Sub ApplyFilterToArray(ByVal FormulaCell As Range, Optional ByVal PlaceFo
                   & GetFilterFirstParam(ValidCellsForFilter) & LIST_SEPARATOR _
                   & ONE_SPACE & RemoveStartingEqualSign(MaskPartFormula) & FIRST_PARENTHESIS_CLOSE
                   
-    PlaceFormulaToCell.Cells(1).Formula2 = FullFormula
+    PlaceFormulaToCell.Cells(1).Formula2 = ReplaceInvalidCharFromFormulaWithValid(FullFormula)
     
 End Sub
 

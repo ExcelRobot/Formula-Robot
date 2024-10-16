@@ -1,0 +1,258 @@
+{
+  "Commands": [
+    {
+      "Name": "Cancel Named Range Edit",
+      "Description": "Cancel edit named range edit mode and use named range name instead of it's refers to and delete the comment.",
+      "Type": "VBAMacroCommand",
+      "UserContextFilter": "ExcelActiveCellContainsFormula;ExcelSelectionIsSingleCell",
+      "LaunchCodes": [
+        "cnr"
+      ],
+      "MacroExpression": "modNamedRange.CancelNamedRangeEdit([[ActiveCell]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Convert Global Named Ranges To Local",
+      "Description": "Convert all globally scoped named ranges in selection to local.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.ConvertGlobalToLocal([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Convert Local Named Ranges To Global",
+      "Description": "Converts all locally scoped named ranges in selection to global.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.ConvertLocalToGlobal([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Create Global Named Range",
+      "Description": "Creates a global named range based on selection.",
+      "Type": "VBAMacroCommand",
+      "ShortCutSendKeyString": "ctrl+shift+n",
+      "LaunchCodes": [
+        "cnr",
+        "n",
+        "nr"
+      ],
+      "MacroExpression": "modNamedRange.AddNameRange([[Selection]], False)",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Create Local Named Range",
+      "Description": "Creates a local named range based on selection.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.AddNameRange([[Selection]], True,True)",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Create Relative Column Named Range",
+      "Description": "Create named range from ActiveCell where it will use relative range reference for row e.g. $A2.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.CreateRelativeColumnNamedRange()",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Create Relative Row Named Range",
+      "Description": "Create named range from ActiveCell by keeping row absolute e.g A$2.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.CreateRelativeRowNamedRange()",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Create Table Column Local Named Ranges",
+      "Description": "Creates a local named range for each table column included in selection in the form <table name>_<column name>.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.AddTableColumnNamedRange([[Selection]],True)",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Create Table Column Named Ranges",
+      "Description": "Creates a global named range for each table column included in selection in the form <table name>_<column name>.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.AddTableColumnNamedRange([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Edit Named Range",
+      "Description": "Replace ActiveCell formula which has a named range with that named range RefersTo e.g. A1 formula = MyName then it will replace MyName with it RefersTo.",
+      "Type": "VBAMacroCommand",
+      "UserContextFilter": "ExcelActiveCellContainsFormula;ExcelSelectionIsSingleCell",
+      "LaunchCodes": [
+        "enr"
+      ],
+      "MacroExpression": "modNamedRange.EditNamedRange([[ActiveCell]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Expand Named Range",
+      "Description": "Expand previously created range reference with current selection. If only one named range reference first cell is the same as the first cell of current selection then it will update reference to use current selection instead of old selection.",
+      "Type": "VBAMacroCommand",
+      "LaunchCodes": [
+        "xnr"
+      ],
+      "MacroExpression": "modNamedRange.ExpandNamedRange([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Name All Table Data Columns",
+      "Description": "Find table or named range from ActiveCell and Create named range for all column.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.NameAllTableDataColumns([[ActiveCell]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Name Local Parameter Cells",
+      "Description": "Automatically name each cell in selection based on adjacent labels using local scope.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.AddNameToParameterCells([[Selection]],True)",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Name Parameter Cells",
+      "Description": "Automatically name each cell in selection based on adjacent labels using global scope.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.AddNameToParameterCells([[Selection]],False)",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Name Parameter Cells As Column_Row",
+      "Description": "Automatically name each cell in selection as <column label>_<row label>.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.AddNameToParameterCellsByColumnRow([[Selection]],False)",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Name Parameter Cells As Row_Column",
+      "Description": "Automatically name each cell in selection as <row label>_<column label>.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.AddNameToParameterCellsByRowColumn([[Selection]],False)",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Name Parameter Column",
+      "Description": "Create named range for each selected column where label will be searched in upper rows only.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.NameParameterColumn([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Name Parameter Row",
+      "Description": "Create named range for each selected row where label will be searched in left columns only.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.NameParameterRow([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Name Table Data Column",
+      "Description": "Create named range for active column of a table or named range. It will only work on table or named range cells.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.NameTableDataColumn([[ActiveCell]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Reassign Global Named Range",
+      "Description": "Find global scoped named range from label and if exist then update it's reference to use current selection.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.ReAssignGlobalNamedRange([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Reassign Local Named Range",
+      "Description": "Find local scoped named range from label and if exist then update it's reference to use current selection.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.ReAssignLocalNamedRange([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Remove All Named Ranges In Workbook",
+      "Description": "Remove all named ranges from active workbook.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.RemoveAllNamedRanges()",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Remove Named Range From Selection",
+      "Description": "Remove all named range from selected cells.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.DeleteNamedRangeOnly([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Remove Named Ranges With Errors",
+      "Description": "Remove all named ranges with #REF! errors from active workbook.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.DeleteNamedRangesHavingError()",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Rename Named Range",
+      "Description": "Rename the named range associated with the current selection.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modNamedRange.RenameNamedRange([[Selection]])",
+      "Tags": [
+        "Name"
+      ]
+    },
+    {
+      "Name": "Save Named Range",
+      "Description": "Save ActiveCell formula as named range. It will check cell comment and use that as Named Range name if present.",
+      "Type": "VBAMacroCommand",
+      "LaunchCodes": [
+        "snr"
+      ],
+      "MacroExpression": "modNamedRange.SaveNamedRange([[ActiveCell]],False)",
+      "Tags": [
+        "Name"
+      ]
+    }
+  ]
+}

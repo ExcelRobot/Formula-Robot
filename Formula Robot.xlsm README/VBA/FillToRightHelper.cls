@@ -219,7 +219,7 @@ Private Function GetKeyToAnswerByFillingFormula(FormulaCell As Range, ColCount A
     Dim OldFormula As String
     OldFormula = FormulaCell.Cells(1).Formula2
     On Error GoTo ResetFormula
-    FormulaCell.Resize(, ColCount).Formula2 = ConvertSpillRangeDependencyToAbsRef(FormulaCell.Cells(1))
+    FormulaCell.Resize(, ColCount).Formula2 = ReplaceInvalidCharFromFormulaWithValid(ConvertSpillRangeDependencyToAbsRef(FormulaCell.Cells(1)))
     
     Dim MaxRowCount As Long
     MaxRowCount = GetMaxSpillRowCount(FormulaCell.Resize(, ColCount))
@@ -256,12 +256,12 @@ Private Function GetKeyToAnswerByFillingFormula(FormulaCell As Range, ColCount A
     GetKeyToAnswerByFillingFormula = Result
     
     FormulaCell.Resize(, ColCount).Formula2 = vbNullString
-    FormulaCell.Cells(1).Formula2 = OldFormula
+    FormulaCell.Cells(1).Formula2 = ReplaceInvalidCharFromFormulaWithValid(OldFormula)
     Exit Function
     
 ResetFormula:
     FormulaCell.Resize(, ColCount).Formula2 = vbNullString
-    FormulaCell.Cells(1).Formula2 = OldFormula
+    FormulaCell.Cells(1).Formula2 = ReplaceInvalidCharFromFormulaWithValid(OldFormula)
     Err.Raise Err.Number, Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
     
 End Function

@@ -12,7 +12,7 @@ Sub PasteCombineArrays(SourceRange As Range, cellDestination As Range)
 End Sub
 
 Private Sub TestSplitAreaByAddress()
-    Debug.Print SplitAreaByAddress(Sheet1.Range("A1:C7"), ActiveCell)
+'    Debug.Print SplitAreaByAddress(Sheet1.Range("A1:C7"), ActiveCell)
 End Sub
 
 Public Function SplitCombinedCellsOfFormulaDep(ByVal FormulaCell As Range) As String

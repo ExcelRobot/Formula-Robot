@@ -16,7 +16,7 @@ Implements IFiller
 Private Sub IFiller_Fill(ByVal FillRange As Range, ByVal TypeOfFill As FillType, Optional ByVal ArrayFormula As String)
     
     If IsNotNothing(FillRange) Then
-        FillRange.Cells(1).Formula2 = ArrayFormula
+        FillRange.Cells(1).Formula2 = ReplaceInvalidCharFromFormulaWithValid(ArrayFormula)
         
         Dim PrevSelection As Variant
         Set PrevSelection = Selection

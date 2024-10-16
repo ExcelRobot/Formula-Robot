@@ -55,7 +55,7 @@ Public Sub PasteTranslateFormula(ByVal enUSFormula As String _
     If enUSFormula = vbNullString Then Exit Sub
     If AddTranslatedFormulaToCell Is Nothing Then Exit Sub
     
-    AddTranslatedFormulaToCell.Formula2 = enUSFormula
+    AddTranslatedFormulaToCell.Formula2 = ReplaceInvalidCharFromFormulaWithValid(enUSFormula)
     
 End Sub
 

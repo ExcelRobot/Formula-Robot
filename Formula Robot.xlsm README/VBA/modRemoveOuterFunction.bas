@@ -55,7 +55,7 @@ Private Sub RemoveOuterFXFromCurrentCell(ByVal CurrentCell As Range)
     Logger.Log DEBUG_LOG, ResultFormula
     ' If the ResultFormula is different from the original formula in CurrentCell, update the formula in OutputCell and activate it if it was active
     If ResultFormula <> CurrentCell.Formula2 Then
-        CurrentCell.Formula2 = ResultFormula
+        CurrentCell.Formula2 = ReplaceInvalidCharFromFormulaWithValid(ResultFormula)
     End If
     
 End Sub

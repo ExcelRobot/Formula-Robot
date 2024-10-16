@@ -76,11 +76,11 @@ Public Sub Undo()
     If This.TypeOfOpt = VBA_VERSION Then
         This.ClearRange.ClearContents
         If This.SecondCellFormulaR1C1 <> vbNullString Then
-            ClearRange.Formula2R1C1 = This.SecondCellFormulaR1C1
+            ClearRange.Formula2R1C1 = ReplaceInvalidCharFromFormulaWithValid(This.SecondCellFormulaR1C1)
             ClearRange.Calculate
         End If
     ElseIf This.TypeOfOpt = DYNAMIC_ARRAY_VERSION Then
-        ClearRange.Cells(1).Formula2 = This.FirstCellOldFormula
+        ClearRange.Cells(1).Formula2 = ReplaceInvalidCharFromFormulaWithValid(This.FirstCellOldFormula)
     End If
     
 End Sub

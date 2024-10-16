@@ -77,7 +77,7 @@ Public Sub FormatFormulas(SelectionRange As Range, Optional CompactConfig As Boo
     
     Dim CurrentCell As Range
     For Each CurrentCell In FormulaCells.Cells
-        CurrentCell.Formula2 = FormatFormula(CurrentCell.Formula2, CompactConfig)
+        CurrentCell.Formula2 = FormatFormula(ReplaceInvalidCharFromFormulaWithValid(CurrentCell.Formula2), CompactConfig)
     Next CurrentCell
     
     Application.Calculation = PreviousState
