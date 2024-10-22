@@ -137,6 +137,8 @@ Private Function FillBeanForDynamicArrayFormula(ByVal FormulaCell As Range) As F
         PrecedentCellAsText = CStr(CurrentPrecedency)
         Set CurrentRange = RangeResolver.GetRangeForDependency(PrecedentCellAsText, FormulaCell)
         
+        If CurrentRange Is Nothing Then GoTo Continue
+        
         Dim IsValidCell As Boolean
         IsValidCell = IsValidForArrayVersion(FormulaCell, PrecedentCellAsText, FILL_TO_RIGHT)
         
@@ -161,6 +163,8 @@ Private Function FillBeanForDynamicArrayFormula(ByVal FormulaCell As Range) As F
             End If
             
         End If
+        
+Continue:
     Next CurrentPrecedency
         
     Dim Formula As String

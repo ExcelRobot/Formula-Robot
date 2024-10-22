@@ -18,7 +18,7 @@ Public Sub SelectSpillParent()
         ' Check if the selected cell is visible in the current window
         If Intersect(ActiveWindow.VisibleRange, ActiveCell.SpillParent) Is Nothing Then
             ' If it's not visible, scroll to make the active cell visible
-            Application.GoTo ActiveCell, True
+            Application.Goto ActiveCell, True
         End If
     End If
 

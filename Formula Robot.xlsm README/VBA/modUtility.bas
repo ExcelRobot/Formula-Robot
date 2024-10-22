@@ -1482,7 +1482,7 @@ End Function
 Public Sub ScrollToDependencyDataRange(ByVal Table As ListObject)
     
     ' Scrolls to the dependency data range in the specified table.
-    Application.GoTo Table.Range, True
+    Application.Goto Table.Range, True
     Table.Range(1, 1).Select
     
 End Sub

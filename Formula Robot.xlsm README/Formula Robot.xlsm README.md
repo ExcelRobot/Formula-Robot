@@ -139,6 +139,7 @@
 | Macro Expression | <code>[modAutofitFormula.FormatFormulas](./VBA/modAutofitFormula.bas#L63)([[Selection]],TRUE)</code> |
 | User Context Filter | ExcelActiveCellContainsFormula |
 | Command After | [Auto-Fit Formula Bar](#auto-fit-formula-bar) |
+| Launch Codes | <code>bo</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -186,7 +187,7 @@
 | Property | Value |
 | --- | --- |
 | Macro Expression | <code>[modAutofitFormula.FormatFormulas](./VBA/modAutofitFormula.bas#L63)([[Selection]])</code> |
-| Launch Codes | <code>ff</code> |
+| Launch Codes | <ol><li><code>ff</code></li><li><code>unbo</code></li></ol> |
 
 [^Top](#oa-robot-definitions)
 

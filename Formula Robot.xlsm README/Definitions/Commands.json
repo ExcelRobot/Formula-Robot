@@ -56,6 +56,9 @@
       "Type": "VBAMacroCommand",
       "UserContextFilter": "ExcelActiveCellContainsFormula",
       "CommandAfter": "Auto-Fit Formula Bar",
+      "LaunchCodes": [
+        "bo"
+      ],
       "MacroExpression": "modAutofitFormula.FormatFormulas([[Selection]],TRUE)",
       "Tags": [
         "Formula"
@@ -101,7 +104,8 @@
       "Description": "Format formulas from selected cells. It will only change cell formula which has a formula.",
       "Type": "VBAMacroCommand",
       "LaunchCodes": [
-        "ff"
+        "ff",
+        "unbo"
       ],
       "MacroExpression": "modAutofitFormula.FormatFormulas([[Selection]])",
       "Tags": [
