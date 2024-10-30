@@ -1,5 +1,6 @@
 Attribute VB_Name = "modApplyFilterToArray"
 Option Explicit
+Option Private Module
 
 '--------------------------------------------< OA Robot >--------------------------------------------
 ' Command Name:           Apply Filter To Array

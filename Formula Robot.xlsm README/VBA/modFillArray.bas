@@ -1,5 +1,6 @@
 Attribute VB_Name = "modFillArray"
 Option Explicit
+Option Private Module
 
 Private FillDownUndoColl As Collection
 Private FillToRightUndoColl As Collection

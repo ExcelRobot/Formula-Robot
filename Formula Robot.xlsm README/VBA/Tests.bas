@@ -22,7 +22,7 @@ Public Sub RunFillDownTests()
             PasteFillDown FormulaCell, AfterCell
             ' Native Fill Down is bit slower.
             If Counter = 13 Then
-                Sleep 5000
+                Application.Wait (Now + TimeValue("00:00:05"))
             End If
             
         Next Counter

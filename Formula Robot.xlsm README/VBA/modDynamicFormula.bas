@@ -2,6 +2,7 @@ Attribute VB_Name = "modDynamicFormula"
 '@IgnoreModule UndeclaredVariable
 '@Folder "DynamicFormula"
 Option Explicit
+Option Private Module
 
 '--------------------------------------------< OA Robot >--------------------------------------------
 ' Command Name:           Select Spill Parent

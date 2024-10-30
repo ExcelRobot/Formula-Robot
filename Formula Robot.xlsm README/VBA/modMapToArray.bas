@@ -1,5 +1,7 @@
 Attribute VB_Name = "modMapToArray"
 Option Explicit
+Option Private Module
+
 Private MapToArrayUndoColl As Collection
 
 '--------------------------------------------< OA Robot >--------------------------------------------

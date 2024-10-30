@@ -4,6 +4,7 @@ Attribute VB_Name = "modStructuredReference"
 ' @Folder "Lambda.Editor.Utility"
 ' @IgnoreModule IndexedDefaultMemberAccess
 Option Explicit
+Option Private Module
 '[On Hold] @TODO: Need to include Paste Combine Arrays part.
 
 Private Const TABLE_COL_SEPARATOR As String = ":"

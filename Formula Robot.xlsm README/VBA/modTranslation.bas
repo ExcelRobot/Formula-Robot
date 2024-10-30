@@ -1,5 +1,6 @@
 Attribute VB_Name = "modTranslation"
 Option Explicit
+Option Private Module
 
 #Const DEVELOPMENT_MODE = True
 

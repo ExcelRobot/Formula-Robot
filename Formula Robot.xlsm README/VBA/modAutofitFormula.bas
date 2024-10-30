@@ -1,5 +1,6 @@
 Attribute VB_Name = "modAutofitFormula"
 Option Explicit
+Option Private Module
 
 '--------------------------------------------< OA Robot >--------------------------------------------
 ' Command Name:           Toggle Expand Formula Bar

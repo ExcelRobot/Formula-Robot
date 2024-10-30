@@ -3,6 +3,7 @@ Attribute VB_Name = "modNamedRange"
 ' @Folder "NamedRange.Driver"
 ' @IgnoreModule SuperfluousAnnotationArgument, UnrecognizedAnnotation, ProcedureNotUsed
 Option Explicit
+Option Private Module
 
 Private Function IsStartedWithGivenPrefix(ByVal CellValue As Variant, ByVal IgnorePrefix As String) As Boolean
 

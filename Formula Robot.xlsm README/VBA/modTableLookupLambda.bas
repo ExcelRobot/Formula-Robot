@@ -1,5 +1,6 @@
 Attribute VB_Name = "modTableLookupLambda"
 Option Explicit
+Option Private Module
 
 Private Sub Test()
     GenerateTableLookupLambdas ActiveCell, Selection

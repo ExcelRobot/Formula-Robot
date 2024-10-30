@@ -74,7 +74,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modApplyFilterToArray.ApplyFilterToArray](./VBA/modApplyFilterToArray.bas#L10)([[ActiveCell]],[[ActiveCell.Offset(1,1)]])</code> |
+| Macro Expression | <code>[modApplyFilterToArray.ApplyFilterToArray](./VBA/modApplyFilterToArray.bas#L11)([[ActiveCell]],[[ActiveCell.Offset(1,1)]])</code> |
 | User Context Filter | ExcelActiveCellContainsFormula |
 
 [^Top](#oa-robot-definitions)
@@ -89,7 +89,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modFillArray.FillDown](./VBA/modFillArray.bas#L30)([[Selection]])</code> |
+| Macro Expression | <code>[modFillArray.FillDown](./VBA/modFillArray.bas#L31)([[Selection]])</code> |
 | User Context Filter | ExcelSelectionIsSingleArea |
 | Launch Codes | <ol><li><code>d</code></li><li><code>fd</code></li><li><code>afd</code></li></ol> |
 
@@ -105,7 +105,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modFillArray.FillToRight](./VBA/modFillArray.bas#L69)([[Selection]])</code> |
+| Macro Expression | <code>[modFillArray.FillToRight](./VBA/modFillArray.bas#L70)([[Selection]])</code> |
 | User Context Filter | ExcelSelectionIsSingleArea |
 | Launch Codes | <ol><li><code>r</code></li><li><code>fr</code></li><li><code>afr</code></li></ol> |
 
@@ -121,7 +121,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modAutofitFormula.AutofitFormulaBar](./VBA/modAutofitFormula.bas#L27)([[ActiveCell]])</code> |
+| Macro Expression | <code>[modAutofitFormula.AutofitFormulaBar](./VBA/modAutofitFormula.bas#L28)([[ActiveCell]])</code> |
 | User Context Filter | ExcelActiveCellContainsFormula OR ExcelActiveCellIsSpillParent OR ExcelActiveCellIsNotEmpty |
 
 [^Top](#oa-robot-definitions)
@@ -136,7 +136,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modAutofitFormula.FormatFormulas](./VBA/modAutofitFormula.bas#L63)([[Selection]],TRUE)</code> |
+| Macro Expression | <code>[modAutofitFormula.FormatFormulas](./VBA/modAutofitFormula.bas#L64)([[Selection]],TRUE)</code> |
 | User Context Filter | ExcelActiveCellContainsFormula |
 | Command After | [Auto-Fit Formula Bar](#auto-fit-formula-bar) |
 | Launch Codes | <code>bo</code> |
@@ -155,7 +155,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modStructuredReference.ConvertFormulaToStructuredRef](./VBA/modStructuredReference.bas#L40)([[ActiveCell]])</code> |
+| Macro Expression | <code>[modStructuredReference.ConvertFormulaToStructuredRef](./VBA/modStructuredReference.bas#L41)([[ActiveCell]])</code> |
 | User Context Filter | ExcelActiveCellContainsFormula AND ExcelSelectionIsSingleCell |
 
 [^Top](#oa-robot-definitions)
@@ -170,7 +170,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modTranslation.CopyFormulaToEnglish](./VBA/modTranslation.bas#L36)([[ActiveCell]])</code> |
+| Macro Expression | <code>[modTranslation.CopyFormulaToEnglish](./VBA/modTranslation.bas#L37)([[ActiveCell]])</code> |
 | User Context Filter | ExcelActiveCellContainsFormula |
 | Outputs | <ol><li>Message To User</li><li>Save To Clipboard</li></ol> |
 
@@ -186,7 +186,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modAutofitFormula.FormatFormulas](./VBA/modAutofitFormula.bas#L63)([[Selection]])</code> |
+| Macro Expression | <code>[modAutofitFormula.FormatFormulas](./VBA/modAutofitFormula.bas#L64)([[Selection]])</code> |
 | Launch Codes | <ol><li><code>ff</code></li><li><code>unbo</code></li></ol> |
 
 [^Top](#oa-robot-definitions)
@@ -201,7 +201,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modTableLookupLambda.GenerateTableLookupLambdas](./VBA/modTableLookupLambda.bas#L14)([[ActiveCell]], [[Selection]])</code> |
+| Macro Expression | <code>[modTableLookupLambda.GenerateTableLookupLambdas](./VBA/modTableLookupLambda.bas#L15)([[ActiveCell]], [[Selection]])</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -215,7 +215,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modMapToArray.MapToArray](./VBA/modMapToArray.bas#L11)([[ActiveCell]])</code> |
+| Macro Expression | <code>[modMapToArray.MapToArray](./VBA/modMapToArray.bas#L13)([[ActiveCell]])</code> |
 | User Context Filter | ExcelActiveCellContainsFormula |
 | Launch Codes | <ol><li><code>map</code></li><li><code>tile</code></li></ol> |
 
@@ -265,7 +265,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modFillArray.PasteFillDown](./VBA/modFillArray.bas#L14)([Clipboard],[[ActiveCell]])</code> |
+| Macro Expression | <code>[modFillArray.PasteFillDown](./VBA/modFillArray.bas#L15)([Clipboard],[[ActiveCell]])</code> |
 | User Context Filter | ExcelSelectionIsSingleArea AND ClipboardHasExcelData |
 | Launch Codes | <ol><li><code>pd</code></li><li><code>pf</code></li><li><code>pfd</code></li></ol> |
 
@@ -281,7 +281,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modFillArray.PasteFillToRight](./VBA/modFillArray.bas#L53)([Clipboard],[[ActiveCell]])</code> |
+| Macro Expression | <code>[modFillArray.PasteFillToRight](./VBA/modFillArray.bas#L54)([Clipboard],[[ActiveCell]])</code> |
 | User Context Filter | ExcelSelectionIsSingleArea AND ClipboardHasExcelData |
 | Launch Codes | <ol><li><code>pr</code></li><li><code>pfr</code></li></ol> |
 
@@ -297,7 +297,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modTranslation.PasteTranslateFormula](./VBA/modTranslation.bas#L52)({{Clipboard}},[[ActiveCell]])</code> |
+| Macro Expression | <code>[modTranslation.PasteTranslateFormula](./VBA/modTranslation.bas#L53)({{Clipboard}},[[ActiveCell]])</code> |
 | User Context Filter | ExcelActiveCellIsEmpty AND ExcelSelectionIsSingleCell |
 
 [^Top](#oa-robot-definitions)
@@ -312,7 +312,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modRemoveOuterFunction.RemoveOuterFunction](./VBA/modRemoveOuterFunction.bas#L12)([[Selection]])</code> |
+| Macro Expression | <code>[modRemoveOuterFunction.RemoveOuterFunction](./VBA/modRemoveOuterFunction.bas#L13)([[Selection]])</code> |
 | Keyboard Shortcut | <code>^+z</code> |
 | Command Before | [Select Spill Parent](#select-spill-parent) |
 | Launch Codes | <ol><li><code>ro</code></li><li><code>z</code></li></ol> |
@@ -359,7 +359,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modDynamicFormula.SelectSpillParent](./VBA/modDynamicFormula.bas#L12)()</code> |
+| Macro Expression | <code>[modDynamicFormula.SelectSpillParent](./VBA/modDynamicFormula.bas#L13)()</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -373,7 +373,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modAutofitFormula.ToggleExpandFormulaBar](./VBA/modAutofitFormula.bas#L10)([[ActiveCell]])</code> |
+| Macro Expression | <code>[modAutofitFormula.ToggleExpandFormulaBar](./VBA/modAutofitFormula.bas#L11)([[ActiveCell]])</code> |
 | Keyboard Shortcut | <code>^+u</code> |
 | Launch Codes | <code>fb</code> |
 

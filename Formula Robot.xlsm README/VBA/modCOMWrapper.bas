@@ -1,5 +1,6 @@
 Attribute VB_Name = "modCOMWrapper"
 Option Explicit
+Option Private Module
 #Const DEVELOPMENT_MODE = True
  
 Public Enum DependencyFunctions
@@ -536,37 +537,43 @@ Public Function GetNames(Optional ByVal ForBook As Workbook) As Object
 End Function
 
 #If DEVELOPMENT_MODE Then
-Public Function ParseFormula(ByVal Formula As String, Optional ByVal ForBook As Workbook) As OARobot.FormulaParseResult
+Public Function ParseFormula(ByVal Formula As String _
+                             , Optional ByVal ForBook As Workbook _
+                              , Optional ByVal IsR1C1 As Boolean = False) As OARobot.FormulaParseResult
 #Else
-Public Function ParseFormula(ByVal Formula As String, Optional ByVal ForBook As Workbook) As Object
+Public Function ParseFormula(ByVal Formula As String _
+                             , Optional ByVal ForBook As Workbook _
+                              , Optional ByVal IsR1C1 As Boolean = False) As Object
 #End If
     
-    Static ScopeBookName As String
-    If ForBook Is Nothing Then Set ForBook = ActiveWorkbook
+Static ScopeBookName As String
+If ForBook Is Nothing Then Set ForBook = ActiveWorkbook
     
-    #If DEVELOPMENT_MODE Then
-        Static Scope As OARobot.FormulaScopeInfo
-        Static DefinedNames As OARobot.XLDefinedNames
-        Dim Parser As OARobot.FormulaParser
-        Dim ParseResult As OARobot.FormulaParseResult
-    #Else
-        Static Scope As Object
-        Static DefinedNames As Object
-        Dim Parser As Object
-        Dim ParseResult As Object
-    #End If
+#If DEVELOPMENT_MODE Then
+    Static Scope As OARobot.FormulaScopeInfo
+    Static DefinedNames As OARobot.XLDefinedNames
+    Dim Parser As OARobot.FormulaParser
+    Dim LocaleFactory As FormulaLocaleInfoFactory
+    Set LocaleFactory = New FormulaLocaleInfoFactory
+#Else
+    Static Scope As Object
+    Static DefinedNames As Object
+    Dim Parser As Object
+    Dim LocaleFactory As Object
+    Set LocaleFactory = CreateObject("FormulaLocaleInfoFactory")
+#End If
     
-    If ScopeBookName <> ForBook.Name Or ScopeBookName = vbNullString Then
-        Set Scope = GetScope(ForBook)
-        Set DefinedNames = GetNames(ForBook)
-        ScopeBookName = ForBook.Name
-    End If
+If ScopeBookName <> ForBook.Name Or ScopeBookName = vbNullString Then
+    Set Scope = GetScope(ForBook)
+    Set DefinedNames = GetNames(ForBook)
+    ScopeBookName = ForBook.Name
+End If
     
-    Set Parser = GetFormulaParser()
+Set Parser = GetFormulaParser()
     
-    If ForBook Is Nothing Then Set ForBook = ActiveWorkbook
+If ForBook Is Nothing Then Set ForBook = ActiveWorkbook
     
-    Set ParseFormula = Parser.Parse(Formula, Application.ReferenceStyle = xlR1C1, , Scope, DefinedNames)
+Set ParseFormula = Parser.Parse(Formula, IsR1C1, LocaleFactory.EN_US, Scope, DefinedNames)
     
 End Function
 

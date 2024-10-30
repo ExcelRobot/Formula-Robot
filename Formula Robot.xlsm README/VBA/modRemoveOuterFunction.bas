@@ -2,6 +2,7 @@ Attribute VB_Name = "modRemoveOuterFunction"
 '@IgnoreModule UndeclaredVariable
 '@Folder "RemoveOuterFunction"
 Option Explicit
+Option Private Module
 
 '--------------------------------------------< OA Robot >--------------------------------------------
 ' Command Name:           Remove Outer Function
