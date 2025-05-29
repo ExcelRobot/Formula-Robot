@@ -61,7 +61,7 @@ TryOnceAgain:
     
 End Sub
 
-Public Sub FormatFormulas(SelectionRange As Range, Optional ByVal CompactConfig As Boolean = False)
+Public Sub FormatFormulas(SelectionRange As Range, Optional CompactConfig As Boolean = False)
     
     On Error Resume Next
     Dim FormulaCells As Range

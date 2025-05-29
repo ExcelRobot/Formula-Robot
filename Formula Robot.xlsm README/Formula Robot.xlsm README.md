@@ -2,13 +2,13 @@
 
 \*\*Formula Robot.xlsm\*\* contains definitions for:
 
-[20 Robot Commands](#command-definitions)<BR>
+[22 Robot Commands](#command-definitions)<BR>[1 Robot Parameter](#parameter-definitions)<BR>
 
 <BR>
 
 ## Available Robot Commands
 
-[Fill](#fill) | [Formula](#formula) | [Paste](#paste) | [Table](#table) | [Translate](#translate)
+[Fill](#fill) | [Formula](#formula) | [Paste](#paste) | [Table](#table) | [Translate](#translate) | [Other](#other)
 
 ### Fill
 
@@ -59,6 +59,21 @@
 | --- | --- |
 | [Copy Formula To English](#copy-formula-to-english) | Translate ActiveCell formula to en\-us locale and copy to clipboard. |
 | [Paste Translate Formula](#paste-translate-formula) | Given text in clipboard containing an Excel formula in en\-us format, translates it to local languange, and puts it in active cell. |
+
+### Other
+
+| Name | Description |
+| --- | --- |
+| [Search Workbook For Specified Functions](#search-workbook-for-specified-functions) | Searches cells, names, and conditional formatting for use of user specified functions and reports findings. |
+| [Search Workbook For Volatile Functions](#search-workbook-for-volatile-functions) | Searches cells, names, and conditional formatting for use of volatile functions and reports findings. |
+
+<BR>
+
+## Available Robot Parameters
+
+| Name | Description |
+| --- | --- |
+| [UserSpecifiedFunctions](#userspecifiedfunctions) | Ask user for a comma seperated functions name for searching in cells, names and conditional formatting. |
 
 <BR>
 
@@ -173,6 +188,29 @@
 | Macro Expression | <code>[modTranslation.CopyFormulaToEnglish](./VBA/modTranslation.bas#L37)([[ActiveCell]])</code> |
 | User Context Filter | ExcelActiveCellContainsFormula |
 | Outputs | <ol><li>Message To User</li><li>Save To Clipboard</li></ol> |
+
+<BR>
+
+#### Copy Formula To English \>\> Message To User
+
+*Message to user.*
+
+<sup>`!Message Box Output` </sup>
+
+| Property | Value |
+| --- | --- |
+| Title | <code>Copy Formula To English</code> |
+| Text Before | <code>Copied to clipboard:</code><br><code></code><br><code></code> |
+
+<BR>
+
+#### Copy Formula To English \>\> Save To Clipboard
+
+*Save to clipboard.*
+
+<sup>`!Clipboard Output` </sup>
+
+*No Values*
 
 [^Top](#oa-robot-definitions)
 
@@ -351,6 +389,34 @@
 
 <BR>
 
+### Search Workbook For Specified Functions
+
+*Searches cells, names, and conditional formatting for use of user specified functions and reports findings.*
+
+<sup>`@Formula Robot.xlsm` `!VBA Macro Command` </sup>
+
+| Property | Value |
+| --- | --- |
+| Macro Expression | <code>[modFunctionSearch.SearchFunctions](./VBA/modFunctionSearch.bas#L10)({{[UserSpecifiedFunctions](#userspecifiedfunctions)}},[[NewTableTargetToRight]])</code> |
+
+[^Top](#oa-robot-definitions)
+
+<BR>
+
+### Search Workbook For Volatile Functions
+
+*Searches cells, names, and conditional formatting for use of volatile functions and reports findings.*
+
+<sup>`@Formula Robot.xlsm` `!VBA Macro Command` </sup>
+
+| Property | Value |
+| --- | --- |
+| Macro Expression | <code>[modFunctionSearch.SearchFunctions](./VBA/modFunctionSearch.bas#L10)("NOW, TODAY, RAND, RANDBETWEEN, RANDARRAY, OFFSET, INDIRECT, CELL, INFO",[[NewTableTargetToRight]])</code> |
+
+[^Top](#oa-robot-definitions)
+
+<BR>
+
 ### Select Spill Parent
 
 *Select dynamic array formula cell. If no spill in ActiveCell then do nothing.*
@@ -376,5 +442,24 @@
 | Macro Expression | <code>[modAutofitFormula.ToggleExpandFormulaBar](./VBA/modAutofitFormula.bas#L11)([[ActiveCell]])</code> |
 | Keyboard Shortcut | <code>^+u</code> |
 | Launch Codes | <code>fb</code> |
+
+[^Top](#oa-robot-definitions)
+
+<BR>
+
+## Parameter Definitions
+
+<BR>
+
+### UserSpecifiedFunctions
+
+*Ask user for a comma seperated functions name for searching in cells, names and conditional formatting.*
+
+<sup>`@Formula Robot.xlsm` `!Input Parameter` </sup>
+
+| Property | Value |
+| --- | --- |
+| Prompt | <code>Specify functions to search for (example: LET, LAMBDA):</code> |
+| Data Type | String |
 
 [^Top](#oa-robot-definitions)

@@ -60,7 +60,9 @@ Public Property Get Self() As UndoHandler
     Set Self = Me
 End Property
 
-Public Function Create(TypeOfOpt As OptType, ClearRange As Range, FirstCellOldFormula As String) As UndoHandler
+Public Function Create(ByVal TypeOfOpt As OptType _
+                       , ByVal ClearRange As Range _
+                        , ByVal FirstCellOldFormula As String) As UndoHandler
 
     With New UndoHandler
         .TypeOfOpt = TypeOfOpt

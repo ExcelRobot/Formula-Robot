@@ -72,7 +72,7 @@ Public Sub FillDown(ByVal FormulaCell As Range)
 
     If FillDownBeans.Count = 0 Then Exit Sub
     Set This.FillDownUndoColl = GetUndoCells(FillDownBeans)
-    
+    SelectFillingRegionIfNotDA FillDownBeans
     If This.FillDownUndoColl.Count > 0 Then AssingOnUndo "FillDown"
     
 End Sub
@@ -125,7 +125,8 @@ Private Function FillBeanForDynamicArrayFormula(ByVal FormulaCell As Range) As F
     If Not IsArray(DirectPrecedents) Then Exit Function
     If IsArrayOfNullString(DirectPrecedents) Then Exit Function
     
-    Dim ValidCellsForFillDown As New Collection
+    Dim ValidCellsForFillDown As Collection
+    Set ValidCellsForFillDown = New Collection
     
     Dim CurrentPrecedency As Variant
     Dim CurrentRange As Range
@@ -219,7 +220,7 @@ Private Function GenerateFormulaForFillDown(ByVal FormulaCell As Range _
     
 End Function
 
-Private Function GetKeyToAnswerByFillingFormula(FormulaCell As Range, RowCount As Long) As Variant
+Private Function GetKeyToAnswerByFillingFormula(ByVal FormulaCell As Range, ByVal RowCount As Long) As Variant
     
     Dim OldFormula As String
     OldFormula = FormulaCell.Cells(1).Formula2
@@ -277,10 +278,13 @@ Private Function GetMaxSpillColCount(ByVal FormulaCells As Range) As Long
     Dim MaxColCount As Long
     MaxColCount = 1
     
+    Dim CurrentColCount As Long
+    
     Dim CurrentCell As Range
     For Each CurrentCell In FormulaCells.Cells
         If CurrentCell.HasSpill Then
-            MaxColCount = CurrentCell.SpillingToRange.Columns.Count
+            CurrentColCount = CurrentCell.SpillingToRange.Columns.Count
+            If CurrentColCount > MaxColCount Then MaxColCount = CurrentColCount
         End If
     Next CurrentCell
     
@@ -294,14 +298,14 @@ Private Function GenerateFormulaForFillDownIfMapByRowOrTile(ByVal FormulaCell As
     Dim Formula As String
     
     If FormulaCell.HasSpill Then
-        Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillDown, Fill_DOWN, TILE_FX_NAME)
+        Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillDown, Fill_DOWN, TILE_FN_NAME)
     Else
         If IsValidToUseByRowOrCol(ValidCellsForFillDown, Fill_DOWN) Then
             Formula = GenerateFormulaIfByRow(FormulaCell, ValidCellsForFillDown)
         ElseIf IsValidToUseMapWithoutSequence(ValidCellsForFillDown, Fill_DOWN) Then
-            Formula = GenerateFormulaForMapToArrayExceptTile(ValidCellsForFillDown, FormulaCell, MAP_FX_NAME)
+            Formula = GenerateFormulaForMapToArrayExceptTile(ValidCellsForFillDown, FormulaCell, MAP_FN_NAME)
         Else
-            Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillDown, Fill_DOWN, MAP_FX_NAME)
+            Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillDown, Fill_DOWN, MAP_FN_NAME)
         End If
     
     End If
@@ -368,7 +372,7 @@ Private Function GetBottomRangeFromCurrentReg(ByVal FormulaCell As Range) As Ran
             Set LastRow = ReferenceArea.Rows(ReferenceArea.Rows.Count).EntireRow
         End If
         
-        Set GetBottomRangeFromCurrentReg = Range(FormulaCell, Intersect(FormulaCell.EntireColumn, LastRow))
+        Set GetBottomRangeFromCurrentReg = FormulaCell.Worksheet.Range(FormulaCell, Intersect(FormulaCell.EntireColumn, LastRow))
     Else
         Set GetBottomRangeFromCurrentReg = FormulaCell
     End If

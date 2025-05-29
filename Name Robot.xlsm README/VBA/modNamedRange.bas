@@ -4,6 +4,7 @@ Attribute VB_Name = "modNamedRange"
 ' @Folder "NamedRange.Driver"
 ' @IgnoreModule SuperfluousAnnotationArgument, UnrecognizedAnnotation, ProcedureNotUsed
 Option Explicit
+Option Private Module
 
 Private Enum LabelSourceOnNameParameterCells
     ONLY_ROW = 1

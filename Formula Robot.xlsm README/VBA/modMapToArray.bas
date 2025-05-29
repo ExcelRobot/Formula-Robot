@@ -108,7 +108,7 @@ Private Function GetFormulaForMapToArray(ByVal ValidSpillParentCellsForMap As Co
         ResultArrayRowCount = MaxRowCount(ValidSpillParentCellsForMap)
         If Not IsSpillRowCountSame(Formula, FormulaCell, ResultArrayRowCount) Then
             Formula = modUtility.GenerateFormulaForMapToArrayExceptTile(ValidSpillParentCellsForMap _
-                                                                        , FormulaCell, MAP_FX_NAME)
+                                                                        , FormulaCell, MAP_FN_NAME)
         End If
         
         GetFormulaForMapToArray = Formula
@@ -120,7 +120,7 @@ Private Function GetMapToArrayForTile(ByVal StartFormula As String _
                                       , ByVal ValidCells As Collection) As String
     
     Dim Formula As String
-    Formula = "=" & TILE_FX_NAME & "("
+    Formula = "=" & TILE_FN_NAME & "("
     Dim FirstItem As PrecedencyInfo
     Set FirstItem = ValidCells.Item(1)
     Dim FirstCellAddress As String
@@ -134,9 +134,9 @@ Private Function GetMapToArrayForTile(ByVal StartFormula As String _
                   & FIRST_PARENTHESIS_CLOSE & FIRST_PARENTHESIS_CLOSE
     Else
         ' if more than one then use n as lambda param name.
-        Formula = Formula & SEQUENCE_FX_NAME & FIRST_PARENTHESIS_OPEN _
-                  & ROWS_FX_NAME & FIRST_PARENTHESIS_OPEN & FirstCellAddress _
-                  & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & COLUMNS_FX_NAME _
+        Formula = Formula & SEQUENCE_FN_NAME & FIRST_PARENTHESIS_OPEN _
+                  & ROWS_FN_NAME & FIRST_PARENTHESIS_OPEN & FirstCellAddress _
+                  & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & COLUMNS_FN_NAME _
                   & FIRST_PARENTHESIS_OPEN & FirstCellAddress & FIRST_PARENTHESIS_CLOSE _
                   & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & LAMBDA_AND_OPEN_PAREN _
                   & "n" & LIST_SEPARATOR
@@ -167,7 +167,7 @@ Private Function CreateLambdaPartForTile(ByVal BaseFormula As String _
         Dim ParentCellRef As String
         ParentCellRef = CurrentItem.AbsRangeRef
         LetPart = LetPart & ParamName & LIST_SEPARATOR & ONE_SPACE _
-                  & INDEX_FX_NAME & FIRST_PARENTHESIS_OPEN & TOROW_FX_NAME _
+                  & INDEX_FN_NAME & FIRST_PARENTHESIS_OPEN & TOROW_FN_NAME _
                   & FIRST_PARENTHESIS_OPEN & ParentCellRef & FIRST_PARENTHESIS_CLOSE _
                   & LIST_SEPARATOR & "1" & LIST_SEPARATOR _
                   & "n" & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR

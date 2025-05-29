@@ -88,7 +88,7 @@ End Sub
 ' Helper Sub/Function
 '**************************
 
-Public Sub UndoOperation(CellColl As Collection)
+Public Sub UndoOperation(ByVal CellColl As Collection)
     
     If CellColl Is Nothing Then Exit Sub
     If CellColl.Count = 0 Then Exit Sub
@@ -114,7 +114,7 @@ Public Function GenerateFillWithSequence(ByVal StartFormula As String _
     End If
     
     Dim IsTile As Boolean
-    IsTile = (FormulaName = TILE_FX_NAME)
+    IsTile = (FormulaName = TILE_FN_NAME)
     
     Dim LetPart As String
     LetPart = LET_AND_OPEN_PAREN
@@ -133,14 +133,14 @@ Public Function GenerateFillWithSequence(ByVal StartFormula As String _
             ' if only one col then Index is perfect.
             If CurrentItem.NameInFormulaRange.Columns.Count = 1 Then
                 LetPart = LetPart & ParamName & LIST_SEPARATOR _
-                          & ONE_SPACE & INDEX_FX_NAME & FIRST_PARENTHESIS_OPEN _
+                          & ONE_SPACE & INDEX_FN_NAME & FIRST_PARENTHESIS_OPEN _
                           & IIf(IsTile, CurrentItem.AbsRangeRef, CurrentItem.RangeRef) _
                           & LIST_SEPARATOR & "n" _
                           & LIST_SEPARATOR & ColOrRowIndex & FIRST_PARENTHESIS_CLOSE _
                           & LIST_SEPARATOR
             Else
                 LetPart = LetPart & ParamName & LIST_SEPARATOR & ONE_SPACE _
-                          & CHOOSEROWS_FX_NAME & FIRST_PARENTHESIS_OPEN _
+                          & CHOOSEROWS_FN_NAME & FIRST_PARENTHESIS_OPEN _
                           & IIf(IsTile, CurrentItem.AbsChoosePartFormula, CurrentItem.ChoosePartFormula) _
                           & LIST_SEPARATOR _
                           & "n" & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR
@@ -149,14 +149,14 @@ Public Function GenerateFillWithSequence(ByVal StartFormula As String _
         ElseIf TypeOfFill = FILL_TO_RIGHT Then
             If CurrentItem.NameInFormulaRange.Rows.Count = 1 Then
                 LetPart = LetPart & ParamName & LIST_SEPARATOR _
-                          & ONE_SPACE & INDEX_FX_NAME & FIRST_PARENTHESIS_OPEN _
+                          & ONE_SPACE & INDEX_FN_NAME & FIRST_PARENTHESIS_OPEN _
                           & IIf(IsTile, CurrentItem.AbsRangeRef, CurrentItem.RangeRef) _
                           & LIST_SEPARATOR & ColOrRowIndex _
                           & LIST_SEPARATOR & "n" & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR
                           
             Else
                 LetPart = LetPart & ParamName & LIST_SEPARATOR & ONE_SPACE _
-                          & CHOOSECOLS_FX_NAME & FIRST_PARENTHESIS_OPEN _
+                          & CHOOSECOLS_FN_NAME & FIRST_PARENTHESIS_OPEN _
                           & IIf(IsTile, CurrentItem.AbsChoosePartFormula, CurrentItem.ChoosePartFormula) _
                           & LIST_SEPARATOR _
                           & "n" & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR
@@ -169,15 +169,15 @@ Public Function GenerateFillWithSequence(ByVal StartFormula As String _
     Set CurrentItem = ValidCells.Item(1)
     Dim TileStartPart As String
     If TypeOfFill = Fill_DOWN Then
-        TileStartPart = "=" & FormulaName & "(" & SEQUENCE_FX_NAME & FIRST_PARENTHESIS_OPEN _
-                        & ROWS_FX_NAME & FIRST_PARENTHESIS_OPEN _
+        TileStartPart = "=" & FormulaName & "(" & SEQUENCE_FN_NAME & FIRST_PARENTHESIS_OPEN _
+                        & ROWS_FN_NAME & FIRST_PARENTHESIS_OPEN _
                         & IIf(IsTile, CurrentItem.AbsRangeRef, CurrentItem.RangeRef) _
                         & FIRST_PARENTHESIS_CLOSE & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR _
                         & LAMBDA_AND_OPEN_PAREN & "n" & LIST_SEPARATOR
                         
     ElseIf TypeOfFill = FILL_TO_RIGHT Then
-        TileStartPart = "=" & FormulaName & "(" & SEQUENCE_FX_NAME & FIRST_PARENTHESIS_OPEN _
-                        & "1" & LIST_SEPARATOR & COLUMNS_FX_NAME _
+        TileStartPart = "=" & FormulaName & "(" & SEQUENCE_FN_NAME & FIRST_PARENTHESIS_OPEN _
+                        & "1" & LIST_SEPARATOR & COLUMNS_FN_NAME _
                         & FIRST_PARENTHESIS_OPEN & IIf(IsTile, CurrentItem.AbsRangeRef, CurrentItem.RangeRef) _
                         & FIRST_PARENTHESIS_CLOSE & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR _
                         & LAMBDA_AND_OPEN_PAREN & "n" & LIST_SEPARATOR
@@ -189,7 +189,7 @@ Public Function GenerateFillWithSequence(ByVal StartFormula As String _
     
 End Function
 
-Public Function GetStepNamePrefix(ByVal FormulaText As String, ValidCellsCount As Long) As String
+Public Function GetStepNamePrefix(ByVal FormulaText As String, ByVal ValidCellsCount As Long) As String
     
     Dim PreviousStepsName As Collection
     Set PreviousStepsName = GetAllParamAndStepName(FormulaText)
@@ -218,7 +218,7 @@ Private Function GetAllInitialStepNames(ByVal StartStepName As String _
     
 End Function
 
-Private Function IsAnyItemExistInCollection(ByVal SearchInColl As Collection, SearchKeys As Variant) As Boolean
+Private Function IsAnyItemExistInCollection(ByVal SearchInColl As Collection, ByVal SearchKeys As Variant) As Boolean
     
     Dim Key As Variant
     For Each Key In SearchKeys
@@ -246,13 +246,12 @@ Private Function GenerateFillIfOneRef(ByVal StartFormula As String _
     StepName = GetStepNamePrefix(StartFormula, ValidCells.Count)
     
     Dim ChoosePart As String
-    If FormulaName = TILE_FX_NAME Then
+    If FormulaName = TILE_FN_NAME Then
         ChoosePart = CurrentItem.AbsChoosePartFormula
     Else
         ChoosePart = CurrentItem.ChoosePartFormula
     End If
     
-    Dim Formula As String
     GenerateFillIfOneRef = "=" & FormulaName & "(" & ChoosePart & LIST_SEPARATOR _
                            & LAMBDA_AND_OPEN_PAREN & StepName & LIST_SEPARATOR _
                            & RemoveStartingEqualSign(ReplaceTokenWithNewToken(StartFormula, CurrentItem.NameInFormula, StepName)) _
@@ -271,7 +270,7 @@ Public Function MaxColCount(ByVal ValidCells As Collection) As Long
     
 End Function
 
-Public Function ConsistentFormulaCount(ByVal CheckOnRange As Range, IsCheckOnCol As Boolean) As Long
+Public Function ConsistentFormulaCount(ByVal CheckOnRange As Range, ByVal IsCheckOnCol As Boolean) As Long
     
     If IsNothing(CheckOnRange) Then
         ConsistentFormulaCount = 0

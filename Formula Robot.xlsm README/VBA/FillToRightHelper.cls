@@ -75,6 +75,7 @@ Public Sub FillToRight(ByVal FormulaCell As Range)
     If FillToRightBeans.Count = 0 Then Exit Sub
 
     Set This.FillToRightUndoColl = GetUndoCells(FillToRightBeans)
+    SelectFillingRegionIfNotDA FillToRightBeans
     If This.FillToRightUndoColl.Count > 0 Then AssingOnUndo "FillToRight"
     
 End Sub
@@ -127,7 +128,9 @@ Private Function FillBeanForDynamicArrayFormula(ByVal FormulaCell As Range) As F
     If Not IsArray(DirectPrecedents) Then Exit Function
     If IsArrayOfNullString(DirectPrecedents) Then Exit Function
     
-    Dim ValidCellsForFillRight As New Collection
+    Dim ValidCellsForFillRight As Collection
+    Set ValidCellsForFillRight = New Collection
+    
     Dim ColWidth As Long
     Dim IsAtleastOnePrecedentSpilledRange As Boolean
     Dim CurrentPrecedency As Variant
@@ -218,7 +221,7 @@ Private Function GenerateFormulaForFillToRight(ByVal FormulaCell As Range, ByVal
     
 End Function
 
-Private Function GetKeyToAnswerByFillingFormula(FormulaCell As Range, ColCount As Long) As Variant
+Private Function GetKeyToAnswerByFillingFormula(ByVal FormulaCell As Range, ByVal ColCount As Long) As Variant
     
     Dim OldFormula As String
     OldFormula = FormulaCell.Cells(1).Formula2
@@ -276,10 +279,13 @@ Private Function GetMaxSpillRowCount(ByVal FormulaCells As Range) As Long
     Dim MaxRowCount As Long
     MaxRowCount = 1
     
+    Dim CurrentRowCount As Long
+    
     Dim CurrentCell As Range
     For Each CurrentCell In FormulaCells.Cells
         If CurrentCell.HasSpill Then
-            MaxRowCount = CurrentCell.SpillingToRange.Rows.Count
+            CurrentRowCount = CurrentCell.SpillingToRange.Rows.Count
+            If CurrentRowCount > MaxRowCount Then MaxRowCount = CurrentRowCount
         End If
     Next CurrentCell
     
@@ -293,15 +299,15 @@ Private Function GenerateFormulaForFillToRightIfMapByRowOrTile(ByVal FormulaCell
     Dim Formula As String
     
     If FormulaCell.HasSpill Then
-        Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillRight, FILL_TO_RIGHT, TILE_FX_NAME)
+        Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillRight, FILL_TO_RIGHT, TILE_FN_NAME)
     Else
         
         If IsValidToUseByRowOrCol(ValidCellsForFillRight, FILL_TO_RIGHT) Then
             Formula = GenerateFormulaIfByCol(FormulaCell, ValidCellsForFillRight)
         ElseIf modUtility.IsValidToUseMapWithoutSequence(ValidCellsForFillRight, FILL_TO_RIGHT) Then
-            Formula = GenerateFormulaForMapToArrayExceptTile(ValidCellsForFillRight, FormulaCell, MAP_FX_NAME)
+            Formula = GenerateFormulaForMapToArrayExceptTile(ValidCellsForFillRight, FormulaCell, MAP_FN_NAME)
         Else
-            Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillRight, FILL_TO_RIGHT, MAP_FX_NAME)
+            Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillRight, FILL_TO_RIGHT, MAP_FN_NAME)
         End If
     
     End If
@@ -367,7 +373,7 @@ Public Function GetRightRangeFromCurrentReg(ByVal FormulaCell As Range) As Range
             Set LastColumn = ReferenceArea.Columns(ReferenceArea.Columns.Count).EntireColumn
         End If
         
-        Set FormulaCell = Range(FormulaCell, Intersect(FormulaCell.EntireRow, LastColumn))
+        Set FormulaCell = FormulaCell.Worksheet.Range(FormulaCell, Intersect(FormulaCell.EntireRow, LastColumn))
     End If
     Set GetRightRangeFromCurrentReg = FormulaCell
     

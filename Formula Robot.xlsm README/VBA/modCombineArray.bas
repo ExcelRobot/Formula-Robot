@@ -8,7 +8,7 @@ Option Private Module
 ' Macro Expression:       modCombineArray.PasteCombineArrays([[Clipboard]],[[ActiveCell]])
 ' Generated:              09/15/2024 06:06 PM
 '----------------------------------------------------------------------------------------------------
-Sub PasteCombineArrays(SourceRange As Range, cellDestination As Range)
+Public Sub PasteCombineArrays(ByVal SourceRange As Range, ByVal cellDestination As Range)
     cellDestination.Cells(1, 1).Formula2 = ReplaceInvalidCharFromFormulaWithValid("=" & SplitAreaByAddress(SourceRange, cellDestination))
     AutofitFormulaBar cellDestination.Cells(1, 1)
 End Sub
@@ -88,21 +88,21 @@ Private Function SplitAreaByAddress(ByVal AreaRange As Range, ByVal Destination 
         Dim AddressArray() As String
         If RowSplits >= ColumnSplits Then
             AddressArray() = Split(SplitByRows(AreaRange), ",")
-            StackFXName = VSTACK_FX_NAME
+            StackFXName = VSTACK_FN_NAME
         Else
             AddressArray() = Split(SplitByColumns(AreaRange), ",")
-            StackFXName = HSTACK_FX_NAME
+            StackFXName = HSTACK_FN_NAME
         End If
         
         Dim Index As Long
         Dim SplittedAddress As String
         
         Dim SplitAreaRange As Range
-        SplittedAddress = ""
+        SplittedAddress = vbNullString
         For Index = LBound(AddressArray) To UBound(AddressArray)
             Set SplitAreaRange = Intersect(AreaRange, AreaRange.Worksheet.Range(AddressArray(Index)))
             ' Here is the recursive call.
-            SplittedAddress = SplittedAddress & IIf(SplittedAddress = "", "", ",") _
+            SplittedAddress = SplittedAddress & IIf(SplittedAddress = vbNullString, vbNullString, ",") _
                               & SplitAreaByAddress(SplitAreaRange, Destination)
         Next
         
@@ -127,7 +127,7 @@ Public Function IsSplitNeeded(ByVal AreaRange As Range) As Boolean
             ' If any formula cell present then
             If IsAnyFormulaCellPresent(AreaRange) Then
                 ' This number comes from VSTACK and HSTACK maximum number of parameters count.
-                Const MAX_NUMBER_OF_FORMULA_CELLS_ALLOWED = 254
+                Const MAX_NUMBER_OF_FORMULA_CELLS_ALLOWED As Long = 254
                 If IsNull(AreaRange.HasSpill) Then
                     Result = (AreaRange.SpecialCells(xlCellTypeFormulas).Cells.Count <= MAX_NUMBER_OF_FORMULA_CELLS_ALLOWED)
                 ElseIf AreaRange.HasSpill Then
@@ -195,7 +195,7 @@ Private Function GetRangeRefWithSheetNameIfContextIsDiff(ByVal AreaRange As Rang
     
 End Function
 
-Private Function SplitByRows(AreaRange As Range) As String
+Private Function SplitByRows(ByVal AreaRange As Range) As String
     
     Dim RowAreas As String
     Dim NextRowIndex As Long
@@ -221,7 +221,7 @@ Private Function SplitByRows(AreaRange As Range) As String
                 End If
             End If
             
-            RowAreas = RowAreas & IIf(RowAreas = "", "", ",") & AreaAddress
+            RowAreas = RowAreas & IIf(RowAreas = vbNullString, vbNullString, COMMA) & AreaAddress
             
         End If
     Next
@@ -230,7 +230,7 @@ Private Function SplitByRows(AreaRange As Range) As String
     
 End Function
 
-Private Function SplitByColumns(AreaRange As Range) As String
+Private Function SplitByColumns(ByVal AreaRange As Range) As String
     
     Dim ColAreas As String
     
@@ -256,7 +256,7 @@ Private Function SplitByColumns(AreaRange As Range) As String
                 End If
             End If
             
-            ColAreas = ColAreas & IIf(ColAreas = "", "", ",") & AreaAddress
+            ColAreas = ColAreas & IIf(ColAreas = vbNullString, vbNullString, COMMA) & AreaAddress
             
         End If
     Next ColIndex

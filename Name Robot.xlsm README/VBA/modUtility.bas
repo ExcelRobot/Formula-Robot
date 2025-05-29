@@ -1,5 +1,6 @@
 Attribute VB_Name = "modUtility"
 Option Explicit
+Option Private Module
 
 #If VBA7 Then                                    ' Excel 2010 or later
     Public Declare PtrSafe Sub Sleep Lib "kernel32" (ByVal Milliseconds As LongPtr)
@@ -1574,8 +1575,8 @@ Public Function RemoveSheetQualifierIfPresent(ByVal RangeRef As String) As Strin
     
 End Function
 
-Public Function Max(ByVal FirstNumber As Variant, ByVal SecondNumber As Variant) As Variant
-    Max = Application.WorksheetFunction.Max(FirstNumber, SecondNumber)
+Public Function MaxValue(ByVal FirstNumber As Variant, ByVal SecondNumber As Variant) As Variant
+    MaxValue = Application.WorksheetFunction.Max(FirstNumber, SecondNumber)
 End Function
 
 Public Function IsSubRange(ByVal ParentRange As Range _

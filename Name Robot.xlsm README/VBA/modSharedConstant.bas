@@ -3,6 +3,7 @@ Attribute VB_Name = "modSharedConstant"
 '@Folder "Lambda.Editor.Shared"
 
 Option Explicit
+Option Private Module
 
 ' Table related constants
 Public Const TABLE_ALL_MARKER As String = "[#All]"

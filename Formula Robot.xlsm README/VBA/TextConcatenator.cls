@@ -22,7 +22,7 @@ End Type
 Private This As TTextConcatenator
 
 Public Property Get Text() As String
-    Text = Mid(This.Text, 1, This.SoFarFillIndex)
+    Text = Mid$(This.Text, 1, This.SoFarFillIndex)
 End Property
 
 Public Property Get Self() As TextConcatenator

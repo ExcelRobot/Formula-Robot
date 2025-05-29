@@ -45,10 +45,10 @@ Public Function GetFormula(ByVal SelectedCells As Range, ByVal DestinationCell A
     Dim Formula As String
 
     Dim TakeWithParentCellRef As String
-    TakeWithParentCellRef = TAKE_FX_NAME & "(" & This.ParentCellFormulaRef
+    TakeWithParentCellRef = TAKE_FN_NAME & "(" & This.ParentCellFormulaRef
     
     Dim TakeAndDropWithParentCellRef As String
-    TakeAndDropWithParentCellRef = TAKE_FX_NAME & "(" & DROP_FX_NAME & "(" & This.ParentCellFormulaRef
+    TakeAndDropWithParentCellRef = TAKE_FN_NAME & "(" & DROP_FN_NAME & "(" & This.ParentCellFormulaRef
     
     With This
         ' Here order of these cases are important. If you want to make it independent then you have to change code

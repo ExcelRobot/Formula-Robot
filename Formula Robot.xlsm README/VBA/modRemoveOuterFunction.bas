@@ -113,7 +113,8 @@ Private Sub TestRemoveOuterFromLet()
 End Sub
 
 Private Sub RunRemoveOuterFromLetOrLambdaTest(ByVal TestFormula As String _
-                                              , ByVal ExpectedFormula As String, IsRemoveLet As Boolean)
+                                              , ByVal ExpectedFormula As String _
+                                              , ByVal IsRemoveLet As Boolean)
 
     Dim ActualFormula As String
     If IsRemoveLet Then

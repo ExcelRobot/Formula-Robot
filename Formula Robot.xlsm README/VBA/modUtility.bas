@@ -8,13 +8,13 @@ Public Enum ChooseOption
     CHOOSE_NONE = 3
 End Enum
 
-Public Sub AddTILEIfNotPresent(AddToBook As Workbook)
+Public Sub AddTILEIfNotPresent(ByVal AddToBook As Workbook)
     
     Dim CurrentName As Name
     On Error Resume Next
-    Set CurrentName = AddToBook.Names(TILE_FX_NAME)
+    Set CurrentName = AddToBook.Names(TILE_FN_NAME)
     If CurrentName Is Nothing Then
-        AddToBook.Names.Add TILE_FX_NAME, ThisWorkbook.Names(TILE_FX_NAME).RefersTo
+        AddToBook.Names.Add TILE_FN_NAME, ThisWorkbook.Names(TILE_FN_NAME).RefersTo
     End If
     On Error GoTo 0
     
@@ -129,8 +129,6 @@ Public Sub UpdateValidCells(ByVal PrecedencyVsCellsInfoMap As Collection _
             .TopLeftCellColNo = CurrentRange.Cells(1).Column
         End If
         
-        Dim SecondArgOfChoose As String
-        
         If OptionToChoose = CHOOSE_COLS Then
             UpdateColIndexAndChoosePart CurrentPrecedencyInfo, CurrentRange
         ElseIf OptionToChoose = CHOOSE_ROWS Then
@@ -202,7 +200,7 @@ Private Function GetChooseColPartFormula(ByVal CurrentRange As Range _
     If CurrentRange.Address = SpillRange.Rows(1).Address Then
         GetChooseColPartFormula = RangeRef
     Else
-        GetChooseColPartFormula = CHOOSECOLS_FX_NAME & FIRST_PARENTHESIS_OPEN _
+        GetChooseColPartFormula = CHOOSECOLS_FN_NAME & FIRST_PARENTHESIS_OPEN _
                                 & RangeRef & LIST_SEPARATOR _
                                 & SecondArgOfChoose & FIRST_PARENTHESIS_CLOSE
     End If
@@ -228,7 +226,7 @@ Private Function GetChooseRowPartFormula(ByVal CurrentRange As Range _
     If CurrentRange.Address = SpillRange.Columns(1).Address Then
         GetChooseRowPartFormula = RangeRef
     Else
-        GetChooseRowPartFormula = CHOOSEROWS_FX_NAME & FIRST_PARENTHESIS_OPEN _
+        GetChooseRowPartFormula = CHOOSEROWS_FN_NAME & FIRST_PARENTHESIS_OPEN _
                                 & RangeRef & LIST_SEPARATOR _
                                 & SecondArgOfChoose & FIRST_PARENTHESIS_CLOSE
     End If
@@ -473,11 +471,11 @@ Private Function GenerateFillTileWhenByRowOrCol(ByVal StartFormula As String _
         
         If IsFillDown Then
             LetPart = LetPart & ParamName & LIST_SEPARATOR & ONE_SPACE _
-                      & CHOOSEROWS_FX_NAME & ParentCellRef & LIST_SEPARATOR _
+                      & CHOOSEROWS_FN_NAME & ParentCellRef & LIST_SEPARATOR _
                       & "n" & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR
                       
         Else
-            LetPart = LetPart & ParamName & LIST_SEPARATOR & ONE_SPACE & CHOOSECOLS_FX_NAME _
+            LetPart = LetPart & ParamName & LIST_SEPARATOR & ONE_SPACE & CHOOSECOLS_FN_NAME _
                       & FIRST_PARENTHESIS_OPEN & ParentCellRef & LIST_SEPARATOR _
                       & "n" & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR
                       
@@ -488,14 +486,14 @@ Private Function GenerateFillTileWhenByRowOrCol(ByVal StartFormula As String _
     Set CurrentItem = ValidCells.Item(1)
     Dim TileStartPart As String
     If IsFillDown Then
-        TileStartPart = "=TILE(" & SEQUENCE_FX_NAME & FIRST_PARENTHESIS_OPEN _
-                        & ROWS_FX_NAME & FIRST_PARENTHESIS_OPEN _
+        TileStartPart = "=TILE(" & SEQUENCE_FN_NAME & FIRST_PARENTHESIS_OPEN _
+                        & ROWS_FN_NAME & FIRST_PARENTHESIS_OPEN _
                         & CurrentItem.RangeRef & FIRST_PARENTHESIS_CLOSE _
                         & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR _
                         & LAMBDA_AND_OPEN_PAREN & "n" & LIST_SEPARATOR
     Else
-        TileStartPart = "=TILE(" & SEQUENCE_FX_NAME & FIRST_PARENTHESIS_OPEN _
-                        & "1" & LIST_SEPARATOR & COLUMNS_FX_NAME _
+        TileStartPart = "=TILE(" & SEQUENCE_FN_NAME & FIRST_PARENTHESIS_OPEN _
+                        & "1" & LIST_SEPARATOR & COLUMNS_FN_NAME _
                         & FIRST_PARENTHESIS_OPEN & CurrentItem.RangeRef & FIRST_PARENTHESIS_CLOSE _
                         & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR _
                         & LAMBDA_AND_OPEN_PAREN & "n" & LIST_SEPARATOR
@@ -508,7 +506,7 @@ Private Function GenerateFillTileWhenByRowOrCol(ByVal StartFormula As String _
 End Function
 
 Public Function IsTileFormula(ByVal Formula As String) As Boolean
-    IsTileFormula = (Left(Formula, Len("=TILE(")) = "=TILE(")
+    IsTileFormula = (Left$(Formula, Len("=TILE(")) = "=TILE(")
 End Function
 
 Public Sub AssingOnUndo(ByVal UndoForMethod As String)
@@ -602,7 +600,7 @@ Public Function IsRowAbsolute(ByVal Reference As String) As Boolean
         End If
         
         Dim TextAfterDollarSign As String
-        TextAfterDollarSign = Mid(CStr(CurrentA1), DollarSignPos + 1)
+        TextAfterDollarSign = Mid$(CStr(CurrentA1), DollarSignPos + 1)
         If Not IsNumeric(TextAfterDollarSign) Then
             IsRowAbsolute = False
             Exit For
@@ -650,7 +648,7 @@ Public Function IsColAbsolute(ByVal Reference As String) As Boolean
         End If
         
         ' As Column ref come before row ref($A1) also handle only row ref($27:$27)
-        If DollarSignPos <> 1 Or IsNumeric(Mid(CStr(CurrentA1), DollarSignPos + 1)) Then
+        If DollarSignPos <> 1 Or IsNumeric(Mid$(CStr(CurrentA1), DollarSignPos + 1)) Then
             IsColAbsolute = False
             Exit For
         End If
@@ -1000,7 +998,8 @@ Public Function MakeValidName(ByVal GivenInvalidName As String _
     
 End Function
 
-Private Function ReplaceLineBreak(ByVal Text As String, ReplaceWith As String) As String
+Private Function ReplaceLineBreak(ByVal Text As String _
+                                  , ByVal ReplaceWith As String) As String
     
     Dim ReplacedText As String
     ReplacedText = Replace(Text, vbNewLine, ReplaceWith)
@@ -1032,7 +1031,7 @@ Public Function ReplacePlaceHolders(ByVal GivenName As String) As String
 End Function
 
 ' Remove invalid characters from the given name.
-Public Function RemoveInvalidCharcters(ByVal GivenName As String, KeepSpace As Boolean) As String
+Public Function RemoveInvalidCharcters(ByVal GivenName As String, ByVal KeepSpace As Boolean) As String
 
     Dim Output As String
     Dim CurrentCharIndex As Long
@@ -1061,7 +1060,7 @@ Public Function RemoveInvalidCharcters(ByVal GivenName As String, KeepSpace As B
 
 End Function
 
-Public Function ConvertVarNameToSentence(VarName As String) As String
+Public Function ConvertVarNameToSentence(ByVal VarName As String) As String
     
     Dim Sentence As String
     Sentence = Replace(VarName, DOT, ONE_SPACE)
@@ -1095,14 +1094,14 @@ Private Function ConvertToCamelCase(ByVal VarName As String) As String
     If Text.Contains(ValidName, ONE_SPACE) Then
         
         If Not IsAllCaps(Text.BeforeDelimiter(ValidName, ONE_SPACE)) Then
-            ValidName = LCase(Text.BeforeDelimiter(ValidName, ONE_SPACE)) & ONE_SPACE _
+            ValidName = LCase$(Text.BeforeDelimiter(ValidName, ONE_SPACE)) & ONE_SPACE _
                         & ConvertToProperCaseOfEachWord( _
                         Text.AfterDelimiter(ValidName, ONE_SPACE))
         End If
         
     Else
         If Not IsAllCaps(ValidName) Then
-            ValidName = LCase(ValidName)
+            ValidName = LCase$(ValidName)
         End If
     End If
     ValidName = Replace(ValidName, ONE_SPACE, vbNullString)
@@ -1173,7 +1172,7 @@ Public Function IsValidFirstChar(ByVal GivenChar As String) As Boolean
 End Function
 
 ' Get the valid characters from the given name starting from the second character.
-Public Function GetValidCharForSecondToOnward(ByVal GivenName As String, KeepSpace As Boolean) As String
+Public Function GetValidCharForSecondToOnward(ByVal GivenName As String, ByVal KeepSpace As Boolean) As String
 
     Dim Result As String
     Dim CurrentCharIndex As Long
@@ -1306,8 +1305,8 @@ Public Function PutSpaceBeforeLastCapsFromStart(ByVal CurrentWord As String) As 
     If LowerCaseCharIndex < 3 Then
         Result = CurrentWord
     Else
-        Result = Left(CurrentWord, LowerCaseCharIndex - 2) _
-                 & ONE_SPACE & Mid(CurrentWord, LowerCaseCharIndex - 1)
+        Result = Left$(CurrentWord, LowerCaseCharIndex - 2) _
+                 & ONE_SPACE & Mid$(CurrentWord, LowerCaseCharIndex - 1)
     End If
     
     PutSpaceBeforeLastCapsFromStart = Result
@@ -1334,7 +1333,7 @@ End Function
 Public Function IsAlphabet(Char As String) As Boolean
     
     Dim CharCode As Long
-    CharCode = Asc(LCase(Char))
+    CharCode = Asc(LCase$(Char))
     IsAlphabet = (CharCode >= Asc("a") And CharCode <= Asc("z"))
     
 End Function
@@ -1558,17 +1557,13 @@ Public Function IsArrayAllocated(ByVal Arr As Variant) As Boolean
         ' is True, the array is allocated. Otherwise,
         ' the array is not allocated.
         '''''''''''''''''''''''''''''''''''''''
-        If LBound(Arr) <= UBound(Arr) Then
-            ' no error. array has been allocated.
-            IsArrayAllocated = True
-        Else
-            IsArrayAllocated = False
-        End If
+        IsArrayAllocated = (LBound(Arr) <= UBound(Arr))
     Else
         ' error. unallocated array
         IsArrayAllocated = False
     End If
-
+    On Error GoTo 0
+    
 End Function
 
 Public Sub AssignFormulaIfErrorPrintIntoDebugWindow(ByVal PutFormulaOnCell As Range _
@@ -1604,8 +1599,10 @@ Public Function IsTableExist(ByVal InBook As Workbook, ByVal TableName As String
     
 End Function
 
-Public Function GetCorrectFormula(ToCell As Range, FormulaWithoutMap As String _
-                                                  , FormulaWithMap As String, KeyToAnswerCorr As Variant) As String
+Public Function GetCorrectFormula(ByVal ToCell As Range _
+                                  , ByVal FormulaWithoutMap As String _
+                                   , ByVal FormulaWithMap As String _
+                                    , ByVal KeyToAnswerCorr As Variant) As String
     Application.ScreenUpdating = False
     
     Dim FirstArray As Variant
@@ -1635,7 +1632,7 @@ Private Function IsBothSame(FirstValue As Variant, SecondValue As Variant) As Bo
     
 End Function
 
-Private Function GetFormulaResult(ByVal Formula As String, FromCell As Range) As Variant
+Private Function GetFormulaResult(ByVal Formula As String, ByVal FromCell As Range) As Variant
     
     Dim OldFormula As String
     OldFormula = FromCell.Formula2
@@ -1863,7 +1860,7 @@ Public Function IsValidToUseMapWithoutSequence(ByVal ValidCellsForFillDown As Co
 End Function
 
 Public Function IsValidToUseByRowOrCol(ByVal ValidCellsForFillDown As Collection _
-                                  , ByVal TypeOfFill As FillType)
+                                  , ByVal TypeOfFill As FillType) As Boolean
     
     If ValidCellsForFillDown.Count = 1 Then
         Dim CurrentPrecedencyInfo As PrecedencyInfo
@@ -1888,7 +1885,6 @@ Public Function IsAllPrecedencyAreSameSize(ByVal ValidCells As Collection _
         Exit Function
     End If
     
-    Dim ColCount As Long
     Dim CurrentPrecedency As PrecedencyInfo
     Set CurrentPrecedency = ValidCells.Item(1)
     Dim Size As Long
@@ -2024,7 +2020,7 @@ Public Function IsAnyNonAlphanumeric(ByVal Text As String) As String
     Dim Index As Long
     Dim CurrentCharacter As String
     For Index = 1 To Len(Text)
-        CurrentCharacter = Mid(Text, Index, 1)
+        CurrentCharacter = Mid$(Text, Index, 1)
         If Not CurrentCharacter Like "[A-Za-z0-9]" Then
             Result = True
             Exit For
@@ -2180,8 +2176,8 @@ Public Function IsOpenWorkbookExists(ByVal BookName As String) As Boolean
     
 End Function
 
-Public Function IsLocalScopedNamedRangeExist(ScopeSheet As Worksheet _
-                                             , NamedRangeName As String) As Boolean
+Public Function IsLocalScopedNamedRangeExist(ByVal ScopeSheet As Worksheet _
+                                             , ByVal NamedRangeName As String) As Boolean
     
     Dim SheetQualifiedName As String
     SheetQualifiedName = NamedRangeName
@@ -2337,8 +2333,99 @@ Public Function ReplaceInvalidCharFromFormulaWithValid(ByVal Formula As String) 
     
     Dim Result As String
     Result = Replace(Formula, vbCrLf, vbLf)
-    Result = Replace(Result, Chr(160), Chr(32))
+    Result = Replace(Result, Chr$(160), Chr$(32))
     
     ReplaceInvalidCharFromFormulaWithValid = Result
     
 End Function
+
+Public Function IsBuiltInName(ByVal CurrentName As Name) As Boolean
+    
+    ' We need to use Name.MacroType to identify if it's built in or not.
+    ' Checking visible or not is not ideal scenario. We may have a custom named range but hidden.
+    
+    Const XL_FUNCTION_MACRO_TYPE As Long = xlFunction ' Example name: _xlfn.HSTACK
+    Const XL_PARAM_MACRO_TYPE As Long = xlCommand ' Example name: _xlpm.Curr
+    IsBuiltInName = ( _
+                    CurrentName.MacroType = XL_FUNCTION_MACRO_TYPE _
+                    Or CurrentName.MacroType = XL_PARAM_MACRO_TYPE _
+                    )
+        
+End Function
+
+Public Function IsBlankRange(ByVal CheckRange As Range) As Boolean
+
+    On Error Resume Next
+    Dim FormulaCells As Range
+    IsBlankRange = True
+    If CheckRange.Cells.Count = 1 Then
+        If CheckRange.HasFormula Then
+            IsBlankRange = False
+        ElseIf CheckRange.Value <> vbNullString Then
+            IsBlankRange = False
+        End If
+    Else
+
+        Set FormulaCells = CheckRange.SpecialCells(xlCellTypeFormulas)
+        If FormulaCells Is Nothing Then
+            Dim Values As Variant
+            Values = CheckRange.Value
+            Dim Element As Variant
+            For Each Element In Values
+                If Element <> vbNullString Then
+                    IsBlankRange = False
+                    Exit For
+                End If
+            Next Element
+
+        Else
+            IsBlankRange = False
+        End If
+
+    End If
+
+    On Error GoTo 0
+
+End Function
+
+Public Sub AutoFitRange(ByVal ForRange As Range, ByVal MaximumColumnWidth As Long, ByVal MinimumColumnWidth As Long)
+    
+    ' Autofit columns in the given range and limit their width between MaximumColumnWidth and MinimumColumnWidth.
+    Dim CurrentRange As Range
+    For Each CurrentRange In ForRange.Areas
+        ' Autofit columns in the current area.
+        CurrentRange.Columns.AutoFit
+
+        Dim Counter As Long
+        For Counter = 1 To CurrentRange.Columns.Count
+            ' Check and adjust column width if it exceeds the specified limits.
+            Dim ColWidth As Double
+            ColWidth = CurrentRange.Columns(Counter).ColumnWidth
+            If ColWidth > MaximumColumnWidth Then
+                CurrentRange.Columns(Counter).ColumnWidth = MaximumColumnWidth
+            ElseIf ColWidth < MinimumColumnWidth Then
+                CurrentRange.Columns(Counter).ColumnWidth = MinimumColumnWidth
+            End If
+        Next Counter
+    Next CurrentRange
+    
+End Sub
+
+Public Sub SelectFillingRegionIfNotDA(ByVal FillingBeans As Collection)
+    
+    Dim SelectAbleRange As Range
+    Dim CurrentBean As FillBean
+    For Each CurrentBean In FillingBeans
+        If TypeOf CurrentBean.Filler Is DAFiller Then
+            Exit Sub
+        Else
+            Set SelectAbleRange = UnionOfNonExistableRange(SelectAbleRange, CurrentBean.OnRange)
+        End If
+    Next CurrentBean
+    
+    If IsNotNothing(SelectAbleRange) Then
+        SelectAbleRange.Worksheet.Activate
+        SelectAbleRange.Select
+    End If
+    
+End Sub

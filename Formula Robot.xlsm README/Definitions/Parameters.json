@@ -1,0 +1,12 @@
+{
+  "Parameters": [
+    {
+      "Name": "UserSpecifiedFunctions",
+      "Description": "Ask user for a comma seperated functions name for searching in cells, names and conditional formatting.",
+      "Type": "InputParameter",
+      "Value": "BDP, BPH",
+      "DataType": "String",
+      "Prompt": "Specify functions to search for (example: LET, LAMBDA):"
+    }
+  ]
+}

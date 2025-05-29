@@ -73,7 +73,7 @@ Public Property Set Value(ByVal RHS As Variant)
     Set This.Value = RHS
 End Property
 
-Public Function Create(GivenKey As String, GivenValue As Variant) As Mapper
+Public Function Create(ByVal GivenKey As String, ByVal GivenValue As Variant) As Mapper
     
     Dim CurrentMapper As Mapper
     Set CurrentMapper = New Mapper

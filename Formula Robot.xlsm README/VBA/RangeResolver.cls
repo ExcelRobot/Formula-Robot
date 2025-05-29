@@ -202,7 +202,7 @@ Private Function GetSheetRefFromRangeRef(ByVal RangeRef As String _
 End Function
 
 Private Function IsAnotherWorkbookTableOrNamedRangeRef(ByVal RangeRef As String _
-                                                       , ByVal DefaultBook As Workbook)
+                                                       , ByVal DefaultBook As Workbook) As Boolean
     
     Logger.Log TRACE_LOG, "Enter RangeResolver.IsAnotherWorkbookTableOrNamedRangeRef"
     ' This Range reference can mean two things: 'ABC D.xlsm'!SomeName
@@ -339,8 +339,6 @@ Public Function GetRangeForDependency(ByVal DependencyText As String _
         Set CurrentName = InBook.Names(DependencyText)
     End If
     On Error GoTo 0
-    
-    Dim RangeRefSheet As Worksheet
     
     If IsImplicitColumnRef(DependencyText, InBook) Then
         Set Result = Nothing

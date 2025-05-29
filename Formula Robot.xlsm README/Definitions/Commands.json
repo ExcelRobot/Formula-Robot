@@ -254,6 +254,18 @@
       ]
     },
     {
+      "Name": "Search Workbook For Specified Functions",
+      "Description": "Searches cells, names, and conditional formatting for use of user specified functions and reports findings.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modFunctionSearch.SearchFunctions({{UserSpecifiedFunctions}},[[NewTableTargetToRight]])"
+    },
+    {
+      "Name": "Search Workbook For Volatile Functions",
+      "Description": "Searches cells, names, and conditional formatting for use of volatile functions and reports findings.",
+      "Type": "VBAMacroCommand",
+      "MacroExpression": "modFunctionSearch.SearchFunctions(\"NOW, TODAY, RAND, RANDBETWEEN, RANDARRAY, OFFSET, INDIRECT, CELL, INFO\",[[NewTableTargetToRight]])"
+    },
+    {
       "Name": "Select Spill Parent",
       "Description": "Select dynamic array formula cell. If no spill in ActiveCell then do nothing.",
       "Type": "VBAMacroCommand",

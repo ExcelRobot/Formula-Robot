@@ -323,14 +323,14 @@
  </Names>
  <Worksheet ss:Name="Notes">
   <Table ss:ExpandedColumnCount="3" ss:ExpandedRowCount="30" ss:StyleID="s20"
-   ss:DefaultColumnWidth="61.5" ss:DefaultRowHeight="14.5">
-   <Column ss:StyleID="s20" ss:AutoFitWidth="0" ss:Width="19"/>
-   <Column ss:StyleID="s18" ss:Width="194"/>
-   <Column ss:StyleID="s19" ss:Width="846.5"/>
+   ss:DefaultColumnWidth="58.5" ss:DefaultRowHeight="15">
+   <Column ss:StyleID="s20" ss:AutoFitWidth="0" ss:Width="18"/>
+   <Column ss:StyleID="s18" ss:Width="185.25"/>
+   <Column ss:StyleID="s19" ss:Width="807.75"/>
    <Row ss:Height="21">
     <Cell ss:StyleID="s17"><Data ss:Type="String">Formula Robot</Data></Cell>
    </Row>
-   <Row ss:Index="3" ss:Height="18.5" ss:StyleID="s21">
+   <Row ss:Index="3" ss:Height="18.75" ss:StyleID="s21">
     <Cell ss:Index="2"><Data ss:Type="String">Name Related Commands</Data></Cell>
    </Row>
    <Row ss:Index="5">

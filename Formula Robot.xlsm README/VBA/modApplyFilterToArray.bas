@@ -79,7 +79,7 @@ Public Sub ApplyFilterToArray(ByVal FormulaCell As Range, Optional ByVal PlaceFo
     If PlaceFormulaToCell Is Nothing Then Set PlaceFormulaToCell = FormulaCell
     
     Dim FullFormula As String
-    FullFormula = EQUAL_SIGN & FILTER_FX_NAME & FIRST_PARENTHESIS_OPEN _
+    FullFormula = EQUAL_SIGN & FILTER_FN_NAME & FIRST_PARENTHESIS_OPEN _
                   & GetFilterFirstParam(ValidCellsForFilter) & LIST_SEPARATOR _
                   & ONE_SPACE & RemoveStartingEqualSign(MaskPartFormula) & FIRST_PARENTHESIS_CLOSE
                   
@@ -99,7 +99,7 @@ Private Function GetFilterFirstParam(ByVal ValidCellsForFilter As Collection) As
         Dim Result As Variant
         ReDim Result(1 To ValidCellsForFilter.Count, 1 To 2) As Variant
         
-        Formula = HSTACK_FX_NAME & FIRST_PARENTHESIS_OPEN
+        Formula = HSTACK_FN_NAME & FIRST_PARENTHESIS_OPEN
         Dim Counter As Long
         For Each CurrentRef In ValidCellsForFilter
             Counter = Counter + 1
@@ -115,7 +115,7 @@ Private Function GetFilterFirstParam(ByVal ValidCellsForFilter As Collection) As
             Formula = Formula & Result(CurrentRowIndex, FirstColumnIndex + 1) & LIST_SEPARATOR
         Next CurrentRowIndex
         
-        Formula = Left(Formula, Len(Formula) - Len(LIST_SEPARATOR)) & FIRST_PARENTHESIS_CLOSE
+        Formula = Left$(Formula, Len(Formula) - Len(LIST_SEPARATOR)) & FIRST_PARENTHESIS_CLOSE
         
     End If
     
@@ -132,7 +132,7 @@ Private Function GenerateFilterFormula(ByVal ValidCellForParam As Collection _
     
     LambdaParamPart = LAMBDA_AND_OPEN_PAREN
     Dim MapParamPart As String
-    MapParamPart = EQUAL_SIGN & MAP_FX_NAME & FIRST_PARENTHESIS_OPEN
+    MapParamPart = EQUAL_SIGN & MAP_FN_NAME & FIRST_PARENTHESIS_OPEN
     
     Dim Result As Variant
     Result = SortValidCellsByColNumber(ValidCellForParam)
@@ -178,3 +178,4 @@ Private Function SortValidCellsByColNumber(ByVal ValidCellForParam As Collection
     SortValidCellsByColNumber = Result
     
 End Function
+

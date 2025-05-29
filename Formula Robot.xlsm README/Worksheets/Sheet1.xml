@@ -337,11 +337,14 @@
   <NamedRange ss:Name="_xlpm.z" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
  </Names>
  <Worksheet ss:Name="Notes">
-  <Table ss:ExpandedColumnCount="3" ss:ExpandedRowCount="41" ss:StyleID="s24"
+  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="54" ss:StyleID="s24"
    ss:DefaultColumnWidth="66" ss:DefaultRowHeight="15">
    <Column ss:StyleID="s24" ss:AutoFitWidth="0" ss:Width="20.25"/>
    <Column ss:StyleID="s25" ss:Width="207.75"/>
    <Column ss:StyleID="s26" ss:Width="906.75"/>
+   <Column ss:Index="5" ss:StyleID="s24" ss:Width="199.5"/>
+   <Column ss:StyleID="s24" ss:AutoFitWidth="0" ss:Width="109.5"/>
+   <Column ss:StyleID="s24" ss:Width="114"/>
    <Row ss:Height="21">
     <Cell ss:StyleID="s23"><Data ss:Type="String">Formula Robot</Data></Cell>
    </Row>
@@ -465,6 +468,49 @@
    <Row>
     <Cell ss:Index="2"><Data ss:Type="String">Paste Translate Formula</Data></Cell>
     <Cell><Data ss:Type="String">Given text in clipboard containing an Excel formula in en-us format, translates it to local languange, and puts it in active cell.</Data></Cell>
+   </Row>
+   <Row ss:Index="44" ss:Height="18.75" ss:StyleID="s30">
+    <Cell ss:StyleID="s24"/>
+    <Cell ss:StyleID="s28"><Data ss:Type="String">Function Search Related Command</Data></Cell>
+    <Cell ss:StyleID="s29"/>
+   </Row>
+   <Row ss:Index="46">
+    <Cell ss:Index="2"><Data ss:Type="String">Search Workbook For Volatile Functions</Data></Cell>
+    <Cell><Data ss:Type="String">Searches cells, names, and conditional formatting for use of volatile functions and reports findings.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Search Workbook For Specified Functions</Data></Cell>
+    <Cell><Data ss:Type="String">Searches cells, names, and conditional formatting for use of user specified functions and reports findings.</Data></Cell>
+   </Row>
+   <Row ss:Index="49" ss:Height="18.75">
+    <Cell ss:Index="5" ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:Height="18.75">
+    <Cell ss:Index="5" ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:Height="18.75">
+    <Cell ss:Index="5" ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:Height="18.75">
+    <Cell ss:Index="5" ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:Height="18.75">
+    <Cell ss:Index="5" ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+   </Row>
+   <Row ss:Height="18.75">
+    <Cell ss:Index="5" ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="Default"/>
    </Row>
   </Table>
  </Worksheet>

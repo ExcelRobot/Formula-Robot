@@ -55,7 +55,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.CancelNamedRangeEdit](./VBA/modNamedRange.bas#L123)([[ActiveCell]])</code> |
+| Macro Expression | <code>[modNamedRange.CancelNamedRangeEdit](./VBA/modNamedRange.bas#L124)([[ActiveCell]])</code> |
 | User Context Filter | ExcelActiveCellContainsFormula AND ExcelSelectionIsSingleCell |
 | Launch Codes | <code>cnr</code> |
 
@@ -71,7 +71,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.ConvertGlobalToLocal](./VBA/modNamedRange.bas#L1363)([[Selection]])</code> |
+| Macro Expression | <code>[modNamedRange.ConvertGlobalToLocal](./VBA/modNamedRange.bas#L1364)([[Selection]])</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -85,7 +85,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.ConvertLocalToGlobal](./VBA/modNamedRange.bas#L1344)([[Selection]])</code> |
+| Macro Expression | <code>[modNamedRange.ConvertLocalToGlobal](./VBA/modNamedRange.bas#L1345)([[Selection]])</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -99,7 +99,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.AddNameRange](./VBA/modNamedRange.bas#L430)([[Selection]], False)</code> |
+| Macro Expression | <code>[modNamedRange.AddNameRange](./VBA/modNamedRange.bas#L431)([[Selection]], False)</code> |
 | Keyboard Shortcut | <code>ctrl+shift+n</code> |
 | Launch Codes | <ol><li><code>cnr</code></li><li><code>n</code></li><li><code>nr</code></li></ol> |
 
@@ -115,7 +115,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.AddNameRange](./VBA/modNamedRange.bas#L430)([[Selection]], True,True)</code> |
+| Macro Expression | <code>[modNamedRange.AddNameRange](./VBA/modNamedRange.bas#L431)([[Selection]], True,True)</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -129,7 +129,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.CreateRelativeColumnNamedRange](./VBA/modNamedRange.bas#L213)()</code> |
+| Macro Expression | <code>[modNamedRange.CreateRelativeColumnNamedRange](./VBA/modNamedRange.bas#L214)()</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -143,7 +143,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.CreateRelativeRowNamedRange](./VBA/modNamedRange.bas#L223)()</code> |
+| Macro Expression | <code>[modNamedRange.CreateRelativeRowNamedRange](./VBA/modNamedRange.bas#L224)()</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -157,7 +157,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.AddTableColumnNamedRange](./VBA/modNamedRange.bas#L1990)([[Selection]],True)</code> |
+| Macro Expression | <code>[modNamedRange.AddTableColumnNamedRange](./VBA/modNamedRange.bas#L1991)([[Selection]],True)</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -171,7 +171,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.AddTableColumnNamedRange](./VBA/modNamedRange.bas#L1990)([[Selection]])</code> |
+| Macro Expression | <code>[modNamedRange.AddTableColumnNamedRange](./VBA/modNamedRange.bas#L1991)([[Selection]])</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -185,7 +185,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.EditNamedRange](./VBA/modNamedRange.bas#L87)([[ActiveCell]])</code> |
+| Macro Expression | <code>[modNamedRange.EditNamedRange](./VBA/modNamedRange.bas#L88)([[ActiveCell]])</code> |
 | User Context Filter | ExcelActiveCellContainsFormula AND ExcelSelectionIsSingleCell |
 | Launch Codes | <code>enr</code> |
 
@@ -201,7 +201,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.ExpandNamedRange](./VBA/modNamedRange.bas#L2112)([[Selection]])</code> |
+| Macro Expression | <code>[modNamedRange.ExpandNamedRange](./VBA/modNamedRange.bas#L2113)([[Selection]])</code> |
 | Launch Codes | <code>xnr</code> |
 
 [^Top](#oa-robot-definitions)
@@ -216,7 +216,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.NameAllTableDataColumns](./VBA/modNamedRange.bas#L1916)([[ActiveCell]])</code> |
+| Macro Expression | <code>[modNamedRange.NameAllTableDataColumns](./VBA/modNamedRange.bas#L1917)([[ActiveCell]])</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -230,7 +230,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.AddNameToParameterCells](./VBA/modNamedRange.bas#L257)([[Selection]],True)</code> |
+| Macro Expression | <code>[modNamedRange.AddNameToParameterCells](./VBA/modNamedRange.bas#L258)([[Selection]],True)</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -244,7 +244,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.AddNameToParameterCells](./VBA/modNamedRange.bas#L257)([[Selection]],False)</code> |
+| Macro Expression | <code>[modNamedRange.AddNameToParameterCells](./VBA/modNamedRange.bas#L258)([[Selection]],False)</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -258,7 +258,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.AddNameToParameterCellsByColumnRow](./VBA/modNamedRange.bas#L330)([[Selection]],False)</code> |
+| Macro Expression | <code>[modNamedRange.AddNameToParameterCellsByColumnRow](./VBA/modNamedRange.bas#L331)([[Selection]],False)</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -272,7 +272,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.AddNameToParameterCellsByRowColumn](./VBA/modNamedRange.bas#L307)([[Selection]],False)</code> |
+| Macro Expression | <code>[modNamedRange.AddNameToParameterCellsByRowColumn](./VBA/modNamedRange.bas#L308)([[Selection]],False)</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -286,7 +286,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.NameParameterColumn](./VBA/modNamedRange.bas#L159)([[Selection]])</code> |
+| Macro Expression | <code>[modNamedRange.NameParameterColumn](./VBA/modNamedRange.bas#L160)([[Selection]])</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -300,7 +300,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.NameParameterRow](./VBA/modNamedRange.bas#L183)([[Selection]])</code> |
+| Macro Expression | <code>[modNamedRange.NameParameterRow](./VBA/modNamedRange.bas#L184)([[Selection]])</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -314,7 +314,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.NameTableDataColumn](./VBA/modNamedRange.bas#L1948)([[ActiveCell]])</code> |
+| Macro Expression | <code>[modNamedRange.NameTableDataColumn](./VBA/modNamedRange.bas#L1949)([[ActiveCell]])</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -328,7 +328,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.ReAssignGlobalNamedRange](./VBA/modNamedRange.bas#L149)([[Selection]])</code> |
+| Macro Expression | <code>[modNamedRange.ReAssignGlobalNamedRange](./VBA/modNamedRange.bas#L150)([[Selection]])</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -342,7 +342,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.ReAssignLocalNamedRange](./VBA/modNamedRange.bas#L145)([[Selection]])</code> |
+| Macro Expression | <code>[modNamedRange.ReAssignLocalNamedRange](./VBA/modNamedRange.bas#L146)([[Selection]])</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -356,7 +356,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.RemoveAllNamedRanges](./VBA/modNamedRange.bas#L1851)()</code> |
+| Macro Expression | <code>[modNamedRange.RemoveAllNamedRanges](./VBA/modNamedRange.bas#L1852)()</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -370,7 +370,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.DeleteNamedRangeOnly](./VBA/modNamedRange.bas#L232)([[Selection]])</code> |
+| Macro Expression | <code>[modNamedRange.DeleteNamedRangeOnly](./VBA/modNamedRange.bas#L233)([[Selection]])</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -384,7 +384,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.DeleteNamedRangesHavingError](./VBA/modNamedRange.bas#L1888)()</code> |
+| Macro Expression | <code>[modNamedRange.DeleteNamedRangesHavingError](./VBA/modNamedRange.bas#L1889)()</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -398,7 +398,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.RenameNamedRange](./VBA/modNamedRange.bas#L1199)([[Selection]])</code> |
+| Macro Expression | <code>[modNamedRange.RenameNamedRange](./VBA/modNamedRange.bas#L1200)([[Selection]])</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -412,7 +412,7 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modNamedRange.SaveNamedRange](./VBA/modNamedRange.bas#L21)([[ActiveCell]],False)</code> |
+| Macro Expression | <code>[modNamedRange.SaveNamedRange](./VBA/modNamedRange.bas#L22)([[ActiveCell]],False)</code> |
 | Launch Codes | <code>snr</code> |
 
 [^Top](#oa-robot-definitions)

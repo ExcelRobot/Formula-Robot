@@ -617,10 +617,10 @@ Private Function GetReferenceForNamedRange(ByVal DataSource As Range _
             ' Calculate the offset in columns from the first cell of the range referred by the Named Range to the DataSource cell
             Index = DataSource.Column - CurrentName.RefersToRange.Cells(1, 1).Column
             ' Return a string representing a range offset from the DataSource cell, with the same number of rows as the Named Range, and the same number of columns as the SelectionRange
-            GetReferenceForNamedRange = EQUAL_SIGN & OFFSET_FX_NAME & FIRST_PARENTHESIS_OPEN _
+            GetReferenceForNamedRange = EQUAL_SIGN & OFFSET_FN_NAME & FIRST_PARENTHESIS_OPEN _
                                         & CurrentName.RefersToRange.Offset(0, Index).Cells(1, 1).Address(IsAbsoluteRow, IsAbsoluteColumn) _
                                         & LIST_SEPARATOR & "0" & LIST_SEPARATOR _
-                                        & "0" & LIST_SEPARATOR & ROWS_FX_NAME & FIRST_PARENTHESIS_OPEN _
+                                        & "0" & LIST_SEPARATOR & ROWS_FN_NAME & FIRST_PARENTHESIS_OPEN _
                                         & CurrentName.Name & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR _
                                         & SelectionRange.Columns.Count & FIRST_PARENTHESIS_CLOSE
         End If

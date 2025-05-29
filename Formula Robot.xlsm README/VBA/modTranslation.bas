@@ -138,7 +138,7 @@ Public Function TranslateApplicationLanguageFormulaToEnUS(ByVal Formula As Strin
     
 End Function
 
-Sub TranslateUsingExcelSettings()
+Public Sub TranslateUsingExcelSettings()
     
     Dim txf As New OARobot.FormulaTranslatorFactory
     Dim tx As OARobot.FormulaTranslator
@@ -156,9 +156,6 @@ Sub TranslateUsingExcelSettings()
     Dim Locale As New OARobot.FormulaLocaleInfoFactory
     
     Dim fifi As OARobot.FormulaLocaleInfo
-    
-    Dim ApplicationLocale As OARobot.FormulaLocaleInfo
-    Set ApplicationLocale = Locale.CreateFromExcel(Application)
     
     Set fifi = Locale.CreateFromLocaleName("fi-fi", "{", "}", "[", "]", "R", "C", "r", "c", ";", ";", "@", ";", ",")
     Set X = tx.TranslateFormula(s, formulaLocale:=Locale.EN_US, translateTo:=fifi)

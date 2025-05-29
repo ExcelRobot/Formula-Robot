@@ -65,7 +65,7 @@ Public Sub Log(ByVal LogLevel As Level _
     LogToDifferentLogContainer MapperCollection
 End Sub
 
-Private Sub LogToDifferentLogContainer(MapperCollection As Collection)
+Private Sub LogToDifferentLogContainer(ByVal MapperCollection As Collection)
     
     Dim FileLogMessage As String
     FileLogMessage = PrepareJSON(MapperCollection)

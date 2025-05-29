@@ -42,7 +42,7 @@ Public Property Get DefPart() As String
 End Property
 
 Public Property Get FilterLambda() As String
-    FilterLambda = Replace(This.FilterLambda, vbNewLine, Chr(10))
+    FilterLambda = Replace(This.FilterLambda, vbNewLine, Chr$(10))
 End Property
 
 Private Sub UpdateStepsName(ByVal UniqueStepsName As Collection)
@@ -73,11 +73,11 @@ Public Sub GenerateTemplateLambda(ByVal IsTable As Boolean _
     Dim TableStepCalc As String
     TableStepCalc = TableOrNamedRangeName & IIf(IsTable, TABLE_ALL_MARKER, vbNullString)
     
-    This.SortPart = LAMBDA_AND_OPEN_PAREN & SORTBY_FX_NAME & FIRST_PARENTHESIS_OPEN _
+    This.SortPart = LAMBDA_AND_OPEN_PAREN & SORTBY_FN_NAME & FIRST_PARENTHESIS_OPEN _
                     & vbNewLine & SIX_SPACE & This.FilteredDataStepName & LIST_SEPARATOR & NEW_LINE
     
     This.FinalCriteriaPart = This.CriteriaStepName & LIST_SEPARATOR _
-                             & ONE_SPACE & EXPAND_FX_NAME & FIRST_PARENTHESIS_OPEN
+                             & ONE_SPACE & EXPAND_FN_NAME & FIRST_PARENTHESIS_OPEN
     
     Dim Counter As Long
     Dim CurrentCell As Range
@@ -99,7 +99,7 @@ Public Sub GenerateTemplateLambda(ByVal IsTable As Boolean _
         
         This.ColumnIndexPart = This.ColumnIndexPart _
                                & THREE_SPACE & "_ColumnIndex" & Counter & LIST_SEPARATOR _
-                               & ONE_SPACE & XMATCH_FX_NAME & FIRST_PARENTHESIS_OPEN _
+                               & ONE_SPACE & XMATCH_FN_NAME & FIRST_PARENTHESIS_OPEN _
                                & "_LookupColumn" & Counter & LIST_SEPARATOR & ONE_SPACE _
                                & This.HeadersStepName & LIST_SEPARATOR & ONE_SPACE & "0" _
                                & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & vbNewLine
@@ -107,7 +107,7 @@ Public Sub GenerateTemplateLambda(ByVal IsTable As Boolean _
         This.CriteriaPart = This.CriteriaPart _
                             & THREE_SPACE & "_Criteria" & Counter & LIST_SEPARATOR _
                             & ONE_SPACE & This.CriteriaLambdaStepName & FIRST_PARENTHESIS_OPEN _
-                            & CHOOSECOLS_FX_NAME & FIRST_PARENTHESIS_OPEN & This.DatasStepName _
+                            & CHOOSECOLS_FN_NAME & FIRST_PARENTHESIS_OPEN & This.DatasStepName _
                             & LIST_SEPARATOR & ONE_SPACE & "_ColumnIndex" & Counter _
                             & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & ONE_SPACE _
                             & "_Param" & Counter & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & vbNewLine
@@ -148,33 +148,33 @@ Public Sub GenerateTemplateLambda(ByVal IsTable As Boolean _
         .Concatenate ONE_SPACE & GetCriteriaLambda() & LIST_SEPARATOR & NEW_LINE
                      
         .Concatenate THREE_SPACE & This.DatasStepName & LIST_SEPARATOR & ONE_SPACE
-        .Concatenate DROP_FX_NAME & FIRST_PARENTHESIS_OPEN & This.TableStepName
+        .Concatenate DROP_FN_NAME & FIRST_PARENTHESIS_OPEN & This.TableStepName
         .Concatenate LIST_SEPARATOR & ONE_SPACE & "1" & FIRST_PARENTHESIS_CLOSE
         .Concatenate LIST_SEPARATOR & NEW_LINE
                      
         .Concatenate THREE_SPACE & This.HeadersStepName & LIST_SEPARATOR & ONE_SPACE
-        .Concatenate CHOOSEROWS_FX_NAME & FIRST_PARENTHESIS_OPEN & This.TableStepName
+        .Concatenate CHOOSEROWS_FN_NAME & FIRST_PARENTHESIS_OPEN & This.TableStepName
         .Concatenate LIST_SEPARATOR & ONE_SPACE & "1" & FIRST_PARENTHESIS_CLOSE
         .Concatenate LIST_SEPARATOR & NEW_LINE
                      
         .Concatenate THREE_SPACE & This.ReturnStepName & LIST_SEPARATOR
-        .Concatenate ONE_SPACE & TOROW_FX_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
+        .Concatenate ONE_SPACE & TOROW_FN_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
                      
-        .Concatenate SIX_SPACE & IF_FX_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
+        .Concatenate SIX_SPACE & IF_FN_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
         
-        .Concatenate NINE_SPACE & ISOMITTED_FX_NAME & FIRST_PARENTHESIS_OPEN
+        .Concatenate NINE_SPACE & ISOMITTED_FN_NAME & FIRST_PARENTHESIS_OPEN
         .Concatenate This.ColumnListStepName & FIRST_PARENTHESIS_CLOSE
         .Concatenate LIST_SEPARATOR & ONE_SPACE & NEW_LINE
                      
         .Concatenate NINE_SPACE & This.HeadersStepName & LIST_SEPARATOR & ONE_SPACE & NEW_LINE
         
-        .Concatenate NINE_SPACE & IF_FX_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
-        .Concatenate TWELVE_SPACE & AND_FX_NAME & FIRST_PARENTHESIS_OPEN
-        .Concatenate ISNUMBER_FX_NAME & FIRST_PARENTHESIS_OPEN
+        .Concatenate NINE_SPACE & IF_FN_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
+        .Concatenate TWELVE_SPACE & AND_FN_NAME & FIRST_PARENTHESIS_OPEN
+        .Concatenate ISNUMBER_FN_NAME & FIRST_PARENTHESIS_OPEN
         .Concatenate This.ColumnListStepName & FIRST_PARENTHESIS_CLOSE
         .Concatenate FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
         
-        .Concatenate TWELVE_SPACE & CHOOSECOLS_FX_NAME & FIRST_PARENTHESIS_OPEN
+        .Concatenate TWELVE_SPACE & CHOOSECOLS_FN_NAME & FIRST_PARENTHESIS_OPEN
         .Concatenate This.HeadersStepName & LIST_SEPARATOR & ONE_SPACE
         .Concatenate This.ColumnListStepName & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
                      
@@ -186,13 +186,13 @@ Public Sub GenerateTemplateLambda(ByVal IsTable As Boolean _
         .Concatenate This.CriteriaPart
         
         .Concatenate THREE_SPACE & This.FinalCriteriaPart & LIST_SEPARATOR & ONE_SPACE
-        .Concatenate ROWS_FX_NAME & FIRST_PARENTHESIS_OPEN & This.DatasStepName
+        .Concatenate ROWS_FN_NAME & FIRST_PARENTHESIS_OPEN & This.DatasStepName
         .Concatenate FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR
         .Concatenate ONE_SPACE & "1" & LIST_SEPARATOR & ONE_SPACE
         .Concatenate "1" & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
                      
         .Concatenate THREE_SPACE & This.FilteredDataStepName & LIST_SEPARATOR
-        .Concatenate ONE_SPACE & FILTER_FX_NAME & FIRST_PARENTHESIS_OPEN
+        .Concatenate ONE_SPACE & FILTER_FN_NAME & FIRST_PARENTHESIS_OPEN
         .Concatenate This.DatasStepName & LIST_SEPARATOR & ONE_SPACE
         .Concatenate This.CriteriaStepName & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
                      
@@ -206,31 +206,31 @@ Public Sub GenerateTemplateLambda(ByVal IsTable As Boolean _
         .Concatenate THREE_SPACE & FIRST_PARENTHESIS_CLOSE & NEW_LINE
         .Concatenate THREE_SPACE & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
         .Concatenate THREE_SPACE & This.ReturnColIndexStepName & LIST_SEPARATOR & ONE_SPACE
-        .Concatenate XMATCH_FX_NAME & FIRST_PARENTHESIS_OPEN & This.ReturnStepName
+        .Concatenate XMATCH_FN_NAME & FIRST_PARENTHESIS_OPEN & This.ReturnStepName
         .Concatenate LIST_SEPARATOR & ONE_SPACE & This.HeadersStepName
         .Concatenate LIST_SEPARATOR & ONE_SPACE & "0" & FIRST_PARENTHESIS_CLOSE
         .Concatenate LIST_SEPARATOR & NEW_LINE
                      
         .Concatenate THREE_SPACE & This.ResultStepName & LIST_SEPARATOR
-        .Concatenate ONE_SPACE & IFERROR_FX_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
+        .Concatenate ONE_SPACE & IFERROR_FN_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
                      
-        .Concatenate SIX_SPACE & IF_FX_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
-        .Concatenate NINE_SPACE & ROWS_FX_NAME & FIRST_PARENTHESIS_OPEN
+        .Concatenate SIX_SPACE & IF_FN_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
+        .Concatenate NINE_SPACE & ROWS_FN_NAME & FIRST_PARENTHESIS_OPEN
         .Concatenate This.FilteredDataStepName & FIRST_PARENTHESIS_CLOSE
         .Concatenate ONE_SPACE & "= 1" & LIST_SEPARATOR & NEW_LINE
                      
-        .Concatenate NINE_SPACE & VSTACK_FX_NAME & FIRST_PARENTHESIS_OPEN
+        .Concatenate NINE_SPACE & VSTACK_FN_NAME & FIRST_PARENTHESIS_OPEN
         .Concatenate This.ReturnStepName & LIST_SEPARATOR & ONE_SPACE
-        .Concatenate INDEX_FX_NAME & FIRST_PARENTHESIS_OPEN
+        .Concatenate INDEX_FN_NAME & FIRST_PARENTHESIS_OPEN
         .Concatenate This.FilteredDataStepName & LIST_SEPARATOR
         .Concatenate ONE_SPACE & "1" & LIST_SEPARATOR
         .Concatenate ONE_SPACE & This.ReturnColIndexStepName
         .Concatenate FIRST_PARENTHESIS_CLOSE & FIRST_PARENTHESIS_CLOSE
         .Concatenate LIST_SEPARATOR & NEW_LINE
                      
-        .Concatenate NINE_SPACE & VSTACK_FX_NAME & FIRST_PARENTHESIS_OPEN
+        .Concatenate NINE_SPACE & VSTACK_FN_NAME & FIRST_PARENTHESIS_OPEN
         .Concatenate This.ReturnStepName & LIST_SEPARATOR & ONE_SPACE
-        .Concatenate CHOOSECOLS_FX_NAME & FIRST_PARENTHESIS_OPEN
+        .Concatenate CHOOSECOLS_FN_NAME & FIRST_PARENTHESIS_OPEN
         .Concatenate This.SortLambdaStepName & FIRST_PARENTHESIS_OPEN
         .Concatenate FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR
         .Concatenate ONE_SPACE & This.ReturnColIndexStepName & FIRST_PARENTHESIS_CLOSE
@@ -253,24 +253,24 @@ Private Function GetCriteriaLambda() As String
     With Concatenator
         .Concatenate LAMBDA_AND_OPEN_PAREN & "col_data" & LIST_SEPARATOR
         .Concatenate "[lookup_value]" & LIST_SEPARATOR & NEW_LINE
-        .Concatenate SIX_SPACE & IFERROR_FX_NAME & FIRST_PARENTHESIS_OPEN
-        .Concatenate IF_FX_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
-        .Concatenate NINE_SPACE & ISOMITTED_FX_NAME & FIRST_PARENTHESIS_OPEN
+        .Concatenate SIX_SPACE & IFERROR_FN_NAME & FIRST_PARENTHESIS_OPEN
+        .Concatenate IF_FN_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
+        .Concatenate NINE_SPACE & ISOMITTED_FN_NAME & FIRST_PARENTHESIS_OPEN
         .Concatenate "lookup_value" & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
         
         .Concatenate NINE_SPACE & TRUE_KEYWORD & LIST_SEPARATOR & NEW_LINE
         
-        .Concatenate NINE_SPACE & SWITCH_FX_NAME & FIRST_PARENTHESIS_OPEN
-        .Concatenate TYPE_FX_NAME & FIRST_PARENTHESIS_OPEN & "lookup_value"
+        .Concatenate NINE_SPACE & SWITCH_FN_NAME & FIRST_PARENTHESIS_OPEN
+        .Concatenate TYPE_FN_NAME & FIRST_PARENTHESIS_OPEN & "lookup_value"
         .Concatenate FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
         .Concatenate TWELVE_SPACE & "LAMBDA_TYPE_VALUE" & LIST_SEPARATOR & ONE_SPACE
-        .Concatenate MAP_FX_NAME & FIRST_PARENTHESIS_OPEN & "col_data" & LIST_SEPARATOR
+        .Concatenate MAP_FN_NAME & FIRST_PARENTHESIS_OPEN & "col_data" & LIST_SEPARATOR
         .Concatenate ONE_SPACE & LAMBDA_AND_OPEN_PAREN & "val"
         .Concatenate LIST_SEPARATOR & ONE_SPACE & "lookup_value(val)))" & LIST_SEPARATOR & NEW_LINE
         .Concatenate TWELVE_SPACE & "ARRAY_TYPE_VALUE" & LIST_SEPARATOR & ONE_SPACE
-        .Concatenate BYROW_FX_NAME & FIRST_PARENTHESIS_OPEN & "col_data = " & TOROW_FX_NAME
+        .Concatenate BYROW_FN_NAME & FIRST_PARENTHESIS_OPEN & "col_data = " & TOROW_FN_NAME
         .Concatenate "(lookup_value)" & LIST_SEPARATOR & ONE_SPACE & LAMBDA_AND_OPEN_PAREN
-        .Concatenate "row" & LIST_SEPARATOR & ONE_SPACE & OR_FX_NAME & "(row)))" & LIST_SEPARATOR & NEW_LINE
+        .Concatenate "row" & LIST_SEPARATOR & ONE_SPACE & OR_FN_NAME & "(row)))" & LIST_SEPARATOR & NEW_LINE
         .Concatenate TWELVE_SPACE & "col_data = lookup_value" & NEW_LINE
         .Concatenate NINE_SPACE & FIRST_PARENTHESIS_CLOSE & NEW_LINE
         .Concatenate SIX_SPACE & FIRST_PARENTHESIS_CLOSE & NEW_LINE
@@ -289,16 +289,16 @@ Private Function GetSortOrderLambda() As String
     With Concatenator
         .Concatenate LAMBDA_AND_OPEN_PAREN & "column_index" & LIST_SEPARATOR
         .Concatenate "[lookup_value]" & LIST_SEPARATOR & NEW_LINE
-        .Concatenate SIX_SPACE & IF_FX_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
-        .Concatenate NINE_SPACE & TYPE_FX_NAME
+        .Concatenate SIX_SPACE & IF_FN_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
+        .Concatenate NINE_SPACE & TYPE_FN_NAME
         .Concatenate FIRST_PARENTHESIS_OPEN & "lookup_value) = ARRAY_TYPE_VALUE" & LIST_SEPARATOR & NEW_LINE
-        .Concatenate NINE_SPACE & XMATCH_FX_NAME & FIRST_PARENTHESIS_OPEN
-        .Concatenate CHOOSECOLS_FX_NAME & FIRST_PARENTHESIS_OPEN & "_Filtered" & LIST_SEPARATOR & ONE_SPACE
+        .Concatenate NINE_SPACE & XMATCH_FN_NAME & FIRST_PARENTHESIS_OPEN
+        .Concatenate CHOOSECOLS_FN_NAME & FIRST_PARENTHESIS_OPEN & "_Filtered" & LIST_SEPARATOR & ONE_SPACE
         .Concatenate "column_index" & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR
         .Concatenate ONE_SPACE & "lookup_value" & LIST_SEPARATOR & ONE_SPACE & "0"
         .Concatenate FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
-        .Concatenate NINE_SPACE & EXPAND_FX_NAME & FIRST_PARENTHESIS_OPEN & "1" & LIST_SEPARATOR & ONE_SPACE
-        .Concatenate ROWS_FX_NAME & FIRST_PARENTHESIS_OPEN & "_Filtered" & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR
+        .Concatenate NINE_SPACE & EXPAND_FN_NAME & FIRST_PARENTHESIS_OPEN & "1" & LIST_SEPARATOR & ONE_SPACE
+        .Concatenate ROWS_FN_NAME & FIRST_PARENTHESIS_OPEN & "_Filtered" & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR
         .Concatenate ONE_SPACE & "1" & LIST_SEPARATOR & ONE_SPACE & "1" & FIRST_PARENTHESIS_CLOSE & NEW_LINE
         .Concatenate SIX_SPACE & FIRST_PARENTHESIS_CLOSE & NEW_LINE
         .Concatenate THREE_SPACE & FIRST_PARENTHESIS_CLOSE
@@ -340,7 +340,7 @@ Private Function CreateUniqueNameByAppendingNumber(ByVal AlreadyTakenNames As Co
         If Counter = 2 Then
             NewName = NewName & Counter
         Else
-            NewName = Left(NewName, Len(CStr(Counter - 1))) & Counter
+            NewName = Left$(NewName, Len(CStr(Counter - 1))) & Counter
         End If
                 
     Loop
@@ -348,3 +348,4 @@ Private Function CreateUniqueNameByAppendingNumber(ByVal AlreadyTakenNames As Co
     CreateUniqueNameByAppendingNumber = NewName
     
 End Function
+

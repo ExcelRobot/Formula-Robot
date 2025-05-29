@@ -166,7 +166,7 @@ Public Function IsFormulaParsedSucessfully(ByVal FormulaText As String) As Boole
    
 End Function
 
-Public Function FormatFormula(ByVal FormulaText As String, Optional CompactConfig As Boolean = False) As String
+Public Function FormatFormula(ByVal FormulaText As String, Optional ByVal CompactConfig As Boolean = False) As String
     
     Dim Formatter As Object
     Set Formatter = CreateObject("OARobot.FormulaFormatter")
@@ -320,7 +320,7 @@ Public Function GetUptoLambdaParamDefPart(ByVal LambdaFormula As String) As Stri
         
         Set Parameters = ParsedFormulaResult.Expr.AsLambda.Parameters
         Dim ParamDefPart As String
-        ParamDefPart = EQUAL_SIGN & LAMBDA_FX_NAME & FIRST_PARENTHESIS_OPEN
+        ParamDefPart = EQUAL_SIGN & LAMBDA_FN_NAME & FIRST_PARENTHESIS_OPEN
         Dim CurrentParam As Object
         
         Dim Counter As Long
@@ -399,7 +399,7 @@ Public Function GetLambdaInvocationPart(ByVal LambdaFormula As String) As String
     
 End Function
 
-Public Function GetAllParamAndStepName(FormulaText As String) As Collection
+Public Function GetAllParamAndStepName(ByVal FormulaText As String) As Collection
     
     'Dim Processor As Object
     
@@ -625,4 +625,25 @@ Public Function GetExpressionReplacer() As Object
         Set GetExpressionReplacer = CreateObject("OARobot.ExpressionReplacer")
     #End If
 
+End Function
+
+Public Function GetUsedFunctions(ByVal Formula As String, Optional ByVal IsR1C1 As Boolean = False) As Variant
+    
+    If Formula = vbNullString Then
+        GetUsedFunctions = vbEmpty
+        Exit Function
+    End If
+    
+    #If DEVELOPMENT_MODE Then
+        Dim ParseResult As OARobot.FormulaParseResult
+    #Else
+        Dim ParseResult As Object
+    #End If
+    
+    Set ParseResult = ParseFormula(Formula, , IsR1C1)
+    
+    If Not ParseResult.ParseSuccess Then Err.Raise 13, "UsedFunctions", "Formula parsing failed."
+    
+    GetUsedFunctions = ParseResult.Expr.UsedFunctions
+           
 End Function
