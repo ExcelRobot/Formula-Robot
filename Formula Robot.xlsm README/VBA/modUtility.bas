@@ -117,7 +117,7 @@ Public Sub UpdateValidCells(ByVal PrecedencyVsCellsInfoMap As Collection _
             Set SpillRange = CurrentRange.Cells(1).SpillParent.SpillingToRange
             .RowCount = SpillRange.Rows.Count
             .ColCount = SpillRange.Columns.Count
-            .TopLeftCellRowNo = CurrentRange.Cells(1).SpillParent.Row
+            .TopLeftCellRowNo = CurrentRange.Cells(1).SpillParent.row
             .TopLeftCellColNo = CurrentRange.Cells(1).SpillParent.Column
         Else
             '@TODO: Need to check if we can use Table Ref or not.
@@ -125,7 +125,7 @@ Public Sub UpdateValidCells(ByVal PrecedencyVsCellsInfoMap As Collection _
             .AbsRangeRef = GetParentCellRefIfNoSpill(FormulaCell, CurrentRange, True)
             .RowCount = CurrentRange.Rows.Count
             .ColCount = CurrentRange.Columns.Count
-            .TopLeftCellRowNo = CurrentRange.Cells(1).Row
+            .TopLeftCellRowNo = CurrentRange.Cells(1).row
             .TopLeftCellColNo = CurrentRange.Cells(1).Column
         End If
         
@@ -153,11 +153,11 @@ Private Sub UpdateRowIndexAndChoosePart(ByRef CurrentPrecedencyInfo As Precedenc
     
     With CurrentPrecedencyInfo
         If .HasSpill Then
-            .ColOrRowIndex = CurrentRange.Row - CurrentRange.Cells(1).SpillParent.Row + 1
+            .ColOrRowIndex = CurrentRange.row - CurrentRange.Cells(1).SpillParent.row + 1
             .ChoosePartFormula = GetChooseRowPartFormula(CurrentRange, .RangeRef)
             .AbsChoosePartFormula = GetChooseRowPartFormula(CurrentRange, .AbsRangeRef)
         Else
-            .ColOrRowIndex = CurrentRange.Row
+            .ColOrRowIndex = CurrentRange.row
             .ChoosePartFormula = .RangeRef
             .AbsChoosePartFormula = .AbsRangeRef
         End If
@@ -213,7 +213,7 @@ Private Function GetChooseRowPartFormula(ByVal CurrentRange As Range _
     Dim SpillRange As Range
     Set SpillRange = CurrentRange.Cells(1).SpillParent.SpillingToRange
     Dim RowIndex As Long
-    RowIndex = CurrentRange.Row - CurrentRange.Cells(1).SpillParent.Row + 1
+    RowIndex = CurrentRange.row - CurrentRange.Cells(1).SpillParent.row + 1
     
     Dim SecondArgOfChoose As String
     
@@ -1476,7 +1476,7 @@ End Function
 Public Sub ScrollToDependencyDataRange(ByVal Table As ListObject)
     
     ' Scrolls to the dependency data range in the specified table.
-    Application.Goto Table.Range, True
+    Application.GoTo Table.Range, True
     Table.Range(1, 1).Select
     
 End Sub

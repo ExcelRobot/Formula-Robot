@@ -202,7 +202,11 @@ Private Function GetSelectedHeaders(ByVal SelectedCells As Range, ByVal DataRang
         
         ' In case of spill range blank shows as zero.
         Dim IsValidHeaderCell As Boolean
-        IsValidHeaderCell = (Trim$(TempCell.Value) <> vbNullString And Trim$(TempCell.Value) <> 0)
+        If TempCell.HasSpill Then
+            IsValidHeaderCell = (Trim(TempCell.Value) <> vbNullString And Trim(TempCell.Value) <> 0)
+        Else
+            IsValidHeaderCell = (Trim(TempCell.Value) <> vbNullString)
+        End If
         
         If IsValidHeaderCell Then
             Set SortedValidHeaders = UnionOfNonExistableRange(SortedValidHeaders, TempCell)

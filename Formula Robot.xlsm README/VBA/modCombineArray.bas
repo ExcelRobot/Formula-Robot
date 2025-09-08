@@ -316,7 +316,7 @@ Private Function MaxRowHeight(ByVal RowRange As Range) As Long
             If CurrentCell.SpillParent.Address = CurrentCell.Address Then
                 MaxHeight = modUtility.MaxValue(MaxHeight, SpillRowCount)
             Else
-                MaxHeight = modUtility.MaxValue(MaxHeight, SpillRowCount - CurrentCell.Row + CurrentCell.SpillParent.Row)
+                MaxHeight = modUtility.MaxValue(MaxHeight, SpillRowCount - CurrentCell.row + CurrentCell.SpillParent.row)
             End If
         End If
         

@@ -45,7 +45,7 @@ Public Property Let ListOfFnsCSV(ByVal RHS As String)
     
     Dim CurrentFn As Variant
     For Each CurrentFn In Fns
-        This.SearchFnsList.Add Trim$(CurrentFn), Trim$(CurrentFn)
+        This.SearchFnsList.Add Trim(CurrentFn), Trim(CurrentFn)
     Next CurrentFn
     
     This.SearchFnCount = This.SearchFnsList.Count

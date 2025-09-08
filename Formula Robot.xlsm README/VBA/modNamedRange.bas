@@ -50,7 +50,7 @@ Public Sub AddNameRange(ByVal SelectionRange As Range, ByVal IgnorePrefix As Str
 
     ' Adjust the SelectionRange based on whether the rows and columns are absolute
     If Not IsAbsoluteRow Then Set SelectionRange = SelectionRange.Parent.Cells(1, SelectionRange.Column)
-    If Not IsAbsoluteColumn Then Set SelectionRange = SelectionRange.Parent.Cells(SelectionRange.Row, 1)
+    If Not IsAbsoluteColumn Then Set SelectionRange = SelectionRange.Parent.Cells(SelectionRange.row, 1)
 
     ' Apply name to the range
     ApplyNameRange SelectionRange, DefaultName _
@@ -423,8 +423,8 @@ Private Function FindDefaultName(ByVal FromRange As Range, ByVal IgnorePrefix As
     Dim CellToLeft As Range
     Dim CurrentCell As Range
     If IsNotNothing(FromRange) Then Set CurrentCell = FromRange.Cells(1)
-    If FromRange.Cells(1).Row > 1 Then Set CellAbove = FromRange.Offset(-1).Cells(1)
-    If FromRange.Cells(1).Row > 2 Then Set CellTwoAbove = FromRange.Offset(-2).Cells(1)
+    If FromRange.Cells(1).row > 1 Then Set CellAbove = FromRange.Offset(-1).Cells(1)
+    If FromRange.Cells(1).row > 2 Then Set CellTwoAbove = FromRange.Offset(-2).Cells(1)
     If FromRange.Cells(1).Column > 1 Then Set CellToLeft = FromRange.Offset(0, -1).Cells(1)
 
     ' Check cells above for a suitable name

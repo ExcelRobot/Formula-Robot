@@ -336,7 +336,7 @@ Private Function FillBeanForVBAFillDown(ByVal FormulaCell As Range) As FillBean
         Set UndoOperator = UndoHandler.Create(VBA_VERSION, DropFirstCell(FormulaCell), vbNullString)
         If IsAllBlankAndNoFormulas(DropFirstCell(FormulaCell)) Then
             Set Bean = CreateVBAFillerBean(FormulaCell.Cells(1), RowCount, UndoOperator, Fill_DOWN)
-        ElseIf ConsistentFormulaCount(DropFirstCell(FormulaCell.Resize(FormulaCell.Worksheet.Rows.Count - FormulaCell.Row)), True) <> RowCount - 1 Then
+        ElseIf ConsistentFormulaCount(DropFirstCell(FormulaCell.Resize(FormulaCell.Worksheet.Rows.Count - FormulaCell.row)), True) <> RowCount - 1 Then
             This.IsInvalidForOpt = True
             Exit Function
         Else
@@ -365,7 +365,7 @@ Private Function GetBottomRangeFromCurrentReg(ByVal FormulaCell As Range) As Ran
         Set LastRow = ReferenceArea.Rows(ReferenceArea.Rows.Count).EntireRow
         
         ' Then try current region of whatever is directly to left
-        If LastRow.Row = TopLeftCell.Row Then
+        If LastRow.row = TopLeftCell.row Then
             Set ReferenceArea = TopLeftCell.End(xlToLeft).CurrentRegion
             ' Need to add validation to check if more than one cell.
             ' If not

@@ -197,6 +197,20 @@
       ]
     },
     {
+      "Name": "Paste Exact Formula",
+      "Description": "Paste formula exactly as copied and number formats.",
+      "Type": "VBAMacroCommand",
+      "UserContextFilter": "ClipboardHasExcelData",
+      "LaunchCodes": [
+        "pe",
+        "pef"
+      ],
+      "MacroExpression": "modPaste.PasteExactFormula([[Clipboard]])",
+      "Tags": [
+        "Paste"
+      ]
+    },
+    {
       "Name": "Paste Translate Formula",
       "Description": "Given text in clipboard containing an Excel formula in en-us format, translates it to local languange, and puts it in active cell.",
       "Type": "VBAMacroCommand",

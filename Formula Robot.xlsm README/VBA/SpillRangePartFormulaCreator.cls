@@ -170,7 +170,7 @@ Private Sub ExtractInfoFromSelectedCells(ByVal SelectedCells As Range, ByVal Des
         
         This.RowCount = SelectedCells.Rows.Count
         This.ColCount = SelectedCells.Columns.Count
-        This.TopCellRowDiff = SelectedCells.Row - .SpillParentCell.Row
+        This.TopCellRowDiff = SelectedCells.row - .SpillParentCell.row
         This.TopCellColDiff = SelectedCells.Column - .SpillParentCell.Column
         
     End With

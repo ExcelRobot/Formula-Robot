@@ -777,7 +777,7 @@ Private Function CombineMultipleNamedRange(ByVal CopyFrom As Range, ByVal PasteT
             Set Temp = FindClosestNamedRange(CopyFrom.Columns(Index).Cells(1))
             If Index > CopyFrom.Columns.Count Then Exit Do
         Else
-            Index = Temp.RefersToRange.Rows(Temp.RefersToRange.Rows.Count).Cells(1).Row - CopyFrom.Cells(1).Row + 2
+            Index = Temp.RefersToRange.Rows(Temp.RefersToRange.Rows.Count).Cells(1).row - CopyFrom.Cells(1).row + 2
             Set Temp = FindClosestNamedRange(CopyFrom.Rows(Index).Cells(1))
             If Index > CopyFrom.Rows.Count Then Exit Do
         End If
@@ -886,7 +886,7 @@ Private Function ConvertColumnsToFormulaText(ByVal RefersToRange As Range _
     Dim ColIndex As Long
     ColIndex = CopyFrom.Cells(1).Column - RefersToRange.Cells(1).Column + 1
     Dim RowIndex As Long
-    RowIndex = CopyFrom.Cells(1).Row - RefersToRange.Cells(1).Row + 1
+    RowIndex = CopyFrom.Cells(1).row - RefersToRange.Cells(1).row + 1
     
     ' Check if CopyFrom covers the whole columns or rows of RefersToRange
     If CopyFrom.Rows.Count = RefersToRange.Rows.Count Then
@@ -1077,7 +1077,7 @@ Private Function CombineSpillRangesForContigiousArea(ByVal CopyFrom As Range, By
             Set Temp = CopyFrom.Columns(Index).Cells(1).SpillingToRange
             If Index > CopyFrom.Columns.Count Then Exit Do
         Else
-            Index = Temp.Rows(Temp.Rows.Count).Cells(1).Row - CopyFrom.Cells(1).Row + 2
+            Index = Temp.Rows(Temp.Rows.Count).Cells(1).row - CopyFrom.Cells(1).row + 2
             Set Temp = CopyFrom.Rows(Index).Cells(1).SpillingToRange
             If Index > CopyFrom.Rows.Count Then Exit Do
         End If
@@ -1144,10 +1144,10 @@ Private Function IsInColumns(ByVal Source As Range) As Boolean
     Dim RowCount As Long
     Dim FirstRow As Long
     RowCount = Source.Areas(1).Rows.Count
-    FirstRow = Source.Areas(1).Row
+    FirstRow = Source.Areas(1).row
     IsInColumns = True
     For Each Area In Source.Areas
-        If Area.Rows.Count <> RowCount Or Area.Row <> FirstRow Then
+        If Area.Rows.Count <> RowCount Or Area.row <> FirstRow Then
             IsInColumns = False
             Exit For
         End If

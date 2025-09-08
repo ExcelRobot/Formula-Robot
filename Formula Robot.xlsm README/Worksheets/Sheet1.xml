@@ -337,7 +337,7 @@
   <NamedRange ss:Name="_xlpm.z" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
  </Names>
  <Worksheet ss:Name="Notes">
-  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="54" ss:StyleID="s24"
+  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="55" ss:StyleID="s24"
    ss:DefaultColumnWidth="66" ss:DefaultRowHeight="15">
    <Column ss:StyleID="s24" ss:AutoFitWidth="0" ss:Width="20.25"/>
    <Column ss:StyleID="s25" ss:Width="207.75"/>
@@ -436,6 +436,10 @@
     <Cell><Data ss:Type="String">Paste clipboard range dynamic address(A1#) by using VB.Net implementation.</Data></Cell>
    </Row>
    <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Paste Exact Formula</Data></Cell>
+    <Cell><Data ss:Type="String">Paste formula exactly as copied and number formats.</Data></Cell>
+   </Row>
+   <Row>
     <Cell ss:Index="2"><Data ss:Type="String">Paste Fill Down</Data></Cell>
     <Cell><Data ss:Type="String">Fill down formula or value from clipboard range(dyanmic array formula or normal formula or native fill down).</Data></Cell>
    </Row>
@@ -447,21 +451,21 @@
     <Cell ss:Index="2"><Data ss:Type="String">Paste Translate Formula</Data></Cell>
     <Cell><Data ss:Type="String">Given text in clipboard containing an Excel formula in en-us format, translates it to local languange, and puts it in active cell.</Data></Cell>
    </Row>
-   <Row ss:Index="34" ss:Height="18.75" ss:StyleID="s30">
+   <Row ss:Index="35" ss:Height="18.75" ss:StyleID="s30">
     <Cell ss:StyleID="s24"/>
     <Cell ss:StyleID="s28"><Data ss:Type="String">Table Lookup Related Commands</Data></Cell>
     <Cell ss:StyleID="s28"/>
    </Row>
-   <Row ss:Index="36">
+   <Row ss:Index="37">
     <Cell ss:Index="2"><Data ss:Type="String">Generate Table Lookup Lambdas</Data></Cell>
     <Cell><Data ss:Type="String">Generate lambdas for each column of an Excel Table.</Data></Cell>
    </Row>
-   <Row ss:Index="38" ss:Height="18.75" ss:StyleID="s30">
+   <Row ss:Index="39" ss:Height="18.75" ss:StyleID="s30">
     <Cell ss:StyleID="s24"/>
     <Cell ss:StyleID="s28"><Data ss:Type="String">Translation Related Commands</Data></Cell>
     <Cell ss:StyleID="s29"/>
    </Row>
-   <Row ss:Index="40">
+   <Row ss:Index="41">
     <Cell ss:Index="2"><Data ss:Type="String">Copy Formula To English</Data></Cell>
     <Cell><Data ss:Type="String">Translate ActiveCell formula to en-us locale and copy to clipboard.</Data></Cell>
    </Row>
@@ -469,12 +473,12 @@
     <Cell ss:Index="2"><Data ss:Type="String">Paste Translate Formula</Data></Cell>
     <Cell><Data ss:Type="String">Given text in clipboard containing an Excel formula in en-us format, translates it to local languange, and puts it in active cell.</Data></Cell>
    </Row>
-   <Row ss:Index="44" ss:Height="18.75" ss:StyleID="s30">
+   <Row ss:Index="45" ss:Height="18.75" ss:StyleID="s30">
     <Cell ss:StyleID="s24"/>
     <Cell ss:StyleID="s28"><Data ss:Type="String">Function Search Related Command</Data></Cell>
     <Cell ss:StyleID="s29"/>
    </Row>
-   <Row ss:Index="46">
+   <Row ss:Index="47">
     <Cell ss:Index="2"><Data ss:Type="String">Search Workbook For Volatile Functions</Data></Cell>
     <Cell><Data ss:Type="String">Searches cells, names, and conditional formatting for use of volatile functions and reports findings.</Data></Cell>
    </Row>
@@ -482,7 +486,7 @@
     <Cell ss:Index="2"><Data ss:Type="String">Search Workbook For Specified Functions</Data></Cell>
     <Cell><Data ss:Type="String">Searches cells, names, and conditional formatting for use of user specified functions and reports findings.</Data></Cell>
    </Row>
-   <Row ss:Index="49" ss:Height="18.75">
+   <Row ss:Index="50" ss:Height="18.75">
     <Cell ss:Index="5" ss:StyleID="Default"/>
     <Cell ss:StyleID="Default"/>
     <Cell ss:StyleID="Default"/>

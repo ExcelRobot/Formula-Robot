@@ -2,7 +2,7 @@
 
 \*\*Formula Robot.xlsm\*\* contains definitions for:
 
-[22 Robot Commands](#command-definitions)<BR>[1 Robot Parameter](#parameter-definitions)<BR>
+[23 Robot Commands](#command-definitions)<BR>[1 Robot Parameter](#parameter-definitions)<BR>
 
 <BR>
 
@@ -45,6 +45,7 @@
 | [Paste As Structured References](#paste-as-structured-references) | Paste clipboard range as dynamic address to active cell. |
 | [Paste Auto Fill Down](#paste-auto-fill-down) | Fill formula or value from clipboard range down using smart automation. |
 | [Paste Auto Fill To Right](#paste-auto-fill-to-right) | Fill formula or value from clipboard range to right using smart automation. |
+| [Paste Exact Formula](#paste-exact-formula) | Paste formula exactly as copied and number formats. |
 | [Paste Translate Formula](#paste-translate-formula) | Given text in clipboard containing an Excel formula in en\-us format, translates it to local languange, and puts it in active cell. |
 
 ### Table
@@ -322,6 +323,22 @@
 | Macro Expression | <code>[modFillArray.PasteFillToRight](./VBA/modFillArray.bas#L54)([Clipboard],[[ActiveCell]])</code> |
 | User Context Filter | ExcelSelectionIsSingleArea AND ClipboardHasExcelData |
 | Launch Codes | <ol><li><code>pr</code></li><li><code>pfr</code></li></ol> |
+
+[^Top](#oa-robot-definitions)
+
+<BR>
+
+### Paste Exact Formula
+
+*Paste formula exactly as copied and number formats.*
+
+<sup>`@Formula Robot.xlsm` `!VBA Macro Command` `#Paste`</sup>
+
+| Property | Value |
+| --- | --- |
+| Macro Expression | <code>[modPaste.PasteExactFormula](./VBA/modPaste.bas#L4)([[Clipboard]])</code> |
+| User Context Filter | ClipboardHasExcelData |
+| Launch Codes | <ol><li><code>pe</code></li><li><code>pef</code></li></ol> |
 
 [^Top](#oa-robot-definitions)
 
