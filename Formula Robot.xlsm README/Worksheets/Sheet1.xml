@@ -88,6 +88,7 @@
   <NamedRange ss:Name="_xlpm._FilteredDataWithHeader" ss:RefersTo="=#NAME?"
    ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._Header" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._Iterate" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._LookupColumn1" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._Param1" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._Result" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
@@ -106,6 +107,8 @@
   <NamedRange ss:Name="_xlpm.ArgumentCount" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.ArgumentEnd" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.ArgumentStart" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.arr" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.array" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.ARRAY_TYPE_VALUE" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.ArrayCount" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.b" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
@@ -127,6 +130,7 @@
   <NamedRange ss:Name="_xlpm.ConsolidateTokens" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.CorrectedFormulaText" ss:RefersTo="=#NAME?"
    ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.curr" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.d" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.end" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.EndInvokeIndex" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
@@ -142,6 +146,7 @@
   <NamedRange ss:Name="_xlpm.FirstList" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.firstrow" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.FirstUsedFunction" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.fn" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.fnConcatTokens" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.fnCriteria" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.fnSort" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
@@ -335,6 +340,10 @@
   <NamedRange ss:Name="_xlpm.XL" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.y" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.z" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="ByColA"
+   ss:RefersTo="=LAMBDA(array,function, LET(_Iterate, LAMBDA(fn,arr, LET(n, COLUMNS(arr), IF(n &gt; 1, IFERROR(HSTACK(fn(fn, TAKE(arr, , n / 2)), fn(fn, DROP(arr, , n / 2))), &quot;&quot;), function(arr)))), _Result, _Iterate(_Iterate, array), _Result))"/>
+  <NamedRange ss:Name="ByRowA"
+   ss:RefersTo="=LAMBDA(array,function, LET(_Iterate, LAMBDA(fn,arr, LET(n, ROWS(arr), IF(n &gt; 1, IFERROR(VSTACK(fn(fn, TAKE(arr, n / 2)), fn(fn, DROP(arr, n / 2))), &quot;&quot;), function(arr)))), _Result, _Iterate(_Iterate, array), _Result))"/>
  </Names>
  <Worksheet ss:Name="Notes">
   <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="55" ss:StyleID="s24"

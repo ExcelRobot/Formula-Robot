@@ -144,16 +144,9 @@ Private Function FillBeanForDynamicArrayFormula(ByVal FormulaCell As Range) As F
         
         Dim IsValidCell As Boolean
         IsValidCell = IsValidForArrayVersion(FormulaCell, PrecedentCellAsText, FILL_TO_RIGHT)
+        If Not IsValidCell Then GoTo Continue
         
-        If IsValidCell And Not CurrentRange.Cells(1).HasSpill Then
-            
-            If CurrentRange.Rows.Count = 1 Then
-                modUtility.UpdateValidCells ValidCellsForFillRight, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_NONE
-            ElseIf CurrentRange.Rows.Count > 1 Then
-                modUtility.UpdateValidCells ValidCellsForFillRight, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_ROWS
-            End If
-            
-        ElseIf IsValidCell And CurrentRange.Cells(1).HasSpill Then
+        If CurrentRange.Cells(1).HasSpill Then
             
             IsAtleastOnePrecedentSpilledRange = True
             ColWidth = SpillRangeColCount(CurrentRange)
@@ -162,6 +155,14 @@ Private Function FillBeanForDynamicArrayFormula(ByVal FormulaCell As Range) As F
             ElseIf IsInFirstColOfSpillRange(CurrentRange) Then
                 modUtility.UpdateValidCells ValidCellsForFillRight, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_ROWS
             ElseIf IsValidRangeUsedForByCol(CurrentRange) Then
+                modUtility.UpdateValidCells ValidCellsForFillRight, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_ROWS
+            End If
+            
+        ElseIf Not CurrentRange.Cells(1).HasSpill Then
+            
+            If CurrentRange.Rows.Count = 1 Then
+                modUtility.UpdateValidCells ValidCellsForFillRight, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_NONE
+            ElseIf CurrentRange.Rows.Count > 1 Then
                 modUtility.UpdateValidCells ValidCellsForFillRight, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_ROWS
             End If
             
@@ -213,9 +214,7 @@ Private Function GenerateFormulaForFillToRight(ByVal FormulaCell As Range, ByVal
     Logger.Log DEBUG_LOG, "With Function: " & FormulaWithFX
     Logger.Log DEBUG_LOG, "Without Function: " & FormulaWithoutFX
     
-    If IsTileFormula(FormulaWithFX) Then
-        AddTILEIfNotPresent FormulaCell.Worksheet.Parent
-    End If
+    AddCustomLambdaIfNeeded FormulaCell.Worksheet.Parent, FormulaWithFX
     
     GenerateFormulaForFillToRight = GetCorrectFormula(FormulaCell, FormulaWithoutFX, FormulaWithFX, KeyToAnswer)
     
@@ -299,7 +298,13 @@ Private Function GenerateFormulaForFillToRightIfMapByRowOrTile(ByVal FormulaCell
     Dim Formula As String
     
     If FormulaCell.HasSpill Then
-        Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillRight, FILL_TO_RIGHT, TILE_FN_NAME)
+        
+        If IsValidToUseByRowOrCol(ValidCellsForFillRight, FILL_TO_RIGHT) Then
+            Formula = GenerateFillWhenByRowAOrColA(FormulaCell.Formula2, ValidCellsForFillRight, False)
+        Else
+            Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillRight, FILL_TO_RIGHT, TILE_FN_NAME)
+        End If
+        
     Else
         
         If IsValidToUseByRowOrCol(ValidCellsForFillRight, FILL_TO_RIGHT) Then

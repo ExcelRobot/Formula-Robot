@@ -1,0 +1,1 @@
+ByRowA =LAMBDA(array,function, LET(_Iterate, LAMBDA(fn,arr, LET(n, ROWS(arr), IF(n > 1, IFERROR(VSTACK(fn(fn, TAKE(arr, n / 2)), fn(fn, DROP(arr, n / 2))), ""), function(arr)))), _Result, _Iterate(_Iterate, array), _Result));

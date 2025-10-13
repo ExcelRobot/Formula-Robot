@@ -16,3 +16,22 @@ TILE = LAMBDA(params,function,LET(
    firstcol, IF(ROWS(params)=1,firstrow,REDUCE(firstrow,DROP(TAKE(params,,1),1),stacker)),
    IF(COLUMNS(params)=1,firstcol,HSTACK(firstcol,TILE(DROP(params,,1),function)))
 ));
+
+
+ByRowA=LAMBDA(array, function, LET(
+   _Iterate, LAMBDA(fn, arr, LET(
+      n, ROWS(arr),
+      IF(n > 1, IFERROR(VSTACK(fn(fn, TAKE(arr, n / 2)), fn(fn, DROP(arr, n / 2))), ""), function(arr))
+   )),
+   _Result, _Iterate(_Iterate, array),
+   _Result
+));
+
+ByColA=LAMBDA(array, function, LET(
+   _Iterate, LAMBDA(fn, arr, LET(
+      n, COLUMNS(arr),
+      IF(n > 1, IFERROR(HSTACK(fn(fn, TAKE(arr,, n / 2)), fn(fn, DROP(arr,, n / 2))), ""), function(arr))
+   )),
+   _Result, _Iterate(_Iterate, array),
+   _Result
+));

@@ -143,23 +143,26 @@ Private Function FillBeanForDynamicArrayFormula(ByVal FormulaCell As Range) As F
         Dim IsValidCell As Boolean
         IsValidCell = IsValidForArrayVersion(FormulaCell, PrecedentCellAsText, Fill_DOWN)
         
-        If IsValidCell And Not CurrentRange.Cells(1).HasSpill Then
-            
-            If CurrentRange.Columns.Count = 1 Then
-                modUtility.UpdateValidCells ValidCellsForFillDown, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_NONE
-            ElseIf CurrentRange.Columns.Count > 1 Then
-                modUtility.UpdateValidCells ValidCellsForFillDown, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_COLS
-            End If
-            
-        ElseIf IsValidCell And CurrentRange.Cells(1).HasSpill Then
+        If Not IsValidCell Then GoTo Continue
+        
+        If CurrentRange.Cells(1).HasSpill Then
             
             IsAtleastOnePrecedentSpilledRange = True
             RowHeight = SpillRangeRowCount(CurrentRange)
+            
             If IsSpillParent(CurrentRange) And IsOneColSpillRange(CurrentRange) Then
                 modUtility.UpdateValidCells ValidCellsForFillDown, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_NONE
             ElseIf IsInFirstRowOfSpillRange(CurrentRange) Then
                 modUtility.UpdateValidCells ValidCellsForFillDown, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_COLS
             ElseIf IsValidRangeUsedForByRow(CurrentRange) Then
+                modUtility.UpdateValidCells ValidCellsForFillDown, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_COLS
+            End If
+            
+        ElseIf Not CurrentRange.Cells(1).HasSpill Then
+            
+            If CurrentRange.Columns.Count = 1 Then
+                modUtility.UpdateValidCells ValidCellsForFillDown, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_NONE
+            ElseIf CurrentRange.Columns.Count > 1 Then
                 modUtility.UpdateValidCells ValidCellsForFillDown, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_COLS
             End If
             
@@ -177,8 +180,11 @@ Continue:
     If ValidCellsForFillDown.Count = 0 Then Exit Function
     
     UpdateValidity ValidCellsForFillDown
+    
     If This.IsInvalidForOpt Then Exit Function
+    
     If Not IsAllBlankAndNoFormulas(DropFirstCell(FormulaCell.Resize(RowHeight))) Then Exit Function
+    
     Dim Formula As String
     Formula = GenerateFormulaForFillDown(FormulaCell, ValidCellsForFillDown)
     
@@ -212,10 +218,7 @@ Private Function GenerateFormulaForFillDown(ByVal FormulaCell As Range _
     Logger.Log DEBUG_LOG, "With Function: " & FormulaWithFX
     Logger.Log DEBUG_LOG, "Without Function: " & FormulaWithoutFX
     
-    If IsTileFormula(FormulaWithFX) Then
-        AddTILEIfNotPresent FormulaCell.Worksheet.Parent
-    End If
-    
+    AddCustomLambdaIfNeeded FormulaCell.Worksheet.Parent, FormulaWithFX
     GenerateFormulaForFillDown = GetCorrectFormula(FormulaCell, FormulaWithoutFX, FormulaWithFX, KeyToAnswer)
     
 End Function
@@ -298,8 +301,15 @@ Private Function GenerateFormulaForFillDownIfMapByRowOrTile(ByVal FormulaCell As
     Dim Formula As String
     
     If FormulaCell.HasSpill Then
-        Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillDown, Fill_DOWN, TILE_FN_NAME)
+        
+        If IsValidToUseByRowOrCol(ValidCellsForFillDown, Fill_DOWN) Then
+            Formula = GenerateFillWhenByRowAOrColA(FormulaCell.Formula2, ValidCellsForFillDown, True)
+        Else
+            Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillDown, Fill_DOWN, TILE_FN_NAME)
+        End If
+        
     Else
+        
         If IsValidToUseByRowOrCol(ValidCellsForFillDown, Fill_DOWN) Then
             Formula = GenerateFormulaIfByRow(FormulaCell, ValidCellsForFillDown)
         ElseIf IsValidToUseMapWithoutSequence(ValidCellsForFillDown, Fill_DOWN) Then

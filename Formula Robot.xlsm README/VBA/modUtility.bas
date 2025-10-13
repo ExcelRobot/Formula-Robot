@@ -9,12 +9,30 @@ Public Enum ChooseOption
 End Enum
 
 Public Sub AddTILEIfNotPresent(ByVal AddToBook As Workbook)
+    CopyLambdaFromThisBook AddToBook, TILE_FN_NAME
+End Sub
+
+Public Sub AddCustomLambdaIfNeeded(ByVal AddToBook As Workbook, ByVal CheckForCustomFNOnFormula As String)
+    
+    Dim Lambdas As Variant
+    Lambdas = Array(TILE_FN_NAME, BY_ROW_A_FN_NAME, BY_COL_A_FN_NAME)
+    
+    Dim CurrentLambda As Variant
+    For Each CurrentLambda In Lambdas
+        If Text.IsStartsWith(CheckForCustomFNOnFormula, EQUAL_SIGN & CurrentLambda & FIRST_PARENTHESIS_OPEN) Then
+            CopyLambdaFromThisBook AddToBook, CStr(CurrentLambda)
+        End If
+    Next CurrentLambda
+    
+End Sub
+
+Private Sub CopyLambdaFromThisBook(ByVal AddToBook As Workbook, ByVal LambdaName As String)
     
     Dim CurrentName As Name
     On Error Resume Next
-    Set CurrentName = AddToBook.Names(TILE_FN_NAME)
+    Set CurrentName = AddToBook.Names(LambdaName)
     If CurrentName Is Nothing Then
-        AddToBook.Names.Add TILE_FN_NAME, ThisWorkbook.Names(TILE_FN_NAME).RefersTo
+        AddToBook.Names.Add LambdaName, ThisWorkbook.Names(LambdaName).RefersTo
     End If
     On Error GoTo 0
     
@@ -428,7 +446,7 @@ Public Function GenerateFormulaIfByRow(ByVal FormulaCell As Range _
     If FormulaCell.HasSpill Or ValidCellsForByRow.Count > 1 Then
         Formula = GenerateFillTileWhenByRowOrCol(FormulaCell.Formula2, ValidCellsForByRow, True)
     Else
-        Formula = GenerateFormulaForMapToArrayExceptTile(ValidCellsForByRow, FormulaCell, "BYROW")
+        Formula = GenerateFormulaForMapToArrayExceptTile(ValidCellsForByRow, FormulaCell, BYROW_FN_NAME)
     End If
     GenerateFormulaIfByRow = Formula
     
@@ -442,7 +460,7 @@ Public Function GenerateFormulaIfByCol(ByVal FormulaCell As Range _
     If FormulaCell.HasSpill Or ValidCellsForByCol.Count > 1 Then
         Formula = GenerateFillTileWhenByRowOrCol(FormulaCell.Formula2, ValidCellsForByCol, False)
     Else
-        Formula = GenerateFormulaForMapToArrayExceptTile(ValidCellsForByCol, FormulaCell, "BYCOL")
+        Formula = GenerateFormulaForMapToArrayExceptTile(ValidCellsForByCol, FormulaCell, BYCOL_FN_NAME)
     End If
     GenerateFormulaIfByCol = Formula
     
@@ -486,13 +504,13 @@ Private Function GenerateFillTileWhenByRowOrCol(ByVal StartFormula As String _
     Set CurrentItem = ValidCells.Item(1)
     Dim TileStartPart As String
     If IsFillDown Then
-        TileStartPart = "=TILE(" & SEQUENCE_FN_NAME & FIRST_PARENTHESIS_OPEN _
+        TileStartPart = EQUAL_SIGN & TILE_FN_NAME & FIRST_PARENTHESIS_OPEN & SEQUENCE_FN_NAME & FIRST_PARENTHESIS_OPEN _
                         & ROWS_FN_NAME & FIRST_PARENTHESIS_OPEN _
                         & CurrentItem.RangeRef & FIRST_PARENTHESIS_CLOSE _
                         & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR _
                         & LAMBDA_AND_OPEN_PAREN & "n" & LIST_SEPARATOR
     Else
-        TileStartPart = "=TILE(" & SEQUENCE_FN_NAME & FIRST_PARENTHESIS_OPEN _
+        TileStartPart = EQUAL_SIGN & TILE_FN_NAME & FIRST_PARENTHESIS_OPEN & SEQUENCE_FN_NAME & FIRST_PARENTHESIS_OPEN _
                         & "1" & LIST_SEPARATOR & COLUMNS_FN_NAME _
                         & FIRST_PARENTHESIS_OPEN & CurrentItem.RangeRef & FIRST_PARENTHESIS_CLOSE _
                         & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR _
@@ -505,8 +523,30 @@ Private Function GenerateFillTileWhenByRowOrCol(ByVal StartFormula As String _
     
 End Function
 
-Public Function IsTileFormula(ByVal Formula As String) As Boolean
-    IsTileFormula = (Left$(Formula, Len("=TILE(")) = "=TILE(")
+Public Function GenerateFillWhenByRowAOrColA(ByVal StartFormula As String _
+                                              , ByVal ValidCells As Collection _
+                                               , ByVal IsFillDown As Boolean) As String
+                                        
+    Dim CurrentItem As PrecedencyInfo
+    Set CurrentItem = ValidCells.Item(1)
+        
+    Dim ParamName As String
+    ParamName = "x"
+        
+    Dim ParentCellRef As String
+    ParentCellRef = CurrentItem.RangeRef
+        
+    StartFormula = ReplaceTokenWithNewToken(StartFormula, CurrentItem.NameInFormula, ParamName)
+    
+    Set CurrentItem = ValidCells.Item(1)
+    Dim Formula As String
+    Formula = EQUAL_SIGN & IIf(IsFillDown, BY_ROW_A_FN_NAME, BY_COL_A_FN_NAME) & FIRST_PARENTHESIS_OPEN _
+              & CurrentItem.RangeRef & COMMA _
+              & LAMBDA_FN_NAME & FIRST_PARENTHESIS_OPEN & ParamName & COMMA _
+              & RemoveStartingEqualSign(StartFormula) & FIRST_PARENTHESIS_CLOSE & FIRST_PARENTHESIS_CLOSE
+    
+    GenerateFillWhenByRowAOrColA = Formula
+    
 End Function
 
 Public Sub AssingOnUndo(ByVal UndoForMethod As String)

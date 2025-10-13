@@ -69,7 +69,7 @@ Public Sub MapToArray(ByVal FormulaCell As Range, Optional ByVal PlaceFormulaToC
         Exit Sub
     End If
     
-    If IsTileFormula(FullFormula) Then AddTILEIfNotPresent FormulaCell.Worksheet.Parent
+    AddCustomLambdaIfNeeded FormulaCell.Worksheet.Parent, FullFormula
     MapToArrayUndoColl.Add UndoHandler.Create(DYNAMIC_ARRAY_VERSION, PlaceFormulaToCell, PlaceFormulaToCell.Formula2)
     PlaceFormulaToCell.Formula2 = ReplaceInvalidCharFromFormulaWithValid(FullFormula)
     AssingOnUndo "MapToArray"
