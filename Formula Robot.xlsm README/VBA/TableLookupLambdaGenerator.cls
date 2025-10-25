@@ -257,21 +257,23 @@ Private Function GetCriteriaLambda() As String
         .Concatenate IF_FN_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
         .Concatenate NINE_SPACE & ISOMITTED_FN_NAME & FIRST_PARENTHESIS_OPEN
         .Concatenate "lookup_value" & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
-        
         .Concatenate NINE_SPACE & TRUE_KEYWORD & LIST_SEPARATOR & NEW_LINE
-        
-        .Concatenate NINE_SPACE & SWITCH_FN_NAME & FIRST_PARENTHESIS_OPEN
-        .Concatenate TYPE_FN_NAME & FIRST_PARENTHESIS_OPEN & "lookup_value"
-        .Concatenate FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
-        .Concatenate TWELVE_SPACE & "LAMBDA_TYPE_VALUE" & LIST_SEPARATOR & ONE_SPACE
-        .Concatenate MAP_FN_NAME & FIRST_PARENTHESIS_OPEN & "col_data" & LIST_SEPARATOR
+        .Concatenate NINE_SPACE & IF_FN_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
+        .Concatenate TWELVE_SPACE & TYPE_FN_NAME & FIRST_PARENTHESIS_OPEN & "lookup_value"
+        .Concatenate FIRST_PARENTHESIS_CLOSE & ONE_SPACE & "=" & ONE_SPACE
+        .Concatenate "LAMBDA_TYPE_VALUE" & LIST_SEPARATOR & NEW_LINE
+        .Concatenate TWELVE_SPACE & MAP_FN_NAME & FIRST_PARENTHESIS_OPEN & "col_data" & LIST_SEPARATOR
         .Concatenate ONE_SPACE & LAMBDA_AND_OPEN_PAREN & "val"
         .Concatenate LIST_SEPARATOR & ONE_SPACE & "lookup_value(val)))" & LIST_SEPARATOR & NEW_LINE
-        .Concatenate TWELVE_SPACE & "ARRAY_TYPE_VALUE" & LIST_SEPARATOR & ONE_SPACE
-        .Concatenate BYROW_FN_NAME & FIRST_PARENTHESIS_OPEN & "col_data = " & TOROW_FN_NAME
+        .Concatenate TWELVE_SPACE & IF_FN_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
+        .Concatenate TWELVE_SPACE & THREE_SPACE & TYPE_FN_NAME & FIRST_PARENTHESIS_OPEN & "lookup_value"
+        .Concatenate FIRST_PARENTHESIS_CLOSE & ONE_SPACE & "=" & ONE_SPACE
+        .Concatenate "ARRAY_TYPE_VALUE" & LIST_SEPARATOR & NEW_LINE
+        .Concatenate TWELVE_SPACE & THREE_SPACE & BYROW_FN_NAME & FIRST_PARENTHESIS_OPEN & "col_data = " & TOROW_FN_NAME
         .Concatenate "(lookup_value)" & LIST_SEPARATOR & ONE_SPACE & LAMBDA_AND_OPEN_PAREN
         .Concatenate "row" & LIST_SEPARATOR & ONE_SPACE & OR_FN_NAME & "(row)))" & LIST_SEPARATOR & NEW_LINE
-        .Concatenate TWELVE_SPACE & "col_data = lookup_value" & NEW_LINE
+        .Concatenate TWELVE_SPACE & THREE_SPACE & "col_data = lookup_value" & NEW_LINE
+        .Concatenate TWELVE_SPACE & FIRST_PARENTHESIS_CLOSE & NEW_LINE
         .Concatenate NINE_SPACE & FIRST_PARENTHESIS_CLOSE & NEW_LINE
         .Concatenate SIX_SPACE & FIRST_PARENTHESIS_CLOSE & NEW_LINE
         .Concatenate SIX_SPACE & LIST_SEPARATOR & ONE_SPACE
