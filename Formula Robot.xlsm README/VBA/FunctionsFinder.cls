@@ -20,54 +20,54 @@ Private Type TFunctionsFinder
     SearchFnCount As Long
 End Type
 
-Private This As TFunctionsFinder
+Private this As TFunctionsFinder
 
 Public Property Get SearchFnCount() As Long
-    SearchFnCount = This.SearchFnCount
+    SearchFnCount = this.SearchFnCount
 End Property
 
 Public Property Get IsNoFunctionFound() As Boolean
-    IsNoFunctionFound = This.IsNoFunctionFound
+    IsNoFunctionFound = this.IsNoFunctionFound
 End Property
 
 Public Property Get ListOfFnsCSV() As String
-    ListOfFnsCSV = This.ListOfFnsCSV
+    ListOfFnsCSV = this.ListOfFnsCSV
 End Property
 
 Public Property Let ListOfFnsCSV(ByVal RHS As String)
     
-    This.ListOfFnsCSV = RHS
+    this.ListOfFnsCSV = RHS
     Dim Fns As Variant
     Fns = Split(RHS, COMMA)
     
-    Set This.SearchFnsList = New Scripting.Dictionary
-    This.SearchFnsList.CompareMode = TextCompare
+    Set this.SearchFnsList = New Scripting.Dictionary
+    this.SearchFnsList.CompareMode = TextCompare
     
     Dim CurrentFn As Variant
     For Each CurrentFn In Fns
-        This.SearchFnsList.Add Trim(CurrentFn), Trim(CurrentFn)
+        this.SearchFnsList.Add Trim(CurrentFn), Trim(CurrentFn)
     Next CurrentFn
     
-    This.SearchFnCount = This.SearchFnsList.Count
+    this.SearchFnCount = this.SearchFnsList.Count
     
 End Property
 
 Public Property Get SearchOutput() As Variant
     
-    If IsObject(This.SearchOutput) Then
-        Set SearchOutput = This.SearchOutput
+    If IsObject(this.SearchOutput) Then
+        Set SearchOutput = this.SearchOutput
     Else
-        SearchOutput = This.SearchOutput
+        SearchOutput = this.SearchOutput
     End If
     
 End Property
 
 Public Property Get SearchInBook() As Workbook
-    Set SearchInBook = This.SearchInBook
+    Set SearchInBook = this.SearchInBook
 End Property
 
 Public Property Set SearchInBook(ByVal RHS As Workbook)
-    Set This.SearchInBook = RHS
+    Set this.SearchInBook = RHS
 End Property
 
 Public Sub SearchVolatileFunctions()
@@ -77,7 +77,7 @@ Public Sub SearchVolatileFunctions()
     SearchInConditionalFormattings
     
     Dim Result As Variant
-    ReDim Result(1 To This.SearchResult.Count + 1, 1 To 4)
+    ReDim Result(1 To this.SearchResult.Count + 1, 1 To 4)
     Result(1, 1) = "Location"
     Result(1, 2) = "Functions"
     Result(1, 3) = "Type"
@@ -86,10 +86,10 @@ Public Sub SearchVolatileFunctions()
     Dim RowIndex As Long
     RowIndex = 2
     
-    This.IsNoFunctionFound = (This.SearchResult.Count = 0)
+    this.IsNoFunctionFound = (this.SearchResult.Count = 0)
     
     Dim CurrentBean As SearchFunctionData
-    For Each CurrentBean In This.SearchResult
+    For Each CurrentBean In this.SearchResult
         
         With CurrentBean
             Result(RowIndex, 1) = .Location
@@ -102,14 +102,14 @@ Public Sub SearchVolatileFunctions()
         
     Next CurrentBean
     
-    This.SearchOutput = Result
+    this.SearchOutput = Result
     
 End Sub
 
 Private Sub SearchInConditionalFormattings()
     
     Dim CurrentSheet As Worksheet
-    For Each CurrentSheet In This.SearchInBook.Worksheets
+    For Each CurrentSheet In this.SearchInBook.Worksheets
         
         Dim FormulaCells As Range
         On Error Resume Next
@@ -129,7 +129,7 @@ Private Sub SearchInConditionalFormattings()
                 Set Area = FormulaGroups.Item(CurrentKey)
                 
                 If Fns <> vbNullString Then
-                    This.SearchResult.Add SearchFunctionData.Create(GetRangeRefWithSheetName(Area), Fns, "Conditional Formatting", CurrentKey)
+                    this.SearchResult.Add SearchFunctionData.Create(GetRangeRefWithSheetName(Area), Fns, "Conditional Formatting", CurrentKey)
                 End If
                 
             Next CurrentKey
@@ -173,7 +173,7 @@ End Function
 Private Sub SearchInCellsFormula()
     
     Dim CurrentSheet As Worksheet
-    For Each CurrentSheet In This.SearchInBook.Worksheets
+    For Each CurrentSheet In this.SearchInBook.Worksheets
         
         Dim FormulaCells As Range
         On Error Resume Next
@@ -193,7 +193,7 @@ Private Sub SearchInCellsFormula()
                 Set Area = FormulaGroups.Item(CurrentKey)
                 
                 If Fns <> vbNullString Then
-                    This.SearchResult.Add SearchFunctionData.Create(GetRangeRefWithSheetName(Area), Fns, "Cell Formula", Area.Cells(1).Formula2)
+                    this.SearchResult.Add SearchFunctionData.Create(GetRangeRefWithSheetName(Area), Fns, "Cell Formula", Area.Cells(1).Formula2)
                 End If
                 
             Next CurrentKey
@@ -250,14 +250,14 @@ End Sub
 Private Sub SearchInNameManager()
     
     Dim CurrentName As Name
-    For Each CurrentName In This.SearchInBook.Names
+    For Each CurrentName In this.SearchInBook.Names
         If Not IsBuiltInName(CurrentName) Then
             
             Dim Fns As String
             Fns = ExtractUsedSearchFnsFromFormula(CurrentName.RefersTo, False)
             
             If Fns <> vbNullString Then
-                This.SearchResult.Add SearchFunctionData.Create(CurrentName.Name, Fns, "Name", CurrentName.RefersTo)
+                this.SearchResult.Add SearchFunctionData.Create(CurrentName.Name, Fns, "Name", CurrentName.RefersTo)
             End If
             
         End If
@@ -276,7 +276,7 @@ Private Function ExtractUsedSearchFnsFromFormula(ByVal Formula As String, ByVal 
         
         Dim CurrentFn As Variant
         For Each CurrentFn In UsedFns
-            If This.SearchFnsList.Exists(CurrentFn) Then
+            If this.SearchFnsList.Exists(CurrentFn) Then
                 Result = Result & CurrentFn & ", "
             End If
         Next CurrentFn
@@ -297,7 +297,7 @@ Private Function IsAnySearchFnFoundByStringSearch(ByVal Formula As String) As Bo
     Result = False
     
     Dim FnName As Variant
-    For Each FnName In This.SearchFnsList.Keys
+    For Each FnName In this.SearchFnsList.Keys
         If Text.Contains(Formula, FnName) Then
             Result = True
             Exit For
@@ -309,12 +309,12 @@ Private Function IsAnySearchFnFoundByStringSearch(ByVal Formula As String) As Bo
 End Function
 
 Private Sub Class_Initialize()
-    Set This.SearchResult = New Collection
+    Set this.SearchResult = New Collection
 End Sub
 
 Private Sub Class_Terminate()
-    Set This.SearchFnsList = Nothing
-    Set This.SearchResult = Nothing
+    Set this.SearchFnsList = Nothing
+    Set this.SearchResult = Nothing
 End Sub
 
 

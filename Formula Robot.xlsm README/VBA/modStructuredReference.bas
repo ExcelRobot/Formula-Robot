@@ -777,7 +777,7 @@ Private Function CombineMultipleNamedRange(ByVal CopyFrom As Range, ByVal PasteT
             Set Temp = FindClosestNamedRange(CopyFrom.Columns(Index).Cells(1))
             If Index > CopyFrom.Columns.Count Then Exit Do
         Else
-            Index = Temp.RefersToRange.Rows(Temp.RefersToRange.Rows.Count).Cells(1).row - CopyFrom.Cells(1).row + 2
+            Index = Temp.RefersToRange.Rows(Temp.RefersToRange.Rows.Count).Cells(1).Row - CopyFrom.Cells(1).Row + 2
             Set Temp = FindClosestNamedRange(CopyFrom.Rows(Index).Cells(1))
             If Index > CopyFrom.Rows.Count Then Exit Do
         End If
@@ -886,26 +886,30 @@ Private Function ConvertColumnsToFormulaText(ByVal RefersToRange As Range _
     Dim ColIndex As Long
     ColIndex = CopyFrom.Cells(1).Column - RefersToRange.Cells(1).Column + 1
     Dim RowIndex As Long
-    RowIndex = CopyFrom.Cells(1).row - RefersToRange.Cells(1).row + 1
+    RowIndex = CopyFrom.Cells(1).Row - RefersToRange.Cells(1).Row + 1
     
+    Dim ImplicitPrefix As String
+    ImplicitPrefix = IIf(CopyFrom.Cells.CountLarge = 1, IMPLICIT_INTERSECTION_OPERATOR, vbNullString)
+    
+    Dim Formula As String
     ' Check if CopyFrom covers the whole columns or rows of RefersToRange
     If CopyFrom.Rows.Count = RefersToRange.Rows.Count Then
         If ColIndex = 1 Then
             ' Return structured reference for the whole columns
-            ConvertColumnsToFormulaText = TAKE_FN_NAME & FIRST_PARENTHESIS_OPEN _
+            Formula = TAKE_FN_NAME & FIRST_PARENTHESIS_OPEN _
                                           & NameToRefer & LIST_SEPARATOR _
                                           & LIST_SEPARATOR & CopyFrom.Columns.Count _
                                           & FIRST_PARENTHESIS_CLOSE
                                           
         ElseIf ColIndex + CopyFrom.Columns.Count - 1 = RefersToRange.Columns.Count Then
             ' Return structured reference for the whole columns
-            ConvertColumnsToFormulaText = DROP_FN_NAME & FIRST_PARENTHESIS_OPEN _
+            Formula = DROP_FN_NAME & FIRST_PARENTHESIS_OPEN _
                                           & NameToRefer & LIST_SEPARATOR _
                                           & LIST_SEPARATOR & (ColIndex - 1) _
                                           & FIRST_PARENTHESIS_CLOSE
         Else
             ' Return structured reference for part of the columns
-            ConvertColumnsToFormulaText = TAKE_FN_NAME & FIRST_PARENTHESIS_OPEN _
+            Formula = TAKE_FN_NAME & FIRST_PARENTHESIS_OPEN _
                                           & DROP_FN_NAME & FIRST_PARENTHESIS_OPEN _
                                           & NameToRefer & LIST_SEPARATOR _
                                           & LIST_SEPARATOR & (ColIndex - 1) _
@@ -916,39 +920,42 @@ Private Function ConvertColumnsToFormulaText(ByVal RefersToRange As Range _
     ElseIf CopyFrom.Columns.Count = RefersToRange.Columns.Count Then
         If RowIndex = 1 Then
             ' Return structured reference for the whole rows
-            ConvertColumnsToFormulaText = TAKE_FN_NAME & FIRST_PARENTHESIS_OPEN _
+            Formula = TAKE_FN_NAME & FIRST_PARENTHESIS_OPEN _
                                           & NameToRefer & LIST_SEPARATOR _
                                           & CopyFrom.Rows.Count & FIRST_PARENTHESIS_CLOSE
                                           
         ElseIf RowIndex + CopyFrom.Rows.Count - 1 = RefersToRange.Rows.Count Then
             ' Return structured reference for the whole rows
-            ConvertColumnsToFormulaText = TAKE_FN_NAME & FIRST_PARENTHESIS_OPEN _
+            Formula = TAKE_FN_NAME & FIRST_PARENTHESIS_OPEN _
                                           & NameToRefer & LIST_SEPARATOR & "-" _
                                           & CopyFrom.Rows.Count & FIRST_PARENTHESIS_CLOSE
         ElseIf RowIndex = 2 And RefersToRange.Rows.Count - CopyFrom.Rows.Count = 2 _
                And CopyFrom.Rows.Count > 1 Then
             ' Special case for structured reference when CopyFrom is in the middle of the rows
             If IsForTable Then
-                ConvertColumnsToFormulaText = TAKE_FN_NAME & FIRST_PARENTHESIS_OPEN & DROP_FN_NAME _
+                Formula = TAKE_FN_NAME & FIRST_PARENTHESIS_OPEN & DROP_FN_NAME _
                                               & FIRST_PARENTHESIS_OPEN & NameToRefer & LIST_SEPARATOR & "1)" _
                                               & LIST_SEPARATOR _
                                               & RefersToRange.Rows.Count - 2 & FIRST_PARENTHESIS_CLOSE
             Else
-                ConvertColumnsToFormulaText = DROP_FN_NAME & FIRST_PARENTHESIS_OPEN & DROP_FN_NAME _
+                Formula = DROP_FN_NAME & FIRST_PARENTHESIS_OPEN & DROP_FN_NAME _
                                               & FIRST_PARENTHESIS_OPEN & NameToRefer & LIST_SEPARATOR & "1)" _
                                               & LIST_SEPARATOR & "-1)"
             End If
         Else
             ' Return structured reference for part of the rows
-            ConvertColumnsToFormulaText = TAKE_FN_NAME & FIRST_PARENTHESIS_OPEN & DROP_FN_NAME _
+            Formula = TAKE_FN_NAME & FIRST_PARENTHESIS_OPEN & DROP_FN_NAME _
                                           & FIRST_PARENTHESIS_OPEN & NameToRefer & LIST_SEPARATOR _
                                           & (RowIndex - 1) & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR _
                                           & CopyFrom.Rows.Count & FIRST_PARENTHESIS_CLOSE
                                           
         End If
-    Else
-        ConvertColumnsToFormulaText = vbNullString
     End If
+    
+    If Formula <> vbNullString Then Formula = ImplicitPrefix & Formula
+    
+    ConvertColumnsToFormulaText = Formula
+    
     Logger.Log TRACE_LOG, "Exit modStructuredReference.ConvertColumnsToFormulaText"
     
 End Function
@@ -1077,7 +1084,7 @@ Private Function CombineSpillRangesForContigiousArea(ByVal CopyFrom As Range, By
             Set Temp = CopyFrom.Columns(Index).Cells(1).SpillingToRange
             If Index > CopyFrom.Columns.Count Then Exit Do
         Else
-            Index = Temp.Rows(Temp.Rows.Count).Cells(1).row - CopyFrom.Cells(1).row + 2
+            Index = Temp.Rows(Temp.Rows.Count).Cells(1).Row - CopyFrom.Cells(1).Row + 2
             Set Temp = CopyFrom.Rows(Index).Cells(1).SpillingToRange
             If Index > CopyFrom.Rows.Count Then Exit Do
         End If
@@ -1144,10 +1151,10 @@ Private Function IsInColumns(ByVal Source As Range) As Boolean
     Dim RowCount As Long
     Dim FirstRow As Long
     RowCount = Source.Areas(1).Rows.Count
-    FirstRow = Source.Areas(1).row
+    FirstRow = Source.Areas(1).Row
     IsInColumns = True
     For Each Area In Source.Areas
-        If Area.Rows.Count <> RowCount Or Area.row <> FirstRow Then
+        If Area.Rows.Count <> RowCount Or Area.Row <> FirstRow Then
             IsInColumns = False
             Exit For
         End If

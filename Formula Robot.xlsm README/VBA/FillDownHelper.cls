@@ -14,14 +14,14 @@ Private Type TFillDownHelper
     InvalidForCell As Range
 End Type
 
-Private This As TFillDownHelper
+Private this As TFillDownHelper
 
 Public Property Get FillDownUndoColl() As Collection
-    Set FillDownUndoColl = This.FillDownUndoColl
+    Set FillDownUndoColl = this.FillDownUndoColl
 End Property
 
 Public Property Set FillDownUndoColl(ByVal RHS As Collection)
-    Set This.FillDownUndoColl = RHS
+    Set this.FillDownUndoColl = RHS
 End Property
 
 Public Sub FillDown(ByVal FormulaCell As Range)
@@ -41,13 +41,13 @@ Public Sub FillDown(ByVal FormulaCell As Range)
                 If FillDownBeans.Count = 1 Then
                     FillHeight = Bean.ProbableFillDimension
                 ElseIf FillHeight <> Bean.ProbableFillDimension Then
-                    This.IsInvalidForOpt = True
+                    this.IsInvalidForOpt = True
                 End If
-                If Not This.IsInvalidForOpt Then Bean.DoFill
+                If Not this.IsInvalidForOpt Then Bean.DoFill
             End If
             
-            If This.IsInvalidForOpt Then
-                Set This.InvalidForCell = FormulaCell.Columns(Counter)
+            If this.IsInvalidForOpt Then
+                Set this.InvalidForCell = FormulaCell.Columns(Counter)
                 Exit For
             End If
             
@@ -56,24 +56,24 @@ Public Sub FillDown(ByVal FormulaCell As Range)
     Else
         
         Set Bean = GetFillBean(FormulaCell)
-        If This.IsInvalidForOpt Then Set This.InvalidForCell = FormulaCell
+        If this.IsInvalidForOpt Then Set this.InvalidForCell = FormulaCell
         
-        If IsNotNothing(Bean) And Not This.IsInvalidForOpt Then
+        If IsNotNothing(Bean) And Not this.IsInvalidForOpt Then
             FillDownBeans.Add Bean
             Bean.DoFill
         End If
         
     End If
     
-    If This.IsInvalidForOpt Then
-        This.InvalidForCell.Activate
+    If this.IsInvalidForOpt Then
+        this.InvalidForCell.Activate
         Exit Sub
     End If
 
     If FillDownBeans.Count = 0 Then Exit Sub
-    Set This.FillDownUndoColl = GetUndoCells(FillDownBeans)
+    Set this.FillDownUndoColl = GetUndoCells(FillDownBeans)
     SelectFillingRegionIfNotDA FillDownBeans
-    If This.FillDownUndoColl.Count > 0 Then AssingOnUndo "FillDown"
+    If this.FillDownUndoColl.Count > 0 Then AssingOnUndo "FillDown"
     
 End Sub
 
@@ -90,7 +90,7 @@ Private Function GetFillBean(ByVal FormulaCell As Range) As FillBean
             End If
             
             Set Bean = FillBeanForDynamicArrayFormula(FormulaCell)
-            If This.IsInvalidForOpt Then Exit Function
+            If this.IsInvalidForOpt Then Exit Function
             If IsNothing(Bean) Then
                 Set Bean = FillBeanForVBAFillDown(FormulaCell)
             End If
@@ -181,7 +181,7 @@ Continue:
     
     UpdateValidity ValidCellsForFillDown
     
-    If This.IsInvalidForOpt Then Exit Function
+    If this.IsInvalidForOpt Then Exit Function
     
     If Not IsAllBlankAndNoFormulas(DropFirstCell(FormulaCell.Resize(RowHeight))) Then Exit Function
     
@@ -193,8 +193,8 @@ Continue:
         Set UndoOperator = UndoHandler.Create(DYNAMIC_ARRAY_VERSION, FormulaCell, FormulaCell.Cells(1).Formula2)
         Set FillBeanForDynamicArrayFormula = CreateDAFillerBean(FormulaCell, Formula, RowHeight, UndoOperator, Fill_DOWN)
     ElseIf Formula = vbNullString And ValidCellsForFillDown.Count > 0 Then
-        Set This.InvalidForCell = FormulaCell
-        This.IsInvalidForOpt = True
+        Set this.InvalidForCell = FormulaCell
+        this.IsInvalidForOpt = True
     End If
     
 End Function
@@ -219,7 +219,43 @@ Private Function GenerateFormulaForFillDown(ByVal FormulaCell As Range _
     Logger.Log DEBUG_LOG, "Without Function: " & FormulaWithoutFX
     
     AddCustomLambdaIfNeeded FormulaCell.Worksheet.Parent, FormulaWithFX
-    GenerateFormulaForFillDown = GetCorrectFormula(FormulaCell, FormulaWithoutFX, FormulaWithFX, KeyToAnswer)
+    Dim CorrectFormula As String
+    CorrectFormula = GetCorrectFormula(FormulaCell, FormulaWithoutFX, FormulaWithFX, KeyToAnswer)
+    
+    If CorrectFormula = vbNullString Then
+        CorrectFormula = GetFormulaByCheckingOutputType(FormulaCell, ValidCellsForFillDown, KeyToAnswer)
+    End If
+    
+    GenerateFormulaForFillDown = CorrectFormula
+    
+End Function
+
+Private Function GetFormulaByCheckingOutputType(ByVal FormulaCell As Range _
+                                                , ByVal ValidCellsForFillDown As Collection _
+                                                 , ByVal KeyToAnswer As Variant) As String
+    
+    Dim CorrectFormula As String
+    
+    Dim TypeFormula As String
+    TypeFormula = EQUAL_TYPE_FIRST_PAREN & Text.RemoveFromStart(FormulaCell.Formula2, 1) & FIRST_PARENTHESIS_CLOSE
+    
+    Dim TypeOutput As Variant
+    TypeOutput = GetFormulaResult(TypeFormula, FormulaCell)
+    
+    If IsNumeric(TypeOutput) Then
+        If TypeOutput = TYPE_OUTPUT_FOR_ARR Then
+            CorrectFormula = GenerateFormulaForFillDownIfArrayOutput(FormulaCell, ValidCellsForFillDown)
+        End If
+    End If
+    
+    AddCustomLambdaIfNeeded FormulaCell.Worksheet.Parent, CorrectFormula
+    Dim FirstArray As Variant
+    FirstArray = GetFormulaResult(CorrectFormula, FormulaCell)
+    If Not IsBothSame(FirstArray, KeyToAnswer) Then
+        CorrectFormula = vbNullString
+    End If
+    
+    GetFormulaByCheckingOutputType = CorrectFormula
     
 End Function
 
@@ -301,13 +337,7 @@ Private Function GenerateFormulaForFillDownIfMapByRowOrTile(ByVal FormulaCell As
     Dim Formula As String
     
     If FormulaCell.HasSpill Then
-        
-        If IsValidToUseByRowOrCol(ValidCellsForFillDown, Fill_DOWN) Then
-            Formula = GenerateFillWhenByRowAOrColA(FormulaCell.Formula2, ValidCellsForFillDown, True)
-        Else
-            Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillDown, Fill_DOWN, TILE_FN_NAME)
-        End If
-        
+        Formula = GenerateFormulaForFillDownIfArrayOutput(FormulaCell, ValidCellsForFillDown)
     Else
         
         If IsValidToUseByRowOrCol(ValidCellsForFillDown, Fill_DOWN) Then
@@ -324,10 +354,24 @@ Private Function GenerateFormulaForFillDownIfMapByRowOrTile(ByVal FormulaCell As
     
 End Function
 
+Private Function GenerateFormulaForFillDownIfArrayOutput(ByVal FormulaCell As Range _
+                                                            , ByVal ValidCellsForFillDown As Collection)
+    
+    Dim Formula As String
+    If IsValidToUseByRowOrCol(ValidCellsForFillDown, Fill_DOWN) Then
+        Formula = GenerateFillWhenByRowAOrColA(FormulaCell.Formula2, ValidCellsForFillDown, True)
+    Else
+        Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillDown, Fill_DOWN, TILE_FN_NAME)
+    End If
+    
+    GenerateFormulaForFillDownIfArrayOutput = Formula
+    
+End Function
+
 Private Sub UpdateValidity(ByVal ValidCells As Collection)
     
     If Not IsAllPrecedencyAreSameSize(ValidCells, Fill_DOWN) Then
-        This.IsInvalidForOpt = True
+        this.IsInvalidForOpt = True
         Exit Sub
     End If
     
@@ -346,15 +390,15 @@ Private Function FillBeanForVBAFillDown(ByVal FormulaCell As Range) As FillBean
         Set UndoOperator = UndoHandler.Create(VBA_VERSION, DropFirstCell(FormulaCell), vbNullString)
         If IsAllBlankAndNoFormulas(DropFirstCell(FormulaCell)) Then
             Set Bean = CreateVBAFillerBean(FormulaCell.Cells(1), RowCount, UndoOperator, Fill_DOWN)
-        ElseIf ConsistentFormulaCount(DropFirstCell(FormulaCell.Resize(FormulaCell.Worksheet.Rows.Count - FormulaCell.row)), True) <> RowCount - 1 Then
-            This.IsInvalidForOpt = True
+        ElseIf ConsistentFormulaCount(DropFirstCell(FormulaCell.Resize(FormulaCell.Worksheet.Rows.Count - FormulaCell.Row)), True) <> RowCount - 1 Then
+            this.IsInvalidForOpt = True
             Exit Function
         Else
             UndoOperator.SecondCellFormulaR1C1 = FormulaCell.Cells(2).Formula2R1C1
             Set Bean = CreateVBAFillerBean(FormulaCell.Cells(1), RowCount, UndoOperator, Fill_DOWN)
         End If
     Else
-        This.IsInvalidForOpt = True
+        this.IsInvalidForOpt = True
     End If
     Set FillBeanForVBAFillDown = Bean
             
@@ -375,7 +419,7 @@ Private Function GetBottomRangeFromCurrentReg(ByVal FormulaCell As Range) As Ran
         Set LastRow = ReferenceArea.Rows(ReferenceArea.Rows.Count).EntireRow
         
         ' Then try current region of whatever is directly to left
-        If LastRow.row = TopLeftCell.row Then
+        If LastRow.Row = TopLeftCell.Row Then
             Set ReferenceArea = TopLeftCell.End(xlToLeft).CurrentRegion
             ' Need to add validation to check if more than one cell.
             ' If not

@@ -18,62 +18,62 @@ Private Type TFillBean
     UndoOperator As UndoHandler
 End Type
 
-Private This As TFillBean
+Private this As TFillBean
 
 Public Property Get UndoOperator() As UndoHandler
-    Set UndoOperator = This.UndoOperator
+    Set UndoOperator = this.UndoOperator
 End Property
 
 Public Property Set UndoOperator(ByVal RHS As UndoHandler)
-    Set This.UndoOperator = RHS
+    Set this.UndoOperator = RHS
 End Property
 
 Public Property Get OnRange() As Range
-    Set OnRange = This.OnRange
+    Set OnRange = this.OnRange
 End Property
 
 Public Property Set OnRange(ByVal RHS As Range)
-    Set This.OnRange = RHS
+    Set this.OnRange = RHS
 End Property
 
 Public Property Get TypeOfFill() As FillType
-    TypeOfFill = This.TypeOfFill
+    TypeOfFill = this.TypeOfFill
 End Property
 
 Public Property Let TypeOfFill(ByVal RHS As FillType)
-    This.TypeOfFill = RHS
+    this.TypeOfFill = RHS
 End Property
 
 Public Property Get ProbableFillDimension() As Long
-    ProbableFillDimension = This.ProbableFillDimension
+    ProbableFillDimension = this.ProbableFillDimension
 End Property
 
 Public Property Let ProbableFillDimension(ByVal RHS As Long)
-    This.ProbableFillDimension = RHS
+    this.ProbableFillDimension = RHS
 End Property
 
 Public Property Get DAFormula() As String
-    DAFormula = This.DAFormula
+    DAFormula = this.DAFormula
 End Property
 
 Public Property Let DAFormula(ByVal RHS As String)
-    This.DAFormula = RHS
+    this.DAFormula = RHS
 End Property
 
 Public Property Get Filler() As IFiller
-    Set Filler = This.Filler
+    Set Filler = this.Filler
 End Property
 
 Public Property Set Filler(ByVal RHS As IFiller)
-    Set This.Filler = RHS
+    Set this.Filler = RHS
 End Property
 
 Public Sub DoFill()
     
-    If This.DAFormula = vbNullString Then
-        This.Filler.Fill This.OnRange, This.TypeOfFill
+    If this.DAFormula = vbNullString Then
+        this.Filler.Fill this.OnRange, this.TypeOfFill
     Else
-        This.Filler.Fill This.OnRange, This.TypeOfFill, This.DAFormula
+        this.Filler.Fill this.OnRange, this.TypeOfFill, this.DAFormula
     End If
     
 End Sub

@@ -65,17 +65,6 @@
       ]
     },
     {
-      "Name": "Convert Formula To Structural Ref",
-      "Description": "Replace ActiveCell formula precedency range reference with their structured form like A1:D3 is named range and ActiveCell formula use A1:D3 then it will replace A1:D3 with it's named range name.",
-      "Type": "VBAMacroCommand",
-      "UserContextFilter": "ExcelActiveCellContainsFormula;ExcelSelectionIsSingleCell",
-      "Note": "Structured reference means using Table, Named Range or # for spill formula. Instead of using A1:D3 this will try to find possible structured reference for that range and use that.",
-      "MacroExpression": "modStructuredReference.ConvertFormulaToStructuredRef([[ActiveCell]])",
-      "Tags": [
-        "Formula"
-      ]
-    },
-    {
       "Name": "Copy Formula To English",
       "Description": "Translate ActiveCell formula to en-us locale and copy to clipboard.",
       "Type": "VBAMacroCommand",
@@ -144,21 +133,6 @@
         "pr"
       ],
       "Formula": "=[[Clipboard::Address]]",
-      "DestinationRangeAddress": "[[ActiveCell]]",
-      "Tags": [
-        "Paste",
-        "Formula"
-      ]
-    },
-    {
-      "Name": "Paste As Structured References",
-      "Description": "Paste clipboard range as dynamic address to active cell.",
-      "Type": "ExcelFormulaCommand",
-      "UserContextFilter": "ClipboardHasExcelData",
-      "LaunchCodes": [
-        "psr"
-      ],
-      "Formula": "=[[Clipboard::DynamicReference]]",
       "DestinationRangeAddress": "[[ActiveCell]]",
       "Tags": [
         "Paste",
@@ -237,47 +211,22 @@
       ]
     },
     {
-      "Name": "Remove Outer Function X 2",
-      "Description": "Run Remove Outer Function command twice.",
-      "Type": "SequenceCommand",
-      "LaunchCodes": [
-        "ro2"
-      ],
-      "Commands": [
-        "Remove Outer Function",
-        "Remove Outer Function"
-      ],
-      "Tags": [
-        "Formula"
-      ]
-    },
-    {
-      "Name": "Remove Outer Function X 3",
-      "Description": "Run Remove Outer Function command three times.",
-      "Type": "SequenceCommand",
-      "LaunchCodes": [
-        "ro3"
-      ],
-      "Commands": [
-        "Remove Outer Function",
-        "Remove Outer Function",
-        "Remove Outer Function"
-      ],
-      "Tags": [
-        "Formula"
-      ]
-    },
-    {
       "Name": "Search Workbook For Specified Functions",
       "Description": "Searches cells, names, and conditional formatting for use of user specified functions and reports findings.",
       "Type": "VBAMacroCommand",
-      "MacroExpression": "modFunctionSearch.SearchFunctions({{UserSpecifiedFunctions}},[[NewTableTargetToRight]])"
+      "MacroExpression": "modFunctionSearch.SearchFunctions({{UserSpecifiedFunctions}},[[NewTableTargetToRight]])",
+      "Tags": [
+        "Search"
+      ]
     },
     {
       "Name": "Search Workbook For Volatile Functions",
       "Description": "Searches cells, names, and conditional formatting for use of volatile functions and reports findings.",
       "Type": "VBAMacroCommand",
-      "MacroExpression": "modFunctionSearch.SearchFunctions(\"NOW, TODAY, RAND, RANDBETWEEN, RANDARRAY, OFFSET, INDIRECT, CELL, INFO\",[[NewTableTargetToRight]])"
+      "MacroExpression": "modFunctionSearch.SearchFunctions(\"NOW, TODAY, RAND, RANDBETWEEN, RANDARRAY, OFFSET, INDIRECT, CELL, INFO\",[[NewTableTargetToRight]])",
+      "Tags": [
+        "Search"
+      ]
     },
     {
       "Name": "Select Spill Parent",
@@ -286,6 +235,57 @@
       "MacroExpression": "modDynamicFormula.SelectSpillParent()",
       "Tags": [
         "Formula"
+      ]
+    },
+    {
+      "Name": "Show Formula Text",
+      "Description": "Show formula text of active cell in a specified adjacent cell.",
+      "Type": "ExcelFormulaCommand",
+      "Parameters": [
+        {
+          "Name": "OffsetXY",
+          "Description": "X,Y offset string to be inserted into Destination Range address",
+          "Type": "InputParameter",
+          "Value": "-1,0",
+          "DataType": "String",
+          "DefaultValue": "-1,0",
+          "Prompt": "Where would you like to show the formula text?",
+          "ValidationList": "Above active cell,\"-1,0\"\r\nRight of active cell,\"0,1\"\r\nBelow active cell,\"1,0\""
+        }
+      ],
+      "UserContextFilter": "ExcelActiveCellContainsFormula;ExcelSelectionIsSingleCell",
+      "LaunchCodes": [
+        "sft"
+      ],
+      "Formula": "=FORMULATEXT([[ActiveCell]])",
+      "DestinationRangeAddress": "[ActiveCell.Offset({{OffsetXY::ExcelFormula()}})]",
+      "ScrollToDestination": false,
+      "Tags": [
+        "Formula"
+      ]
+    },
+    {
+      "Name": "Time Formula",
+      "Description": "Wraps formula in active cell with Timer lambda to evaluate calculation performance.",
+      "Type": "ExcelFormulaCommand",
+      "Parameters": [
+        {
+          "Name": "Include_Output",
+          "Description": "Ask user whether to include output.",
+          "Type": "InputParameter",
+          "Value": "FALSE",
+          "DefaultValue": "FALSE",
+          "Prompt": "Do you want to include the formula output with the timer results?",
+          "ValidationList": "\"No, return time only.\", FALSE\r\n\"Yes, return time and formula output.\", TRUE"
+        }
+      ],
+      "UserContextFilter": "ExcelActiveCellContainsFormula;ExcelSelectionIsSingleCell",
+      "Formula": "=Timer([[ActiveCell::Formula]],{{Include_Output}})",
+      "Tags": [
+        "Formula"
+      ],
+      "FormulaDependencies": [
+        "Timer.lambda"
       ]
     },
     {

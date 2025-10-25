@@ -22,38 +22,38 @@ Private Type TUndoHandler
     SecondCellFormulaR1C1 As String
 End Type
 
-Private This As TUndoHandler
+Private this As TUndoHandler
 
 Public Property Get SecondCellFormulaR1C1() As String
-    SecondCellFormulaR1C1 = This.SecondCellFormulaR1C1
+    SecondCellFormulaR1C1 = this.SecondCellFormulaR1C1
 End Property
 
 Public Property Let SecondCellFormulaR1C1(ByVal RHS As String)
-    This.SecondCellFormulaR1C1 = RHS
+    this.SecondCellFormulaR1C1 = RHS
 End Property
 
 Public Property Get TypeOfOpt() As OptType
-    TypeOfOpt = This.TypeOfOpt
+    TypeOfOpt = this.TypeOfOpt
 End Property
 
 Public Property Let TypeOfOpt(ByVal RHS As OptType)
-    This.TypeOfOpt = RHS
+    this.TypeOfOpt = RHS
 End Property
 
 Public Property Get ClearRange() As Range
-    Set ClearRange = This.ClearRange
+    Set ClearRange = this.ClearRange
 End Property
 
 Public Property Set ClearRange(ByVal RHS As Range)
-    Set This.ClearRange = RHS
+    Set this.ClearRange = RHS
 End Property
 
 Public Property Get FirstCellOldFormula() As String
-    FirstCellOldFormula = This.FirstCellOldFormula
+    FirstCellOldFormula = this.FirstCellOldFormula
 End Property
 
 Public Property Let FirstCellOldFormula(ByVal RHS As String)
-    This.FirstCellOldFormula = RHS
+    this.FirstCellOldFormula = RHS
 End Property
 
 Public Property Get Self() As UndoHandler
@@ -75,14 +75,14 @@ End Function
 
 Public Sub Undo()
     
-    If This.TypeOfOpt = VBA_VERSION Then
-        This.ClearRange.ClearContents
-        If This.SecondCellFormulaR1C1 <> vbNullString Then
-            ClearRange.Formula2R1C1 = ReplaceInvalidCharFromFormulaWithValid(This.SecondCellFormulaR1C1)
+    If this.TypeOfOpt = VBA_VERSION Then
+        this.ClearRange.ClearContents
+        If this.SecondCellFormulaR1C1 <> vbNullString Then
+            ClearRange.Formula2R1C1 = ReplaceInvalidCharFromFormulaWithValid(this.SecondCellFormulaR1C1)
             ClearRange.Calculate
         End If
-    ElseIf This.TypeOfOpt = DYNAMIC_ARRAY_VERSION Then
-        ClearRange.Cells(1).Formula2 = ReplaceInvalidCharFromFormulaWithValid(This.FirstCellOldFormula)
+    ElseIf this.TypeOfOpt = DYNAMIC_ARRAY_VERSION Then
+        ClearRange.Cells(1).Formula2 = ReplaceInvalidCharFromFormulaWithValid(this.FirstCellOldFormula)
     End If
     
 End Sub

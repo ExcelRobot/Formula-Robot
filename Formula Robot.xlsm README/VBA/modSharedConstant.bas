@@ -54,6 +54,7 @@ Public Const OFFSET_FN_NAME As String = "OFFSET"
 Public Const EQUAL_LET_FIRST_PAREN As String = "=LET("
 Public Const LET_AND_OPEN_PAREN As String = "LET("
 Public Const LAMBDA_AND_OPEN_PAREN As String = "LAMBDA("
+Public Const EQUAL_TYPE_FIRST_PAREN As String = "=TYPE("
 Public Const LEFT_BRACE As String = "{"
 Public Const RIGHT_BRACE As String = "}"
 Public Const LEFT_BRACKET As String = "["
@@ -61,6 +62,7 @@ Public Const RIGHT_BRACKET As String = "]"
 Public Const ARRAY_CONST_COLUMN_SEPARATOR As String = ","
 Public Const ARRAY_CONST_ROW_SEPARATOR As String = ";"
 Public Const LIST_SEPARATOR As String = ","
+Public Const IMPLICIT_INTERSECTION_OPERATOR As String = "@"
 
 ' @Defined Independent Const
 
@@ -112,6 +114,8 @@ Public Const LAMBDA_NAME_AUDIT_PREFIX As String = "Auditing Lambda: "
 Public Const QUOTES_AND_FIRST_PAREN_CLOSE As String = """)"
 Public Const LETSTEP_PREFIX As String = "LETStep"
 Public Const LETSTEPREF_PREFIX As String = LETSTEP_PREFIX & "Ref"
+
+Public Const TYPE_OUTPUT_FOR_ARR As Long = 64
 
 ' Gist Export for github integration
 Public Const VBA_SUB_FOLDER_NAME As String = "VBA Code"

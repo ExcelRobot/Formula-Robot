@@ -1,1 +1,1 @@
-ByColA =LAMBDA(array,function, LET(_Iterate, LAMBDA(fn,arr, LET(n, COLUMNS(arr), IF(n > 1, IFERROR(HSTACK(fn(fn, TAKE(arr, , n / 2)), fn(fn, DROP(arr, , n / 2))), ""), function(arr)))), _Result, _Iterate(_Iterate, array), _Result));
+ByColA =LAMBDA(array,function,[fill], LET(_fill_corr, IF(ISOMITTED(fill), NA(), fill), _Iterate, LAMBDA(fn,arr, LET(n, COLUMNS(arr), IF(n > 1, IFERROR(HSTACK(fn(fn, TAKE(arr, , n / 2)), fn(fn, DROP(arr, , n / 2))), _fill_corr), function(arr)))), _Result, _Iterate(_Iterate, array), _Result));

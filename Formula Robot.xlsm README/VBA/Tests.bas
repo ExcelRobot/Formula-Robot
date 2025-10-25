@@ -5,7 +5,7 @@ Option Explicit
 Public Sub RunFillDownTests()
     
     With ActiveSheet
-        Const TOTAL_TILE_TEST_COUNT As Long = 27
+        Const TOTAL_TILE_TEST_COUNT As Long = 28
         Dim Counter As Long
         For Counter = 1 To TOTAL_TILE_TEST_COUNT
             Dim FormulaCell As Range

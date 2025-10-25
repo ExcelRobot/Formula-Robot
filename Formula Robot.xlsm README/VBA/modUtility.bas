@@ -135,7 +135,7 @@ Public Sub UpdateValidCells(ByVal PrecedencyVsCellsInfoMap As Collection _
             Set SpillRange = CurrentRange.Cells(1).SpillParent.SpillingToRange
             .RowCount = SpillRange.Rows.Count
             .ColCount = SpillRange.Columns.Count
-            .TopLeftCellRowNo = CurrentRange.Cells(1).SpillParent.row
+            .TopLeftCellRowNo = CurrentRange.Cells(1).SpillParent.Row
             .TopLeftCellColNo = CurrentRange.Cells(1).SpillParent.Column
         Else
             '@TODO: Need to check if we can use Table Ref or not.
@@ -143,7 +143,7 @@ Public Sub UpdateValidCells(ByVal PrecedencyVsCellsInfoMap As Collection _
             .AbsRangeRef = GetParentCellRefIfNoSpill(FormulaCell, CurrentRange, True)
             .RowCount = CurrentRange.Rows.Count
             .ColCount = CurrentRange.Columns.Count
-            .TopLeftCellRowNo = CurrentRange.Cells(1).row
+            .TopLeftCellRowNo = CurrentRange.Cells(1).Row
             .TopLeftCellColNo = CurrentRange.Cells(1).Column
         End If
         
@@ -171,11 +171,11 @@ Private Sub UpdateRowIndexAndChoosePart(ByRef CurrentPrecedencyInfo As Precedenc
     
     With CurrentPrecedencyInfo
         If .HasSpill Then
-            .ColOrRowIndex = CurrentRange.row - CurrentRange.Cells(1).SpillParent.row + 1
+            .ColOrRowIndex = CurrentRange.Row - CurrentRange.Cells(1).SpillParent.Row + 1
             .ChoosePartFormula = GetChooseRowPartFormula(CurrentRange, .RangeRef)
             .AbsChoosePartFormula = GetChooseRowPartFormula(CurrentRange, .AbsRangeRef)
         Else
-            .ColOrRowIndex = CurrentRange.row
+            .ColOrRowIndex = CurrentRange.Row
             .ChoosePartFormula = .RangeRef
             .AbsChoosePartFormula = .AbsRangeRef
         End If
@@ -231,7 +231,7 @@ Private Function GetChooseRowPartFormula(ByVal CurrentRange As Range _
     Dim SpillRange As Range
     Set SpillRange = CurrentRange.Cells(1).SpillParent.SpillingToRange
     Dim RowIndex As Long
-    RowIndex = CurrentRange.row - CurrentRange.Cells(1).SpillParent.row + 1
+    RowIndex = CurrentRange.Row - CurrentRange.Cells(1).SpillParent.Row + 1
     
     Dim SecondArgOfChoose As String
     
@@ -1662,7 +1662,7 @@ Public Function GetCorrectFormula(ByVal ToCell As Range _
     
 End Function
 
-Private Function IsBothSame(FirstValue As Variant, SecondValue As Variant) As Boolean
+Public Function IsBothSame(FirstValue As Variant, SecondValue As Variant) As Boolean
 
     If Not IsArray(FirstValue) And Not IsArray(SecondValue) Then
         IsBothSame = (FirstValue = SecondValue)
@@ -1672,12 +1672,15 @@ Private Function IsBothSame(FirstValue As Variant, SecondValue As Variant) As Bo
     
 End Function
 
-Private Function GetFormulaResult(ByVal Formula As String, ByVal FromCell As Range) As Variant
+Public Function GetFormulaResult(ByVal Formula As String, ByVal FromCell As Range) As Variant
     
     Dim OldFormula As String
     OldFormula = FromCell.Formula2
     
     On Error GoTo HandleError
+    Dim PrevStat As Boolean
+    PrevStat = Application.ScreenUpdating
+    Application.ScreenUpdating = False
     FromCell.Formula2 = ReplaceInvalidCharFromFormulaWithValid(Formula)
     FromCell.Calculate
     If FromCell.HasSpill Then
@@ -1686,10 +1689,12 @@ Private Function GetFormulaResult(ByVal Formula As String, ByVal FromCell As Ran
         GetFormulaResult = FromCell.Value
     End If
     FromCell.Formula2 = ReplaceInvalidCharFromFormulaWithValid(OldFormula)
+    Application.ScreenUpdating = PrevStat
     Exit Function
     
 HandleError:
     FromCell.Formula2 = ReplaceInvalidCharFromFormulaWithValid(OldFormula)
+    Application.ScreenUpdating = PrevStat
     
 End Function
 

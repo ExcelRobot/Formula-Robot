@@ -17,38 +17,38 @@ Private Type TSearchFunctionData
     Formula As String
 End Type
 
-Private This As TSearchFunctionData
+Private this As TSearchFunctionData
 
 Public Property Get Location() As String
-    Location = This.Location
+    Location = this.Location
 End Property
 
 Public Property Let Location(ByVal RHS As String)
-    This.Location = RHS
+    this.Location = RHS
 End Property
 
 Public Property Get Functions() As String
-    Functions = This.Functions
+    Functions = this.Functions
 End Property
 
 Public Property Let Functions(ByVal RHS As String)
-    This.Functions = RHS
+    this.Functions = RHS
 End Property
 
 Public Property Get SearchSection() As String
-    SearchSection = This.SearchSection
+    SearchSection = this.SearchSection
 End Property
 
 Public Property Let SearchSection(ByVal RHS As String)
-    This.SearchSection = RHS
+    this.SearchSection = RHS
 End Property
 
 Public Property Get Formula() As String
-    Formula = Text.PadIfNotPresent(This.Formula, "'", FROM_START)
+    Formula = Text.PadIfNotPresent(this.Formula, "'", FROM_START)
 End Property
 
 Public Property Let Formula(ByVal RHS As String)
-    This.Formula = RHS
+    this.Formula = RHS
 End Property
 
 Public Property Get Self() As SearchFunctionData

@@ -15,14 +15,14 @@ Private Type TFillToRightHelper
     InvalidForCell As Range
 End Type
 
-Private This As TFillToRightHelper
+Private this As TFillToRightHelper
 
 Public Property Get FillToRightUndoColl() As Collection
-    Set FillToRightUndoColl = This.FillToRightUndoColl
+    Set FillToRightUndoColl = this.FillToRightUndoColl
 End Property
 
 Public Property Set FillToRightUndoColl(ByVal RHS As Collection)
-    Set This.FillToRightUndoColl = RHS
+    Set this.FillToRightUndoColl = RHS
 End Property
 
 Public Sub FillToRight(ByVal FormulaCell As Range)
@@ -44,13 +44,13 @@ Public Sub FillToRight(ByVal FormulaCell As Range)
                 If FillToRightBeans.Count = 1 Then
                     FillWidth = Bean.ProbableFillDimension
                 ElseIf FillWidth <> Bean.ProbableFillDimension Then
-                    This.IsInvalidForOpt = True
+                    this.IsInvalidForOpt = True
                 End If
-                If Not This.IsInvalidForOpt Then Bean.DoFill
+                If Not this.IsInvalidForOpt Then Bean.DoFill
             End If
             
-            If This.IsInvalidForOpt Then
-                Set This.InvalidForCell = FormulaCell.Rows(Counter)
+            If this.IsInvalidForOpt Then
+                Set this.InvalidForCell = FormulaCell.Rows(Counter)
                 Exit For
             End If
             
@@ -59,24 +59,24 @@ Public Sub FillToRight(ByVal FormulaCell As Range)
     Else
         
         Set Bean = GetFillBean(FormulaCell)
-        If This.IsInvalidForOpt Then Set This.InvalidForCell = FormulaCell
-        If IsNotNothing(Bean) And Not This.IsInvalidForOpt Then
+        If this.IsInvalidForOpt Then Set this.InvalidForCell = FormulaCell
+        If IsNotNothing(Bean) And Not this.IsInvalidForOpt Then
             FillToRightBeans.Add Bean
             Bean.DoFill
         End If
         
     End If
     
-    If This.IsInvalidForOpt Then
-        This.InvalidForCell.Activate
+    If this.IsInvalidForOpt Then
+        this.InvalidForCell.Activate
         Exit Sub
     End If
     
     If FillToRightBeans.Count = 0 Then Exit Sub
 
-    Set This.FillToRightUndoColl = GetUndoCells(FillToRightBeans)
+    Set this.FillToRightUndoColl = GetUndoCells(FillToRightBeans)
     SelectFillingRegionIfNotDA FillToRightBeans
-    If This.FillToRightUndoColl.Count > 0 Then AssingOnUndo "FillToRight"
+    If this.FillToRightUndoColl.Count > 0 Then AssingOnUndo "FillToRight"
     
 End Sub
 
@@ -92,7 +92,7 @@ Private Function GetFillBean(ByVal FormulaCell As Range) As FillBean
             End If
             
             Set Bean = FillBeanForDynamicArrayFormula(FormulaCell)
-            If This.IsInvalidForOpt Then Exit Function
+            If this.IsInvalidForOpt Then Exit Function
             If IsNothing(Bean) Then
                 Set Bean = FillBeanForVBAFillToRight(FormulaCell)
             End If
@@ -181,7 +181,7 @@ Continue:
     
     If ValidCellsForFillRight.Count = 0 Then Exit Function
     UpdateValidity ValidCellsForFillRight
-    If This.IsInvalidForOpt Then Exit Function
+    If this.IsInvalidForOpt Then Exit Function
     If Not IsAllBlankAndNoFormulas(DropFirstCell(FormulaCell.Resize(, ColWidth))) Then Exit Function
     
     Formula = GenerateFormulaForFillToRight(FormulaCell, ValidCellsForFillRight)
@@ -190,8 +190,8 @@ Continue:
         Set UndoOperator = UndoHandler.Create(DYNAMIC_ARRAY_VERSION, FormulaCell, FormulaCell.Cells(1).Formula2)
         Set FillBeanForDynamicArrayFormula = CreateDAFillerBean(FormulaCell, Formula, ColWidth, UndoOperator, FILL_TO_RIGHT)
     ElseIf Formula = vbNullString And ValidCellsForFillRight.Count > 0 Then
-        Set This.InvalidForCell = FormulaCell
-        This.IsInvalidForOpt = True
+        Set this.InvalidForCell = FormulaCell
+        this.IsInvalidForOpt = True
     End If
     
 End Function
@@ -216,7 +216,44 @@ Private Function GenerateFormulaForFillToRight(ByVal FormulaCell As Range, ByVal
     
     AddCustomLambdaIfNeeded FormulaCell.Worksheet.Parent, FormulaWithFX
     
-    GenerateFormulaForFillToRight = GetCorrectFormula(FormulaCell, FormulaWithoutFX, FormulaWithFX, KeyToAnswer)
+    
+    Dim CorrectFormula As String
+    CorrectFormula = GetCorrectFormula(FormulaCell, FormulaWithoutFX, FormulaWithFX, KeyToAnswer)
+    
+    If CorrectFormula = vbNullString Then
+        CorrectFormula = GetFormulaByCheckingOutputType(FormulaCell, ValidCellsForFillRight, KeyToAnswer)
+    End If
+    
+    GenerateFormulaForFillToRight = CorrectFormula
+    
+End Function
+
+Private Function GetFormulaByCheckingOutputType(ByVal FormulaCell As Range _
+                                                , ByVal ValidCellsForFillRight As Collection _
+                                                 , ByVal KeyToAnswer As Variant) As String
+    
+    Dim CorrectFormula As String
+    
+    Dim TypeFormula As String
+    TypeFormula = EQUAL_TYPE_FIRST_PAREN & Text.RemoveFromStart(FormulaCell.Formula2, 1) & FIRST_PARENTHESIS_CLOSE
+    
+    Dim TypeOutput As Variant
+    TypeOutput = GetFormulaResult(TypeFormula, FormulaCell)
+    
+    If IsNumeric(TypeOutput) Then
+        If TypeOutput = TYPE_OUTPUT_FOR_ARR Then
+            CorrectFormula = GenerateFormulaForFillToRightIfIfArrayOutput(FormulaCell, ValidCellsForFillRight)
+        End If
+    End If
+    
+    AddCustomLambdaIfNeeded FormulaCell.Worksheet.Parent, CorrectFormula
+    Dim FirstArray As Variant
+    FirstArray = GetFormulaResult(CorrectFormula, FormulaCell)
+    If Not IsBothSame(FirstArray, KeyToAnswer) Then
+        CorrectFormula = vbNullString
+    End If
+    
+    GetFormulaByCheckingOutputType = CorrectFormula
     
 End Function
 
@@ -298,13 +335,7 @@ Private Function GenerateFormulaForFillToRightIfMapByRowOrTile(ByVal FormulaCell
     Dim Formula As String
     
     If FormulaCell.HasSpill Then
-        
-        If IsValidToUseByRowOrCol(ValidCellsForFillRight, FILL_TO_RIGHT) Then
-            Formula = GenerateFillWhenByRowAOrColA(FormulaCell.Formula2, ValidCellsForFillRight, False)
-        Else
-            Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillRight, FILL_TO_RIGHT, TILE_FN_NAME)
-        End If
-        
+        Formula = GenerateFormulaForFillToRightIfIfArrayOutput(FormulaCell, ValidCellsForFillRight)
     Else
         
         If IsValidToUseByRowOrCol(ValidCellsForFillRight, FILL_TO_RIGHT) Then
@@ -321,10 +352,24 @@ Private Function GenerateFormulaForFillToRightIfMapByRowOrTile(ByVal FormulaCell
     
 End Function
 
+Private Function GenerateFormulaForFillToRightIfIfArrayOutput(ByVal FormulaCell As Range _
+                                                              , ByVal ValidCellsForFillRight As Collection) As String
+    
+    Dim Formula As String
+    If IsValidToUseByRowOrCol(ValidCellsForFillRight, FILL_TO_RIGHT) Then
+        Formula = GenerateFillWhenByRowAOrColA(FormulaCell.Formula2, ValidCellsForFillRight, False)
+    Else
+        Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillRight, FILL_TO_RIGHT, TILE_FN_NAME)
+    End If
+    
+    GenerateFormulaForFillToRightIfIfArrayOutput = Formula
+    
+End Function
+
 Private Sub UpdateValidity(ByVal ValidCells As Collection)
     
     If Not IsAllPrecedencyAreSameSize(ValidCells, FILL_TO_RIGHT) Then
-        This.IsInvalidForOpt = True
+        this.IsInvalidForOpt = True
         Exit Sub
     End If
     
@@ -344,14 +389,14 @@ Private Function FillBeanForVBAFillToRight(ByVal FormulaCell As Range) As FillBe
         If IsAllBlankAndNoFormulas(DropFirstCell(FormulaCell)) Then
             Set Bean = CreateVBAFillerBean(FormulaCell.Cells(1), ColCount, UndoOperator, FILL_TO_RIGHT)
         ElseIf ConsistentFormulaCount(DropFirstCell(FormulaCell.Resize(, FormulaCell.Worksheet.Columns.Count - FormulaCell.Column)), False) <> ColCount - 1 Then
-            This.IsInvalidForOpt = True
+            this.IsInvalidForOpt = True
             Exit Function
         Else
             UndoOperator.SecondCellFormulaR1C1 = FormulaCell.Cells(2).Formula2R1C1
             Set Bean = CreateVBAFillerBean(FormulaCell.Cells(1), ColCount, UndoOperator, FILL_TO_RIGHT)
         End If
     Else
-        This.IsInvalidForOpt = True
+        this.IsInvalidForOpt = True
     End If
     
     Set FillBeanForVBAFillToRight = Bean

@@ -24,101 +24,101 @@ Private Type TPrecedencyInfo
     AbsChoosePartFormula As String
 End Type
 
-Private This As TPrecedencyInfo
+Private this As TPrecedencyInfo
 
 Public Property Get AbsRangeRef() As String
-    AbsRangeRef = This.AbsRangeRef
+    AbsRangeRef = this.AbsRangeRef
 End Property
 
 Public Property Let AbsRangeRef(ByVal RHS As String)
-    This.AbsRangeRef = RHS
+    this.AbsRangeRef = RHS
 End Property
 
 Public Property Get AbsChoosePartFormula() As String
-    AbsChoosePartFormula = This.AbsChoosePartFormula
+    AbsChoosePartFormula = this.AbsChoosePartFormula
 End Property
 
 Public Property Let AbsChoosePartFormula(ByVal RHS As String)
-    This.AbsChoosePartFormula = RHS
+    this.AbsChoosePartFormula = RHS
 End Property
 
 Public Property Get NameInFormulaRange() As Range
-    Set NameInFormulaRange = This.NameInFormulaRange
+    Set NameInFormulaRange = this.NameInFormulaRange
 End Property
 
 Public Property Set NameInFormulaRange(ByVal RHS As Range)
-    Set This.NameInFormulaRange = RHS
+    Set this.NameInFormulaRange = RHS
 End Property
 
 Public Property Get HasSpill() As Boolean
-    HasSpill = This.HasSpill
+    HasSpill = this.HasSpill
 End Property
 
 Public Property Let HasSpill(ByVal RHS As Boolean)
-    This.HasSpill = RHS
+    this.HasSpill = RHS
 End Property
 
 Public Property Get NameInFormula() As String
-    NameInFormula = This.NameInFormula
+    NameInFormula = this.NameInFormula
 End Property
 
 Public Property Let NameInFormula(ByVal RHS As String)
-    This.NameInFormula = RHS
+    this.NameInFormula = RHS
 End Property
 
 Public Property Get RangeRef() As String
-    RangeRef = This.ParentCellAddress
+    RangeRef = this.ParentCellAddress
 End Property
 
 Public Property Let RangeRef(ByVal RHS As String)
-    This.ParentCellAddress = RHS
+    this.ParentCellAddress = RHS
 End Property
 
 Public Property Get ChoosePartFormula() As String
-    ChoosePartFormula = This.ChoosePartFormula
+    ChoosePartFormula = this.ChoosePartFormula
 End Property
 
 Public Property Let ChoosePartFormula(ByVal RHS As String)
-    This.ChoosePartFormula = RHS
+    this.ChoosePartFormula = RHS
 End Property
 
 Public Property Get ColOrRowIndex() As Long
-    ColOrRowIndex = This.ColOrRowIndex
+    ColOrRowIndex = this.ColOrRowIndex
 End Property
 
 Public Property Let ColOrRowIndex(ByVal RHS As Long)
-    This.ColOrRowIndex = RHS
+    this.ColOrRowIndex = RHS
 End Property
 
 Public Property Get RowCount() As Long
-    RowCount = This.RowCount
+    RowCount = this.RowCount
 End Property
 
 Public Property Let RowCount(ByVal RHS As Long)
-    This.RowCount = RHS
+    this.RowCount = RHS
 End Property
 
 Public Property Get ColCount() As Long
-    ColCount = This.ColCount
+    ColCount = this.ColCount
 End Property
 
 Public Property Let ColCount(ByVal RHS As Long)
-    This.ColCount = RHS
+    this.ColCount = RHS
 End Property
 
 Public Property Get TopLeftCellRowNo() As Long
-    TopLeftCellRowNo = This.TopLeftCellRowNo
+    TopLeftCellRowNo = this.TopLeftCellRowNo
 End Property
 
 Public Property Let TopLeftCellRowNo(ByVal RHS As Long)
-    This.TopLeftCellRowNo = RHS
+    this.TopLeftCellRowNo = RHS
 End Property
 
 Public Property Get TopLeftCellColNo() As Long
-    TopLeftCellColNo = This.TopLeftCellColNo
+    TopLeftCellColNo = this.TopLeftCellColNo
 End Property
 
 Public Property Let TopLeftCellColNo(ByVal RHS As Long)
-    This.TopLeftCellColNo = RHS
+    this.TopLeftCellColNo = RHS
 End Property
 

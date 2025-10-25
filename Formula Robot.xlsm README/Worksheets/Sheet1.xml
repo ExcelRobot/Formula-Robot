@@ -71,8 +71,10 @@
   <NamedRange ss:Name="_xlop.b" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlop.c" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlop.column_list" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlop.fill" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlop.FilterFunction" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlop.FXName_Criteria" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlop.include_output" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlop.InstanceNum" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlop.lookup_value" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.\\LambdaName" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
@@ -84,6 +86,7 @@
   <NamedRange ss:Name="_xlpm._Criteria" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._Criteria1" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._Data" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._fill_corr" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._Filtered" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._FilteredDataWithHeader" ss:RefersTo="=#NAME?"
    ss:Hidden="1"/>
@@ -95,8 +98,10 @@
   <NamedRange ss:Name="_xlpm._ReturnColumnIndex" ss:RefersTo="=#NAME?"
    ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._ReturnColumns" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._StartTimer" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._Step1" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._Table" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._Timing" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.a" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.accum" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.activesheetname" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
@@ -136,6 +141,7 @@
   <NamedRange ss:Name="_xlpm.EndInvokeIndex" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.EndParamIndex" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.Exclude" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.fill" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.FilteredList" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.FilterFunction" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.FirstBody" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
@@ -170,6 +176,7 @@
   <NamedRange ss:Name="_xlpm.FXName_Criteria" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.Idx" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.InArray" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.include_output" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.Indexes" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.InDoubleQuote" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.InputIndexes" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
@@ -341,12 +348,14 @@
   <NamedRange ss:Name="_xlpm.y" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.z" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="ByColA"
-   ss:RefersTo="=LAMBDA(array,function, LET(_Iterate, LAMBDA(fn,arr, LET(n, COLUMNS(arr), IF(n &gt; 1, IFERROR(HSTACK(fn(fn, TAKE(arr, , n / 2)), fn(fn, DROP(arr, , n / 2))), &quot;&quot;), function(arr)))), _Result, _Iterate(_Iterate, array), _Result))"/>
+   ss:RefersTo="=LAMBDA(array,function,[fill], LET(_fill_corr, IF(ISOMITTED(fill), NA(), fill), _Iterate, LAMBDA(fn,arr, LET(n, COLUMNS(arr), IF(n &gt; 1, IFERROR(HSTACK(fn(fn, TAKE(arr, , n / 2)), fn(fn, DROP(arr, , n / 2))), _fill_corr), function(arr)))), _Result, _Iterate(_Iterate, array), _Result))"/>
   <NamedRange ss:Name="ByRowA"
-   ss:RefersTo="=LAMBDA(array,function, LET(_Iterate, LAMBDA(fn,arr, LET(n, ROWS(arr), IF(n &gt; 1, IFERROR(VSTACK(fn(fn, TAKE(arr, n / 2)), fn(fn, DROP(arr, n / 2))), &quot;&quot;), function(arr)))), _Result, _Iterate(_Iterate, array), _Result))"/>
+   ss:RefersTo="=LAMBDA(array,function,[fill], LET(_fill_corr, IF(ISOMITTED(fill), NA(), fill), _Iterate, LAMBDA(fn,arr, LET(n, ROWS(arr), IF(n &gt; 1, IFERROR(VSTACK(fn(fn, TAKE(arr, n / 2)), fn(fn, DROP(arr, n / 2))), _fill_corr), function(arr)))), _Result, _Iterate(_Iterate, array), _Result))"/>
+  <NamedRange ss:Name="Timer"
+   ss:RefersTo="=LET(_StartTimer, NOW(),&#10;   LAMBDA(formula,[include_output], LET(&#10;      _Timing, TEXT(NOW() - _StartTimer, &quot;[s].000\s&quot;),&#10;      _Result, IF(include_output,IFERROR(VSTACK(_Timing, formula), &quot;&quot;),_Timing),&#10;      _Result&#10;   ))&#10;)"/>
  </Names>
  <Worksheet ss:Name="Notes">
-  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="55" ss:StyleID="s24"
+  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="51" ss:StyleID="s24"
    ss:DefaultColumnWidth="66" ss:DefaultRowHeight="15">
    <Column ss:StyleID="s24" ss:AutoFitWidth="0" ss:Width="20.25"/>
    <Column ss:StyleID="s25" ss:Width="207.75"/>
@@ -392,10 +401,6 @@
     <Cell><Data ss:Type="String">Compact formula format of selected cells containing formulas.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Convert Formula To Structural Ref</Data></Cell>
-    <Cell><Data ss:Type="String">Replace ActiveCell formula precedency range reference with their structured form like A1:D3 is named range and ActiveCell formula use A1:D3 then it will replace A1:D3 with it's named range name.</Data></Cell>
-   </Row>
-   <Row>
     <Cell ss:Index="2"><Data ss:Type="String">Format Formulas</Data></Cell>
     <Cell><Data ss:Type="String">Format formulas from selected cells. It will only change cell formula which has a formula.</Data></Cell>
    </Row>
@@ -408,41 +413,33 @@
     <Cell><Data ss:Type="String">Paste clipboard range address to ActiveCell.</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Paste As Structured References</Data></Cell>
-    <Cell><Data ss:Type="String">Paste clipboard range dynamic address(A1#) by using VB.Net implementation.</Data></Cell>
-   </Row>
-   <Row>
     <Cell ss:Index="2"><Data ss:Type="String">Remove Outer Function</Data></Cell>
     <Cell><Data ss:Type="String">Remove the outer function from ActiveCell formula e.g. ActiveCell formula =DROP(SEQUENCE(10,2),2,1) and after running the command it will be =SEQUENCE(10,2)</Data></Cell>
-   </Row>
-   <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Remove Outer Function X 2</Data></Cell>
-    <Cell><Data ss:Type="String">Run Remove Outer Function command twice.</Data></Cell>
-   </Row>
-   <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Remove Outer Function X 3</Data></Cell>
-    <Cell><Data ss:Type="String">Run Remove Outer Function command three times.</Data></Cell>
    </Row>
    <Row>
     <Cell ss:Index="2"><Data ss:Type="String">Select Spill Parent</Data></Cell>
     <Cell><Data ss:Type="String">Select dynamic array formula cell. If no spill in ActiveCell then do nothing.</Data></Cell>
    </Row>
    <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Show Formula Text</Data></Cell>
+    <Cell><Data ss:Type="String">Show formula text of active cell in a specified adjacent cell.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="2"><Data ss:Type="String">Time Formula</Data></Cell>
+    <Cell><Data ss:Type="String">Wraps formula in active cell with Timer lambda to evaluate calculation performance.</Data></Cell>
+   </Row>
+   <Row>
     <Cell ss:Index="2"><Data ss:Type="String">Toggle Expand Formula Bar</Data></Cell>
     <Cell><Data ss:Type="String">If formula bar height is 1 then autofit it otherwise make it 1.</Data></Cell>
    </Row>
-   <Row ss:Index="26" ss:Height="18.75" ss:StyleID="s30">
+   <Row ss:Index="24" ss:Height="18.75" ss:StyleID="s30">
     <Cell ss:StyleID="s24"/>
     <Cell ss:StyleID="s28"><Data ss:Type="String">Paste Related Commands</Data></Cell>
     <Cell ss:StyleID="s28"/>
    </Row>
-   <Row ss:Index="28">
+   <Row ss:Index="26">
     <Cell ss:Index="2"><Data ss:Type="String">Paste As References</Data></Cell>
     <Cell><Data ss:Type="String">Paste clipboard range address to ActiveCell.</Data></Cell>
-   </Row>
-   <Row>
-    <Cell ss:Index="2"><Data ss:Type="String">Paste As Structured References</Data></Cell>
-    <Cell><Data ss:Type="String">Paste clipboard range dynamic address(A1#) by using VB.Net implementation.</Data></Cell>
    </Row>
    <Row>
     <Cell ss:Index="2"><Data ss:Type="String">Paste Exact Formula</Data></Cell>
@@ -460,21 +457,21 @@
     <Cell ss:Index="2"><Data ss:Type="String">Paste Translate Formula</Data></Cell>
     <Cell><Data ss:Type="String">Given text in clipboard containing an Excel formula in en-us format, translates it to local languange, and puts it in active cell.</Data></Cell>
    </Row>
-   <Row ss:Index="35" ss:Height="18.75" ss:StyleID="s30">
+   <Row ss:Index="32" ss:Height="18.75" ss:StyleID="s30">
     <Cell ss:StyleID="s24"/>
     <Cell ss:StyleID="s28"><Data ss:Type="String">Table Lookup Related Commands</Data></Cell>
     <Cell ss:StyleID="s28"/>
    </Row>
-   <Row ss:Index="37">
+   <Row ss:Index="34">
     <Cell ss:Index="2"><Data ss:Type="String">Generate Table Lookup Lambdas</Data></Cell>
     <Cell><Data ss:Type="String">Generate lambdas for each column of an Excel Table.</Data></Cell>
    </Row>
-   <Row ss:Index="39" ss:Height="18.75" ss:StyleID="s30">
+   <Row ss:Index="36" ss:Height="18.75" ss:StyleID="s30">
     <Cell ss:StyleID="s24"/>
     <Cell ss:StyleID="s28"><Data ss:Type="String">Translation Related Commands</Data></Cell>
     <Cell ss:StyleID="s29"/>
    </Row>
-   <Row ss:Index="41">
+   <Row ss:Index="38">
     <Cell ss:Index="2"><Data ss:Type="String">Copy Formula To English</Data></Cell>
     <Cell><Data ss:Type="String">Translate ActiveCell formula to en-us locale and copy to clipboard.</Data></Cell>
    </Row>
@@ -482,12 +479,12 @@
     <Cell ss:Index="2"><Data ss:Type="String">Paste Translate Formula</Data></Cell>
     <Cell><Data ss:Type="String">Given text in clipboard containing an Excel formula in en-us format, translates it to local languange, and puts it in active cell.</Data></Cell>
    </Row>
-   <Row ss:Index="45" ss:Height="18.75" ss:StyleID="s30">
+   <Row ss:Index="41" ss:Height="18.75" ss:StyleID="s30">
     <Cell ss:StyleID="s24"/>
-    <Cell ss:StyleID="s28"><Data ss:Type="String">Function Search Related Command</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String">Search Related Command</Data></Cell>
     <Cell ss:StyleID="s29"/>
    </Row>
-   <Row ss:Index="47">
+   <Row ss:Index="43">
     <Cell ss:Index="2"><Data ss:Type="String">Search Workbook For Volatile Functions</Data></Cell>
     <Cell><Data ss:Type="String">Searches cells, names, and conditional formatting for use of volatile functions and reports findings.</Data></Cell>
    </Row>
@@ -495,7 +492,7 @@
     <Cell ss:Index="2"><Data ss:Type="String">Search Workbook For Specified Functions</Data></Cell>
     <Cell><Data ss:Type="String">Searches cells, names, and conditional formatting for use of user specified functions and reports findings.</Data></Cell>
    </Row>
-   <Row ss:Index="50" ss:Height="18.75">
+   <Row ss:Index="46" ss:Height="18.75">
     <Cell ss:Index="5" ss:StyleID="Default"/>
     <Cell ss:StyleID="Default"/>
     <Cell ss:StyleID="Default"/>

@@ -1,0 +1,13 @@
+{
+  "Texts": [
+    {
+      "Name": "Timer.lambda",
+      "Description": "Returns time required to calculate a formula in seconds.",
+      "Type": "ExcelNameText",
+      "Note": "Because this lambda doesn't start with =LAMBDA(, it can't be edited using Lambda Robot.",
+      "ContentType": "ExcelLambda",
+      "Value": "Timer = LET(_StartTimer, NOW(),\n   LAMBDA(formula,[include_output], LET(\n      _Timing, TEXT(NOW() - _StartTimer, \"[s].000\\s\"),\n      _Result, IF(include_output,IFERROR(VSTACK(_Timing, formula), \"\"),_Timing),\n      _Result\n   ))\n);",
+      "Location": "Timer"
+    }
+  ]
+}

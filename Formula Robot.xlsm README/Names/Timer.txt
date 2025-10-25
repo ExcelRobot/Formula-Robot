@@ -1,0 +1,7 @@
+Timer =LET(_StartTimer, NOW(),
+   LAMBDA(formula,[include_output], LET(
+      _Timing, TEXT(NOW() - _StartTimer, "[s].000\s"),
+      _Result, IF(include_output,IFERROR(VSTACK(_Timing, formula), ""),_Timing),
+      _Result
+   ))
+)

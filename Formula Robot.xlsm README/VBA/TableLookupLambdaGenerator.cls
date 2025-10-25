@@ -35,30 +35,30 @@ Private Type TTableLookupLambdaGenerator
     SortPart As String
     FilterLambda As String
 End Type
-Private This As TTableLookupLambdaGenerator
+Private this As TTableLookupLambdaGenerator
 
 Public Property Get DefPart() As String
-    DefPart = This.DefPart
+    DefPart = this.DefPart
 End Property
 
 Public Property Get FilterLambda() As String
-    FilterLambda = Replace(This.FilterLambda, vbNewLine, Chr$(10))
+    FilterLambda = Replace(this.FilterLambda, vbNewLine, Chr$(10))
 End Property
 
 Private Sub UpdateStepsName(ByVal UniqueStepsName As Collection)
 
-    This.ColumnListStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "column_list")
-    This.TableStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "_Table")
-    This.CriteriaLambdaStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "fnCriteria")
-    This.DatasStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "_Data")
-    This.HeadersStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "_Header")
-    This.ReturnStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "_ReturnColumns")
-    This.CriteriaStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "_Criteria")
-    This.FilteredDataStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "_Filtered")
-    This.SortOrderLambdaStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "fnSortOrder")
-    This.SortLambdaStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "fnSort")
-    This.ReturnColIndexStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "_ReturnColumnIndex")
-    This.ResultStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "_Result")
+    this.ColumnListStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "column_list")
+    this.TableStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "_Table")
+    this.CriteriaLambdaStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "fnCriteria")
+    this.DatasStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "_Data")
+    this.HeadersStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "_Header")
+    this.ReturnStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "_ReturnColumns")
+    this.CriteriaStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "_Criteria")
+    this.FilteredDataStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "_Filtered")
+    this.SortOrderLambdaStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "fnSortOrder")
+    this.SortLambdaStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "fnSort")
+    this.ReturnColIndexStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "_ReturnColumnIndex")
+    this.ResultStepName = CreateUniqueNameByAppendingNumber(UniqueStepsName, "_Result")
     
 End Sub
 
@@ -73,10 +73,10 @@ Public Sub GenerateTemplateLambda(ByVal IsTable As Boolean _
     Dim TableStepCalc As String
     TableStepCalc = TableOrNamedRangeName & IIf(IsTable, TABLE_ALL_MARKER, vbNullString)
     
-    This.SortPart = LAMBDA_AND_OPEN_PAREN & SORTBY_FN_NAME & FIRST_PARENTHESIS_OPEN _
-                    & vbNewLine & SIX_SPACE & This.FilteredDataStepName & LIST_SEPARATOR & NEW_LINE
+    this.SortPart = LAMBDA_AND_OPEN_PAREN & SORTBY_FN_NAME & FIRST_PARENTHESIS_OPEN _
+                    & vbNewLine & SIX_SPACE & this.FilteredDataStepName & LIST_SEPARATOR & NEW_LINE
     
-    This.FinalCriteriaPart = This.CriteriaStepName & LIST_SEPARATOR _
+    this.FinalCriteriaPart = this.CriteriaStepName & LIST_SEPARATOR _
                              & ONE_SPACE & EXPAND_FN_NAME & FIRST_PARENTHESIS_OPEN
     
     Dim Counter As Long
@@ -85,36 +85,36 @@ Public Sub GenerateTemplateLambda(ByVal IsTable As Boolean _
         Counter = Counter + 1
         Dim CurrentParamName As String
         CurrentParamName = UniqueStepsName.Item(Counter) & "_Criteria"
-        This.DefPart = This.DefPart & "[" & CurrentParamName & "]" & LIST_SEPARATOR
-        This.ParamPart = This.ParamPart _
+        this.DefPart = this.DefPart & "[" & CurrentParamName & "]" & LIST_SEPARATOR
+        this.ParamPart = this.ParamPart _
                          & THREE_SPACE & "_Param" & Counter & LIST_SEPARATOR _
                          & ONE_SPACE & CurrentParamName & LIST_SEPARATOR & vbNewLine
         
         Dim EncodedHeader As String
         EncodedHeader = DOUBLE_QUOTE & EscapeDoubleQuote(CurrentCell.Value) & DOUBLE_QUOTE
             
-        This.LookupColumnPart = This.LookupColumnPart _
+        this.LookupColumnPart = this.LookupColumnPart _
                                 & THREE_SPACE & "_LookupColumn" & Counter & LIST_SEPARATOR _
                                 & ONE_SPACE & EncodedHeader & LIST_SEPARATOR & vbNewLine
         
-        This.ColumnIndexPart = This.ColumnIndexPart _
+        this.ColumnIndexPart = this.ColumnIndexPart _
                                & THREE_SPACE & "_ColumnIndex" & Counter & LIST_SEPARATOR _
                                & ONE_SPACE & XMATCH_FN_NAME & FIRST_PARENTHESIS_OPEN _
                                & "_LookupColumn" & Counter & LIST_SEPARATOR & ONE_SPACE _
-                               & This.HeadersStepName & LIST_SEPARATOR & ONE_SPACE & "0" _
+                               & this.HeadersStepName & LIST_SEPARATOR & ONE_SPACE & "0" _
                                & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & vbNewLine
         
-        This.CriteriaPart = This.CriteriaPart _
+        this.CriteriaPart = this.CriteriaPart _
                             & THREE_SPACE & "_Criteria" & Counter & LIST_SEPARATOR _
-                            & ONE_SPACE & This.CriteriaLambdaStepName & FIRST_PARENTHESIS_OPEN _
-                            & CHOOSECOLS_FN_NAME & FIRST_PARENTHESIS_OPEN & This.DatasStepName _
+                            & ONE_SPACE & this.CriteriaLambdaStepName & FIRST_PARENTHESIS_OPEN _
+                            & CHOOSECOLS_FN_NAME & FIRST_PARENTHESIS_OPEN & this.DatasStepName _
                             & LIST_SEPARATOR & ONE_SPACE & "_ColumnIndex" & Counter _
                             & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & ONE_SPACE _
                             & "_Param" & Counter & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & vbNewLine
         
-        This.FinalCriteriaPart = This.FinalCriteriaPart & "_Criteria" & Counter & ONE_SPACE & "*" & ONE_SPACE
+        this.FinalCriteriaPart = this.FinalCriteriaPart & "_Criteria" & Counter & ONE_SPACE & "*" & ONE_SPACE
         
-        This.SortPart = This.SortPart & SIX_SPACE & This.SortOrderLambdaStepName _
+        this.SortPart = this.SortPart & SIX_SPACE & this.SortOrderLambdaStepName _
                         & FIRST_PARENTHESIS_OPEN & "_ColumnIndex" & Counter _
                         & LIST_SEPARATOR & ONE_SPACE & "_Param" & Counter _
                         & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR _
@@ -122,128 +122,128 @@ Public Sub GenerateTemplateLambda(ByVal IsTable As Boolean _
         
     Next CurrentCell
     
-    This.FinalCriteriaPart = Text.RemoveFromEndIfPresent(This.FinalCriteriaPart, "* ")
-    This.SortPart = Text.RemoveFromEndIfPresent(This.SortPart, LIST_SEPARATOR & NEW_LINE)
+    this.FinalCriteriaPart = Text.RemoveFromEndIfPresent(this.FinalCriteriaPart, "* ")
+    this.SortPart = Text.RemoveFromEndIfPresent(this.SortPart, LIST_SEPARATOR & NEW_LINE)
     
     Dim Concatenator As TextConcatenator
     Set Concatenator = New TextConcatenator
     With Concatenator
         
-        .Concatenate EQUAL_SIGN & LAMBDA_AND_OPEN_PAREN & "[" & This.ColumnListStepName & "]"
-        .Concatenate LIST_SEPARATOR & This.DefPart & ONE_SPACE & LET_AND_OPEN_PAREN & NEW_LINE
+        .Concatenate EQUAL_SIGN & LAMBDA_AND_OPEN_PAREN & "[" & this.ColumnListStepName & "]"
+        .Concatenate LIST_SEPARATOR & this.DefPart & ONE_SPACE & LET_AND_OPEN_PAREN & NEW_LINE
         
-        .Concatenate This.ParamPart
+        .Concatenate this.ParamPart
         
-        .Concatenate THREE_SPACE & This.TableStepName & LIST_SEPARATOR & ONE_SPACE
+        .Concatenate THREE_SPACE & this.TableStepName & LIST_SEPARATOR & ONE_SPACE
         .Concatenate TableStepCalc & LIST_SEPARATOR & NEW_LINE
         
-        .Concatenate This.LookupColumnPart
+        .Concatenate this.LookupColumnPart
         .Concatenate THREE_SPACE & "LAMBDA_TYPE_VALUE" & LIST_SEPARATOR & ONE_SPACE & "128"
         .Concatenate LIST_SEPARATOR & NEW_LINE
                      
         .Concatenate THREE_SPACE & "ARRAY_TYPE_VALUE" & LIST_SEPARATOR & ONE_SPACE & "64"
         .Concatenate LIST_SEPARATOR & NEW_LINE
         
-        .Concatenate THREE_SPACE & This.CriteriaLambdaStepName & LIST_SEPARATOR
+        .Concatenate THREE_SPACE & this.CriteriaLambdaStepName & LIST_SEPARATOR
         .Concatenate ONE_SPACE & GetCriteriaLambda() & LIST_SEPARATOR & NEW_LINE
                      
-        .Concatenate THREE_SPACE & This.DatasStepName & LIST_SEPARATOR & ONE_SPACE
-        .Concatenate DROP_FN_NAME & FIRST_PARENTHESIS_OPEN & This.TableStepName
+        .Concatenate THREE_SPACE & this.DatasStepName & LIST_SEPARATOR & ONE_SPACE
+        .Concatenate DROP_FN_NAME & FIRST_PARENTHESIS_OPEN & this.TableStepName
         .Concatenate LIST_SEPARATOR & ONE_SPACE & "1" & FIRST_PARENTHESIS_CLOSE
         .Concatenate LIST_SEPARATOR & NEW_LINE
                      
-        .Concatenate THREE_SPACE & This.HeadersStepName & LIST_SEPARATOR & ONE_SPACE
-        .Concatenate CHOOSEROWS_FN_NAME & FIRST_PARENTHESIS_OPEN & This.TableStepName
+        .Concatenate THREE_SPACE & this.HeadersStepName & LIST_SEPARATOR & ONE_SPACE
+        .Concatenate CHOOSEROWS_FN_NAME & FIRST_PARENTHESIS_OPEN & this.TableStepName
         .Concatenate LIST_SEPARATOR & ONE_SPACE & "1" & FIRST_PARENTHESIS_CLOSE
         .Concatenate LIST_SEPARATOR & NEW_LINE
                      
-        .Concatenate THREE_SPACE & This.ReturnStepName & LIST_SEPARATOR
+        .Concatenate THREE_SPACE & this.ReturnStepName & LIST_SEPARATOR
         .Concatenate ONE_SPACE & TOROW_FN_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
                      
         .Concatenate SIX_SPACE & IF_FN_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
         
         .Concatenate NINE_SPACE & ISOMITTED_FN_NAME & FIRST_PARENTHESIS_OPEN
-        .Concatenate This.ColumnListStepName & FIRST_PARENTHESIS_CLOSE
+        .Concatenate this.ColumnListStepName & FIRST_PARENTHESIS_CLOSE
         .Concatenate LIST_SEPARATOR & ONE_SPACE & NEW_LINE
                      
-        .Concatenate NINE_SPACE & This.HeadersStepName & LIST_SEPARATOR & ONE_SPACE & NEW_LINE
+        .Concatenate NINE_SPACE & this.HeadersStepName & LIST_SEPARATOR & ONE_SPACE & NEW_LINE
         
         .Concatenate NINE_SPACE & IF_FN_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
         .Concatenate TWELVE_SPACE & AND_FN_NAME & FIRST_PARENTHESIS_OPEN
         .Concatenate ISNUMBER_FN_NAME & FIRST_PARENTHESIS_OPEN
-        .Concatenate This.ColumnListStepName & FIRST_PARENTHESIS_CLOSE
+        .Concatenate this.ColumnListStepName & FIRST_PARENTHESIS_CLOSE
         .Concatenate FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
         
         .Concatenate TWELVE_SPACE & CHOOSECOLS_FN_NAME & FIRST_PARENTHESIS_OPEN
-        .Concatenate This.HeadersStepName & LIST_SEPARATOR & ONE_SPACE
-        .Concatenate This.ColumnListStepName & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
+        .Concatenate this.HeadersStepName & LIST_SEPARATOR & ONE_SPACE
+        .Concatenate this.ColumnListStepName & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
                      
-        .Concatenate TWELVE_SPACE & This.ColumnListStepName & NEW_LINE
+        .Concatenate TWELVE_SPACE & this.ColumnListStepName & NEW_LINE
         .Concatenate NINE_SPACE & FIRST_PARENTHESIS_CLOSE & NEW_LINE
         .Concatenate SIX_SPACE & FIRST_PARENTHESIS_CLOSE & NEW_LINE
         .Concatenate THREE_SPACE & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
-        .Concatenate This.ColumnIndexPart
-        .Concatenate This.CriteriaPart
+        .Concatenate this.ColumnIndexPart
+        .Concatenate this.CriteriaPart
         
-        .Concatenate THREE_SPACE & This.FinalCriteriaPart & LIST_SEPARATOR & ONE_SPACE
-        .Concatenate ROWS_FN_NAME & FIRST_PARENTHESIS_OPEN & This.DatasStepName
+        .Concatenate THREE_SPACE & this.FinalCriteriaPart & LIST_SEPARATOR & ONE_SPACE
+        .Concatenate ROWS_FN_NAME & FIRST_PARENTHESIS_OPEN & this.DatasStepName
         .Concatenate FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR
         .Concatenate ONE_SPACE & "1" & LIST_SEPARATOR & ONE_SPACE
         .Concatenate "1" & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
                      
-        .Concatenate THREE_SPACE & This.FilteredDataStepName & LIST_SEPARATOR
+        .Concatenate THREE_SPACE & this.FilteredDataStepName & LIST_SEPARATOR
         .Concatenate ONE_SPACE & FILTER_FN_NAME & FIRST_PARENTHESIS_OPEN
-        .Concatenate This.DatasStepName & LIST_SEPARATOR & ONE_SPACE
-        .Concatenate This.CriteriaStepName & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
+        .Concatenate this.DatasStepName & LIST_SEPARATOR & ONE_SPACE
+        .Concatenate this.CriteriaStepName & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
                      
-        .Concatenate THREE_SPACE & This.SortOrderLambdaStepName & LIST_SEPARATOR
+        .Concatenate THREE_SPACE & this.SortOrderLambdaStepName & LIST_SEPARATOR
         .Concatenate ONE_SPACE & GetSortOrderLambda() & LIST_SEPARATOR & NEW_LINE
                      
         .Concatenate THREE_SPACE & "\\Note" & LIST_SEPARATOR & ONE_SPACE
         .Concatenate """Using thunking for lazy evaluation.""" & LIST_SEPARATOR & NEW_LINE
                      
-        .Concatenate THREE_SPACE & This.SortLambdaStepName & LIST_SEPARATOR & ONE_SPACE & This.SortPart & NEW_LINE
+        .Concatenate THREE_SPACE & this.SortLambdaStepName & LIST_SEPARATOR & ONE_SPACE & this.SortPart & NEW_LINE
         .Concatenate THREE_SPACE & FIRST_PARENTHESIS_CLOSE & NEW_LINE
         .Concatenate THREE_SPACE & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
-        .Concatenate THREE_SPACE & This.ReturnColIndexStepName & LIST_SEPARATOR & ONE_SPACE
-        .Concatenate XMATCH_FN_NAME & FIRST_PARENTHESIS_OPEN & This.ReturnStepName
-        .Concatenate LIST_SEPARATOR & ONE_SPACE & This.HeadersStepName
+        .Concatenate THREE_SPACE & this.ReturnColIndexStepName & LIST_SEPARATOR & ONE_SPACE
+        .Concatenate XMATCH_FN_NAME & FIRST_PARENTHESIS_OPEN & this.ReturnStepName
+        .Concatenate LIST_SEPARATOR & ONE_SPACE & this.HeadersStepName
         .Concatenate LIST_SEPARATOR & ONE_SPACE & "0" & FIRST_PARENTHESIS_CLOSE
         .Concatenate LIST_SEPARATOR & NEW_LINE
                      
-        .Concatenate THREE_SPACE & This.ResultStepName & LIST_SEPARATOR
+        .Concatenate THREE_SPACE & this.ResultStepName & LIST_SEPARATOR
         .Concatenate ONE_SPACE & IFERROR_FN_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
                      
         .Concatenate SIX_SPACE & IF_FN_NAME & FIRST_PARENTHESIS_OPEN & NEW_LINE
         .Concatenate NINE_SPACE & ROWS_FN_NAME & FIRST_PARENTHESIS_OPEN
-        .Concatenate This.FilteredDataStepName & FIRST_PARENTHESIS_CLOSE
+        .Concatenate this.FilteredDataStepName & FIRST_PARENTHESIS_CLOSE
         .Concatenate ONE_SPACE & "= 1" & LIST_SEPARATOR & NEW_LINE
                      
         .Concatenate NINE_SPACE & VSTACK_FN_NAME & FIRST_PARENTHESIS_OPEN
-        .Concatenate This.ReturnStepName & LIST_SEPARATOR & ONE_SPACE
+        .Concatenate this.ReturnStepName & LIST_SEPARATOR & ONE_SPACE
         .Concatenate INDEX_FN_NAME & FIRST_PARENTHESIS_OPEN
-        .Concatenate This.FilteredDataStepName & LIST_SEPARATOR
+        .Concatenate this.FilteredDataStepName & LIST_SEPARATOR
         .Concatenate ONE_SPACE & "1" & LIST_SEPARATOR
-        .Concatenate ONE_SPACE & This.ReturnColIndexStepName
+        .Concatenate ONE_SPACE & this.ReturnColIndexStepName
         .Concatenate FIRST_PARENTHESIS_CLOSE & FIRST_PARENTHESIS_CLOSE
         .Concatenate LIST_SEPARATOR & NEW_LINE
                      
         .Concatenate NINE_SPACE & VSTACK_FN_NAME & FIRST_PARENTHESIS_OPEN
-        .Concatenate This.ReturnStepName & LIST_SEPARATOR & ONE_SPACE
+        .Concatenate this.ReturnStepName & LIST_SEPARATOR & ONE_SPACE
         .Concatenate CHOOSECOLS_FN_NAME & FIRST_PARENTHESIS_OPEN
-        .Concatenate This.SortLambdaStepName & FIRST_PARENTHESIS_OPEN
+        .Concatenate this.SortLambdaStepName & FIRST_PARENTHESIS_OPEN
         .Concatenate FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR
-        .Concatenate ONE_SPACE & This.ReturnColIndexStepName & FIRST_PARENTHESIS_CLOSE
+        .Concatenate ONE_SPACE & this.ReturnColIndexStepName & FIRST_PARENTHESIS_CLOSE
         .Concatenate FIRST_PARENTHESIS_CLOSE & NEW_LINE
                      
         .Concatenate SIX_SPACE & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
-        .Concatenate SIX_SPACE & This.ReturnStepName & NEW_LINE
+        .Concatenate SIX_SPACE & this.ReturnStepName & NEW_LINE
         .Concatenate THREE_SPACE & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR & NEW_LINE
-        .Concatenate THREE_SPACE & This.ResultStepName & NEW_LINE
+        .Concatenate THREE_SPACE & this.ResultStepName & NEW_LINE
         .Concatenate FIRST_PARENTHESIS_CLOSE & FIRST_PARENTHESIS_CLOSE
     End With
     
-    This.FilterLambda = Concatenator.Text
+    this.FilterLambda = Concatenator.Text
     
 End Sub
 

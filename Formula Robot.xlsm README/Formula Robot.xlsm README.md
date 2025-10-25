@@ -2,13 +2,13 @@
 
 \*\*Formula Robot.xlsm\*\* contains definitions for:
 
-[23 Robot Commands](#command-definitions)<BR>[1 Robot Parameter](#parameter-definitions)<BR>
+[21 Robot Commands](#command-definitions)<BR>[1 Robot Parameter](#parameter-definitions)<BR>[1 Robot Text](#text-definitions)<BR>
 
 <BR>
 
 ## Available Robot Commands
 
-[Fill](#fill) | [Formula](#formula) | [Paste](#paste) | [Table](#table) | [Translate](#translate) | [Other](#other)
+[Fill](#fill) | [Formula](#formula) | [Paste](#paste) | [Search](#search) | [Table](#table) | [Translate](#translate)
 
 ### Fill
 
@@ -26,15 +26,13 @@
 | [Apply Filter To Array](#apply-filter-to-array) | Create Filter formula based on top row spill range formula. |
 | [Auto\-Fit Formula Bar](#auto-fit-formula-bar) | Autofit formula bar height based on formula length so that whole formula is visible. |
 | [Compact Formula Format](#compact-formula-format) | Compact formula format of selected cells containing formulas. |
-| [Convert Formula To Structural Ref](#convert-formula-to-structural-ref) | Replace ActiveCell formula precedency range reference with their structured form like A1:D3 is named range and ActiveCell formula use A1:D3 then it will replace A1:D3 with it's named range name. |
 | [Format Formulas](#format-formulas) | Format formulas from selected cells. It will only change cell formula which has a formula. |
 | [Map To Array](#map-to-array) | Convert spill parent cell formula to use Map for all the cell of the spill range. |
 | [Paste As References](#paste-as-references) | Paste clipboard range address to active cell. |
-| [Paste As Structured References](#paste-as-structured-references) | Paste clipboard range as dynamic address to active cell. |
 | [Remove Outer Function](#remove-outer-function) | Remove the outer function from ActiveCell formula e.g. ActiveCell formula \=DROP(SEQUENCE(10,2),2,1) and after running the command it will be \=SEQUENCE(10,2) |
-| [Remove Outer Function X 2](#remove-outer-function-x-2) | Run Remove Outer Function command twice. |
-| [Remove Outer Function X 3](#remove-outer-function-x-3) | Run Remove Outer Function command three times. |
 | [Select Spill Parent](#select-spill-parent) | Select dynamic array formula cell. If no spill in ActiveCell then do nothing. |
+| [Show Formula Text](#show-formula-text) | Show formula text of active cell in a specified adjacent cell. |
+| [Time Formula](#time-formula) | Wraps formula in active cell with Timer lambda to evaluate calculation performance. |
 | [Toggle Expand Formula Bar](#toggle-expand-formula-bar) | If formula bar height is 1 then autofit it otherwise make it 1. |
 
 ### Paste
@@ -42,11 +40,17 @@
 | Name | Description |
 | --- | --- |
 | [Paste As References](#paste-as-references) | Paste clipboard range address to active cell. |
-| [Paste As Structured References](#paste-as-structured-references) | Paste clipboard range as dynamic address to active cell. |
 | [Paste Auto Fill Down](#paste-auto-fill-down) | Fill formula or value from clipboard range down using smart automation. |
 | [Paste Auto Fill To Right](#paste-auto-fill-to-right) | Fill formula or value from clipboard range to right using smart automation. |
 | [Paste Exact Formula](#paste-exact-formula) | Paste formula exactly as copied and number formats. |
 | [Paste Translate Formula](#paste-translate-formula) | Given text in clipboard containing an Excel formula in en\-us format, translates it to local languange, and puts it in active cell. |
+
+### Search
+
+| Name | Description |
+| --- | --- |
+| [Search Workbook For Specified Functions](#search-workbook-for-specified-functions) | Searches cells, names, and conditional formatting for use of user specified functions and reports findings. |
+| [Search Workbook For Volatile Functions](#search-workbook-for-volatile-functions) | Searches cells, names, and conditional formatting for use of volatile functions and reports findings. |
 
 ### Table
 
@@ -61,13 +65,6 @@
 | [Copy Formula To English](#copy-formula-to-english) | Translate ActiveCell formula to en\-us locale and copy to clipboard. |
 | [Paste Translate Formula](#paste-translate-formula) | Given text in clipboard containing an Excel formula in en\-us format, translates it to local languange, and puts it in active cell. |
 
-### Other
-
-| Name | Description |
-| --- | --- |
-| [Search Workbook For Specified Functions](#search-workbook-for-specified-functions) | Searches cells, names, and conditional formatting for use of user specified functions and reports findings. |
-| [Search Workbook For Volatile Functions](#search-workbook-for-volatile-functions) | Searches cells, names, and conditional formatting for use of volatile functions and reports findings. |
-
 <BR>
 
 ## Available Robot Parameters
@@ -75,6 +72,14 @@
 | Name | Description |
 | --- | --- |
 | [UserSpecifiedFunctions](#userspecifiedfunctions) | Ask user for a comma seperated functions name for searching in cells, names and conditional formatting. |
+
+<BR>
+
+## Available Robot Texts
+
+| Name | Description |
+| --- | --- |
+| [Timer.lambda](#timerlambda) | Returns time required to calculate a formula in seconds. |
 
 <BR>
 
@@ -156,23 +161,6 @@
 | User Context Filter | ExcelActiveCellContainsFormula |
 | Command After | [Auto-Fit Formula Bar](#auto-fit-formula-bar) |
 | Launch Codes | <code>bo</code> |
-
-[^Top](#oa-robot-definitions)
-
-<BR>
-
-### Convert Formula To Structural Ref
-
-*Replace ActiveCell formula precedency range reference with their structured form like A1:D3 is named range and ActiveCell formula use A1:D3 then it will replace A1:D3 with it's named range name.*
-
-<sup>`@Formula Robot.xlsm` `!VBA Macro Command` `#Formula`</sup>
-
-> \*\*Note:\*\* Structured reference means using Table, Named Range or \# for spill formula. Instead of using A1:D3 this will try to find possible structured reference for that range and use that.
-
-| Property | Value |
-| --- | --- |
-| Macro Expression | <code>[modStructuredReference.ConvertFormulaToStructuredRef](./VBA/modStructuredReference.bas#L41)([[ActiveCell]])</code> |
-| User Context Filter | ExcelActiveCellContainsFormula AND ExcelSelectionIsSingleCell |
 
 [^Top](#oa-robot-definitions)
 
@@ -279,23 +267,6 @@
 
 <BR>
 
-### Paste As Structured References
-
-*Paste clipboard range as dynamic address to active cell.*
-
-<sup>`@Formula Robot.xlsm` `!Excel Formula Command` `#Paste` `#Formula`</sup>
-
-| Property | Value |
-| --- | --- |
-| Formula | <code>\=\[\[Clipboard::DynamicReference\]\]</code> |
-| Destination Range Address | <code>\[\[ActiveCell\]\]</code> |
-| User Context Filter | ClipboardHasExcelData |
-| Launch Codes | <code>psr</code> |
-
-[^Top](#oa-robot-definitions)
-
-<BR>
-
 ### Paste Auto Fill Down
 
 *Fill formula or value from clipboard range down using smart automation.*
@@ -376,41 +347,11 @@
 
 <BR>
 
-### Remove Outer Function X 2
-
-*Run Remove Outer Function command twice.*
-
-<sup>`@Formula Robot.xlsm` `!Sequence Command` `#Formula`</sup>
-
-| Property | Value |
-| --- | --- |
-| Commands | <ol><li>[Remove Outer Function](#remove-outer-function)</li><li>[Remove Outer Function](#remove-outer-function)</li></ol> |
-| Launch Codes | <code>ro2</code> |
-
-[^Top](#oa-robot-definitions)
-
-<BR>
-
-### Remove Outer Function X 3
-
-*Run Remove Outer Function command three times.*
-
-<sup>`@Formula Robot.xlsm` `!Sequence Command` `#Formula`</sup>
-
-| Property | Value |
-| --- | --- |
-| Commands | <ol><li>[Remove Outer Function](#remove-outer-function)</li><li>[Remove Outer Function](#remove-outer-function)</li><li>[Remove Outer Function](#remove-outer-function)</li></ol> |
-| Launch Codes | <code>ro3</code> |
-
-[^Top](#oa-robot-definitions)
-
-<BR>
-
 ### Search Workbook For Specified Functions
 
 *Searches cells, names, and conditional formatting for use of user specified functions and reports findings.*
 
-<sup>`@Formula Robot.xlsm` `!VBA Macro Command` </sup>
+<sup>`@Formula Robot.xlsm` `!VBA Macro Command` `#Search`</sup>
 
 | Property | Value |
 | --- | --- |
@@ -424,7 +365,7 @@
 
 *Searches cells, names, and conditional formatting for use of volatile functions and reports findings.*
 
-<sup>`@Formula Robot.xlsm` `!VBA Macro Command` </sup>
+<sup>`@Formula Robot.xlsm` `!VBA Macro Command` `#Search`</sup>
 
 | Property | Value |
 | --- | --- |
@@ -443,6 +384,73 @@
 | Property | Value |
 | --- | --- |
 | Macro Expression | <code>[modDynamicFormula.SelectSpillParent](./VBA/modDynamicFormula.bas#L13)()</code> |
+
+[^Top](#oa-robot-definitions)
+
+<BR>
+
+### Show Formula Text
+
+*Show formula text of active cell in a specified adjacent cell.*
+
+<sup>`@Formula Robot.xlsm` `!Excel Formula Command` `#Formula`</sup>
+
+| Property | Value |
+| --- | --- |
+| Formula | <code>\=FORMULATEXT(\[\[ActiveCell\]\])</code> |
+| Destination Range Address | <code>\[ActiveCell.Offset({{OffsetXY::ExcelFormula()}})\]</code> |
+| Scroll To Destination | ☐Yes ☑No |
+| Parameters | <ol><li>[OffsetXY](#show-formula-text--offsetxy)</li></ol> |
+| User Context Filter | ExcelActiveCellContainsFormula AND ExcelSelectionIsSingleCell |
+| Outputs | <ol></ol> |
+| Launch Codes | <code>sft</code> |
+
+<BR>
+
+#### Show Formula Text \>\> OffsetXY
+
+*X,Y offset string to be inserted into Destination Range address*
+
+<sup>`!Input Parameter` </sup>
+
+| Property | Value |
+| --- | --- |
+| Prompt | <code>Where would you like to show the formula text?</code> |
+| Validation List | <code>Above active cell,"\-1,0"</code><br><code>Right of active cell,"0,1"</code><br><code>Below active cell,"1,0"</code> |
+| Data Type | String |
+| Default Value | <code>\-1,0</code> |
+
+[^Top](#oa-robot-definitions)
+
+<BR>
+
+### Time Formula
+
+*Wraps formula in active cell with Timer lambda to evaluate calculation performance.*
+
+<sup>`@Formula Robot.xlsm` `!Excel Formula Command` `#Formula`</sup>
+
+| Property | Value |
+| --- | --- |
+| Formula | <code>\=Timer(\[\[ActiveCell::Formula\]\],{{Include\_Output}})</code> |
+| Formula Dependencies | [Timer.lambda](#timerlambda) |
+| Parameters | <ol><li>[Include_Output](#time-formula--include_output)</li></ol> |
+| User Context Filter | ExcelActiveCellContainsFormula AND ExcelSelectionIsSingleCell |
+| Outputs | <ol></ol> |
+
+<BR>
+
+#### Time Formula \>\> Include\_Output
+
+*Ask user whether to include output.*
+
+<sup>`!Input Parameter` </sup>
+
+| Property | Value |
+| --- | --- |
+| Prompt | <code>Do you want to include the formula output with the timer results?</code> |
+| Validation List | <code>"No, return time only.", FALSE</code><br><code>"Yes, return time and formula output.", TRUE</code> |
+| Default Value | <code>FALSE</code> |
 
 [^Top](#oa-robot-definitions)
 
@@ -478,5 +486,28 @@
 | --- | --- |
 | Prompt | <code>Specify functions to search for (example: LET, LAMBDA):</code> |
 | Data Type | String |
+
+[^Top](#oa-robot-definitions)
+
+<BR>
+
+## Text Definitions
+
+<BR>
+
+### Timer.lambda
+
+*Returns time required to calculate a formula in seconds.*
+
+<sup>`@Formula Robot.xlsm` `!Excel Name Text` </sup>
+
+> \*\*Note:\*\* Because this lambda doesn't start with \=LAMBDA(, it can't be edited using Lambda Robot.
+
+| Property | Value |
+| --- | --- |
+| Text | [Timer.lambda](<./Text/Timer.lambda.txt>) |
+| Value | <code>Timer \= LET(\_StartTimer, NOW(),</code><br><code> LAMBDA(formula,\[include\_output\], LET(</code><br><code> \_Timing, TEXT(NOW() \- \_StartTimer, "\[s\].000\\s"),</code><br><code> \_Result, IF(include\_output,IFERROR(VSTACK(\_Timing, formula), ""),\_Timing),</code><br><code> \_Result</code><br><code> ))</code><br><code>);</code> |
+| Content Type | ExcelLambda |
+| Location | <code>Timer</code> |
 
 [^Top](#oa-robot-definitions)

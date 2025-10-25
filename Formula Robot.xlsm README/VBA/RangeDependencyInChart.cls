@@ -21,48 +21,48 @@ Private Type TRangeDependencyInChart
     NamedRangeNameOnly As String
 End Type
 
-Private This As TRangeDependencyInChart
+Private this As TRangeDependencyInChart
 
 Public Property Get PutDependencyOnTable() As ListObject
-    Set PutDependencyOnTable = This.PutDependencyOnTable
+    Set PutDependencyOnTable = this.PutDependencyOnTable
 End Property
 
 Public Property Set PutDependencyOnTable(ByVal RHS As ListObject)
-    Set This.PutDependencyOnTable = RHS
+    Set this.PutDependencyOnTable = RHS
 End Property
 
 Public Property Get AllDependency() As Collection
-    Set AllDependency = This.AllDependency
+    Set AllDependency = this.AllDependency
 End Property
 
 Public Property Set AllDependency(ByVal RHS As Collection)
-    Set This.AllDependency = RHS
+    Set this.AllDependency = RHS
 End Property
 
 Public Property Get Book() As Workbook
-    Set Book = This.Book
+    Set Book = this.Book
 End Property
 
 Public Property Set Book(ByVal RHS As Workbook)
-    Set This.Book = RHS
+    Set this.Book = RHS
 End Property
 
 Public Property Get SheetNamePrefix() As String
-    SheetNamePrefix = This.SheetNamePrefix
+    SheetNamePrefix = this.SheetNamePrefix
 End Property
 
 Public Property Let SheetNamePrefix(ByVal RHS As String)
-    This.SheetNamePrefix = RHS
+    this.SheetNamePrefix = RHS
 End Property
 
 Private Sub UpdateBasicStat(ByVal GivenRange As Range)
     
     ' Set up basic statistics for the given range
     
-    Set This.Book = GivenRange.Worksheet.Parent
-    This.SheetNamePrefix = AddSingleQuoteIfAnyNonAlphanumeric(GivenRange.Worksheet.Name)
-    This.BookNamePrefix = AddSingleQuoteIfAnyNonAlphanumeric(WorkbookNameFromRange(GivenRange))
-    Set This.AllDependency = New Collection
+    Set this.Book = GivenRange.Worksheet.Parent
+    this.SheetNamePrefix = AddSingleQuoteIfAnyNonAlphanumeric(GivenRange.Worksheet.Name)
+    this.BookNamePrefix = AddSingleQuoteIfAnyNonAlphanumeric(WorkbookNameFromRange(GivenRange))
+    Set this.AllDependency = New Collection
     
 End Sub
 
@@ -70,9 +70,9 @@ Private Sub ClearCatches()
     
     ' Clear all the cached variables and objects
     
-    Set This.Book = Nothing
-    This.SheetNamePrefix = vbNullString
-    Set This.AllDependency = Nothing
+    Set this.Book = Nothing
+    this.SheetNamePrefix = vbNullString
+    Set this.AllDependency = Nothing
 
 End Sub
 
@@ -92,15 +92,15 @@ End Function
 
 Public Sub ExtractAllNamedRangeRef(ByVal ForName As Name, ByVal FromBook As Workbook)
     
-    Set This.Book = FromBook
+    Set this.Book = FromBook
     If IsLocalScopeNamedRange(ForName) Then
-        This.SheetNamePrefix = Text.BeforeDelimiter(ForName.NameLocal, EXCLAMATION_SIGN)
+        this.SheetNamePrefix = Text.BeforeDelimiter(ForName.NameLocal, EXCLAMATION_SIGN)
     ElseIf Not ForName.RefersToRange Is Nothing Then
-        This.SheetNamePrefix = AddSingleQuoteIfAnyNonAlphanumeric(ForName.RefersToRange.Worksheet.Name)
+        this.SheetNamePrefix = AddSingleQuoteIfAnyNonAlphanumeric(ForName.RefersToRange.Worksheet.Name)
     End If
-    This.NamedRangeNameOnly = ExtractNameFromLocalNameRange(ForName.NameLocal)
-    This.BookNamePrefix = AddSingleQuoteIfAnyNonAlphanumeric(FromBook.Name)
-    Set This.AllDependency = New Collection
+    this.NamedRangeNameOnly = ExtractNameFromLocalNameRange(ForName.NameLocal)
+    this.BookNamePrefix = AddSingleQuoteIfAnyNonAlphanumeric(FromBook.Name)
+    Set this.AllDependency = New Collection
     FindAllNamedRangeDependency ForName
     
 End Sub
@@ -108,13 +108,13 @@ End Sub
 Public Sub RenameNamedRange(ByVal NewName As String)
     
     Dim CurrentItem As ChartInfo
-    For Each CurrentItem In This.AllDependency
+    For Each CurrentItem In this.AllDependency
         Dim NewFormulaText As String
         NewFormulaText = CallByName(CurrentItem.FoundOnObject, CurrentItem.PropertyName, VbGet)
-        NewFormulaText = ReplaceTokenWithNewToken(NewFormulaText, This.SheetNamePrefix & EXCLAMATION_SIGN & This.NamedRangeNameOnly _
-                                                                 , This.SheetNamePrefix & EXCLAMATION_SIGN & NewName)
-        NewFormulaText = ReplaceTokenWithNewToken(NewFormulaText, This.BookNamePrefix & EXCLAMATION_SIGN & This.NamedRangeNameOnly _
-                                                                 , This.BookNamePrefix & EXCLAMATION_SIGN & NewName)
+        NewFormulaText = ReplaceTokenWithNewToken(NewFormulaText, this.SheetNamePrefix & EXCLAMATION_SIGN & this.NamedRangeNameOnly _
+                                                                 , this.SheetNamePrefix & EXCLAMATION_SIGN & NewName)
+        NewFormulaText = ReplaceTokenWithNewToken(NewFormulaText, this.BookNamePrefix & EXCLAMATION_SIGN & this.NamedRangeNameOnly _
+                                                                 , this.BookNamePrefix & EXCLAMATION_SIGN & NewName)
         CallByName CurrentItem.FoundOnObject, CurrentItem.PropertyName, VbLet, NewFormulaText
     Next CurrentItem
     
@@ -127,11 +127,11 @@ Public Sub ApplyNameRange(ByVal CurrentName As Name)
     Dim RefersToRange As Range
     Set RefersToRange = CurrentName.RefersToRange
     FindAllRangeDependency RefersToRange
-    If This.AllDependency.Count = 0 Then Exit Sub
+    If this.AllDependency.Count = 0 Then Exit Sub
     Dim ReplaceWith As String
     ReplaceWith = GetNamedRangeRefText(CurrentName)
     Dim CurrentItem As ChartInfo
-    For Each CurrentItem In This.AllDependency
+    For Each CurrentItem In this.AllDependency
         If CurrentItem.IsWholeSearchRangeBeingUsed Then
             Dim FindAddress As String
             If CurrentItem.OnSheet = RefersToRange.Worksheet.Name Then
@@ -194,12 +194,12 @@ Public Sub SendDataToSheet(ByVal GivenRange As Range, ByVal PutToRange As Range)
     ' Send the dependency data to a specified range on a sheet
     
     FindAllRangeDependency GivenRange
-    If This.AllDependency.Count = 0 Then
+    If this.AllDependency.Count = 0 Then
         MsgBox "No Reference found on any chart", vbInformation, "SendDataToSheet"
         Exit Sub
     End If
     Dim AllData As Variant
-    AllData = GetDependencyData(This.AllDependency, True)
+    AllData = GetDependencyData(this.AllDependency, True)
     Dim PutDependencyDataOnRange As Range
     Set PutDependencyDataOnRange = PutToRange.Resize(AllDependency.Count + 1, UBound(AllData, 2))
     If Not IsAllCellBlank(PutDependencyDataOnRange) Then
@@ -210,11 +210,11 @@ Public Sub SendDataToSheet(ByVal GivenRange As Range, ByVal PutToRange As Range)
     End If
     
     PutDependencyDataOnRange.Value = AllData
-    Set This.PutDependencyOnTable = PutToRange.Parent.ListObjects.Add(xlSrcRange, PutDependencyDataOnRange, , xlYes)
-    This.PutDependencyOnTable.ListColumns(3).Range.ColumnWidth = 50
-    This.PutDependencyOnTable.ListColumns(5).Range.ColumnWidth = 50
-    This.PutDependencyOnTable.Range.WrapText = False
-    ScrollToDependencyDataRange This.PutDependencyOnTable
+    Set this.PutDependencyOnTable = PutToRange.Parent.ListObjects.Add(xlSrcRange, PutDependencyDataOnRange, , xlYes)
+    this.PutDependencyOnTable.ListColumns(3).Range.ColumnWidth = 50
+    this.PutDependencyOnTable.ListColumns(5).Range.ColumnWidth = 50
+    this.PutDependencyOnTable.Range.WrapText = False
+    ScrollToDependencyDataRange this.PutDependencyOnTable
     ClearCatches
     
 End Sub
@@ -301,7 +301,7 @@ Private Sub FindAndCreateDependencyForRange(ByVal FormulaText As String, ByVal G
     
     ' Find and create the dependency info for the given formula text
     
-    If Text.Contains(FormulaText, This.SheetNamePrefix) Then
+    If Text.Contains(FormulaText, this.SheetNamePrefix) Then
         Dim AllRangeAddress As Variant
         AllRangeAddress = GetDirectPrecedents(FormulaText, GivenRange.Worksheet)
         Dim TempRange As Range
@@ -316,7 +316,7 @@ Private Sub FindAndCreateDependencyForRange(ByVal FormulaText As String, ByVal G
                                                                            , TempRange.Address = GivenRange.Address _
                                                                             , CStr(RangeAddress) _
                                                                              , FoundOnObject, "FormulaLocal", VBASyntax)
-                    This.AllDependency.Add CurrentChartInfo
+                    this.AllDependency.Add CurrentChartInfo
                 End If
             End If
         Next RangeAddress
@@ -332,7 +332,7 @@ Private Sub FindAndCreateDependencyForNamedRange(ByVal FormulaText As String, By
     
     ' Find and create the dependency info for the given formula text
     
-    If Not (Text.Contains(FormulaText, This.SheetNamePrefix) Or Text.Contains(FormulaText, This.BookNamePrefix)) Then
+    If Not (Text.Contains(FormulaText, this.SheetNamePrefix) Or Text.Contains(FormulaText, this.BookNamePrefix)) Then
         Exit Sub
     End If
     
@@ -347,8 +347,8 @@ Private Sub FindAndCreateDependencyForNamedRange(ByVal FormulaText As String, By
         ' I have seen both workbook name and sheet name as prefix.
         IsNamedRangeFound = ( _
                             RangeAddress = ForName.Name _
-                            Or RangeAddress = This.SheetNamePrefix & EXCLAMATION_SIGN & ForName.Name _
-                            Or RangeAddress = This.BookNamePrefix & EXCLAMATION_SIGN & ForName.Name _
+                            Or RangeAddress = this.SheetNamePrefix & EXCLAMATION_SIGN & ForName.Name _
+                            Or RangeAddress = this.BookNamePrefix & EXCLAMATION_SIGN & ForName.Name _
                             )
             
         If IsNamedRangeFound Then
@@ -357,7 +357,7 @@ Private Sub FindAndCreateDependencyForNamedRange(ByVal FormulaText As String, By
                                                                    , True _
                                                                     , CStr(RangeAddress) _
                                                                      , FoundOnObject, "FormulaLocal", VBASyntax)
-            This.AllDependency.Add CurrentChartInfo
+            this.AllDependency.Add CurrentChartInfo
         End If
     Next RangeAddress
     
