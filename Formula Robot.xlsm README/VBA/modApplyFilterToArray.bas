@@ -49,7 +49,7 @@ Public Sub ApplyFilterToArray(ByVal FormulaCell As Range, Optional ByVal PlaceFo
         If IsValidForMap Then
                     
             If CurrentRange.Cells.Count = 1 Then
-                UpdateValidCells ValidCellsForMAP, CStr(CurrentPrecedency), CurrentRange, FormulaCell, CHOOSE_COLS
+                UpdateValidCells ValidCellsForMAP, CStr(CurrentPrecedency), CurrentRange, FormulaCell, CHOOSE_COLS, Nothing
             End If
                     
             Dim SpillParentRef As String

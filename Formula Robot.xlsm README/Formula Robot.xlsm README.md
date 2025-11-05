@@ -95,8 +95,8 @@
 
 | Property | Value |
 | --- | --- |
-| Macro Expression | <code>[modApplyFilterToArray.ApplyFilterToArray](./VBA/modApplyFilterToArray.bas#L11)([[ActiveCell]],[[ActiveCell.Offset(1,1)]])</code> |
-| User Context Filter | ExcelActiveCellContainsFormula |
+| Macro Expression | <code>[modApplyFilterToArray.ApplyFilterToArray](./VBA/modApplyFilterToArray.bas#L11)([[ActiveCell]],[[ActiveCell.Offset(0,1)]])</code> |
+| User Context Filter | ExcelActiveCellContainsNonSpillingFormula AND ExcelActiveCellValueIsBoolean |
 
 [^Top](#oa-robot-definitions)
 
@@ -416,7 +416,7 @@
 | Property | Value |
 | --- | --- |
 | Prompt | <code>Where would you like to show the formula text?</code> |
-| Validation List | <code>Above active cell,"\-1,0"</code><br><code>Right of active cell,"0,1"</code><br><code>Below active cell,"1,0"</code> |
+| Validation List | <code>Above active cell,"\-1,0"</code><br><code>Two above active cell,"\-2,0"</code><br><code>Right of active cell,"0,1"</code><br><code>Below active cell,"1,0"</code> |
 | Data Type | String |
 | Default Value | <code>\-1,0</code> |
 

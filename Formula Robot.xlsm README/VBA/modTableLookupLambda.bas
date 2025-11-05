@@ -124,7 +124,8 @@ Public Function GetCurrentColLambda(ByVal DefPart As String _
     Dim Code As String
     Code = "=LAMBDA(" & DefPart & " LET(" & vbNewLine _
            & "   _FilteredDataWithHeader, " & TableName & ".Select(" & ReturnColDataPart & "," & FilterInvocationPart & ")," & vbNewLine _
-           & "   _Result, SWITCH(ROWS(_FilteredDataWithHeader),1,NA(),2,INDEX(_FilteredDataWithHeader,2,1),DROP(_FilteredDataWithHeader,1))," & vbNewLine _
+           & "   _RowCount,ROWS(_FilteredDataWithHeader)," & vbNewLine _
+           & "   _Result, IF(_RowCount=1,NA(),IF(_RowCount=2,INDEX(_FilteredDataWithHeader,2,1),DROP(_FilteredDataWithHeader,1)))," & vbNewLine _
            & "   _Result" & vbNewLine _
            & "))"
 

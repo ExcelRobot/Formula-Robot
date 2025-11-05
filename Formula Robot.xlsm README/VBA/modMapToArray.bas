@@ -46,7 +46,7 @@ Public Sub MapToArray(ByVal FormulaCell As Range, Optional ByVal PlaceFormulaToC
             If CurrentRange.Cells(1).HasSpill Then
                 If IsSpillParent(CurrentRange) Then
                     ' If it is in spill parent then it could be One Spill parent or it can be in chooserows or choose cols. So update all three.
-                    modUtility.UpdateValidCells ValidSpillParentCellsForMap, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_NONE
+                    modUtility.UpdateValidCells ValidSpillParentCellsForMap, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_NONE, Nothing
                 End If
             End If
         End If
@@ -64,7 +64,7 @@ Public Sub MapToArray(ByVal FormulaCell As Range, Optional ByVal PlaceFormulaToC
     
     Dim FullFormula As String
     If ValidSpillParentCellsForMap.Count > 0 Then
-        FullFormula = GetFormulaForMapToArray(ValidSpillParentCellsForMap, FormulaCell)
+        FullFormula = GetFormulaForMapToArray(ValidSpillParentCellsForMap, FormulaCell, FormulaCell.Formula2)
     Else
         Exit Sub
     End If
@@ -95,11 +95,12 @@ Public Sub MapToArray_Undo()
 End Sub
 
 Private Function GetFormulaForMapToArray(ByVal ValidSpillParentCellsForMap As Collection _
-                                         , ByVal FormulaCell As Range) As String
+                                         , ByVal FormulaCell As Range _
+                                         , ByVal StructuredFormula As String) As String
     
     ' We need to use TILE function
     If FormulaCell.HasSpill Then
-        GetFormulaForMapToArray = GetMapToArrayForTile(FormulaCell.Formula2 _
+        GetFormulaForMapToArray = GetMapToArrayForTile(StructuredFormula _
                                                        , ValidSpillParentCellsForMap)
     Else
         Dim Formula As String
@@ -108,7 +109,7 @@ Private Function GetFormulaForMapToArray(ByVal ValidSpillParentCellsForMap As Co
         ResultArrayRowCount = MaxRowCount(ValidSpillParentCellsForMap)
         If Not IsSpillRowCountSame(Formula, FormulaCell, ResultArrayRowCount) Then
             Formula = modUtility.GenerateFormulaForMapToArrayExceptTile(ValidSpillParentCellsForMap _
-                                                                        , FormulaCell, MAP_FN_NAME)
+                                                                        , MAP_FN_NAME, StructuredFormula)
         End If
         
         GetFormulaForMapToArray = Formula
@@ -180,3 +181,4 @@ Private Function CreateLambdaPartForTile(ByVal BaseFormula As String _
                               & FIRST_PARENTHESIS_CLOSE & FIRST_PARENTHESIS_CLOSE & FIRST_PARENTHESIS_CLOSE
     
 End Function
+

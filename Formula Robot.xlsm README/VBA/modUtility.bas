@@ -15,11 +15,11 @@ End Sub
 Public Sub AddCustomLambdaIfNeeded(ByVal AddToBook As Workbook, ByVal CheckForCustomFNOnFormula As String)
     
     Dim Lambdas As Variant
-    Lambdas = Array(TILE_FN_NAME, BY_ROW_A_FN_NAME, BY_COL_A_FN_NAME)
+    Lambdas = Array(TILE_FN_NAME, BY_ROW_A_FN_NAME, BY_COL_A_FN_NAME, LAG_FN_NAME)
     
     Dim CurrentLambda As Variant
     For Each CurrentLambda In Lambdas
-        If Text.IsStartsWith(CheckForCustomFNOnFormula, EQUAL_SIGN & CurrentLambda & FIRST_PARENTHESIS_OPEN) Then
+        If Text.Contains(CheckForCustomFNOnFormula, CurrentLambda & FIRST_PARENTHESIS_OPEN) Then
             CopyLambdaFromThisBook AddToBook, CStr(CurrentLambda)
         End If
     Next CurrentLambda
@@ -118,7 +118,8 @@ Public Sub UpdateValidCells(ByVal PrecedencyVsCellsInfoMap As Collection _
                             , ByVal CurrentPrecedency As String _
                              , ByVal CurrentRange As Range _
                               , ByVal FormulaCell As Range _
-                               , ByVal OptionToChoose As ChooseOption)
+                               , ByVal OptionToChoose As ChooseOption _
+                                , ByVal FillLagWithCell As Range)
     
     Dim CurrentPrecedencyInfo As PrecedencyInfo
     Set CurrentPrecedencyInfo = New PrecedencyInfo
@@ -137,6 +138,7 @@ Public Sub UpdateValidCells(ByVal PrecedencyVsCellsInfoMap As Collection _
             .ColCount = SpillRange.Columns.Count
             .TopLeftCellRowNo = CurrentRange.Cells(1).SpillParent.Row
             .TopLeftCellColNo = CurrentRange.Cells(1).SpillParent.Column
+            Set .FillLagWithCell = FillLagWithCell
         Else
             '@TODO: Need to check if we can use Table Ref or not.
             .RangeRef = GetParentCellRefIfNoSpill(FormulaCell, CurrentRange, False)
@@ -159,6 +161,11 @@ Public Sub UpdateValidCells(ByVal PrecedencyVsCellsInfoMap As Collection _
             .AbsChoosePartFormula = .AbsRangeRef
              
         End If
+        
+        If IsNotNothing(FillLagWithCell) Then
+            .ChoosePartFormula = WrapWithLag(.ChoosePartFormula, FillLagWithCell, FormulaCell, False)
+            .AbsChoosePartFormula = WrapWithLag(.AbsChoosePartFormula, FillLagWithCell, FormulaCell, True)
+        End If
     
     End With
     
@@ -166,8 +173,25 @@ Public Sub UpdateValidCells(ByVal PrecedencyVsCellsInfoMap As Collection _
     
 End Sub
 
+Private Function WrapWithLag(ByVal Ref As String _
+                             , ByVal FillLagWithCell As Range _
+                              , ByVal FormulaCell As Range _
+                              , ByVal IsFillRefAbs As Boolean) As String
+    
+    Dim FillWithCellRef As String
+    
+    If FormulaCell.Worksheet.Name <> FillLagWithCell.Worksheet.Name Then
+        FillWithCellRef = GetRangeRefWithSheetName(FillLagWithCell, , IsFillRefAbs)
+    Else
+        FillWithCellRef = FillLagWithCell.Address(IsFillRefAbs, IsFillRefAbs)
+    End If
+    
+    WrapWithLag = LAG_FN_NAME & FIRST_PARENTHESIS_OPEN & Ref & COMMA & 1 & COMMA & FillWithCellRef & FIRST_PARENTHESIS_CLOSE
+    
+End Function
+
 Private Sub UpdateRowIndexAndChoosePart(ByRef CurrentPrecedencyInfo As PrecedencyInfo _
-, ByVal CurrentRange As Range)
+                                        , ByVal CurrentRange As Range)
     
     With CurrentPrecedencyInfo
         If .HasSpill Then
@@ -184,9 +208,10 @@ Private Sub UpdateRowIndexAndChoosePart(ByRef CurrentPrecedencyInfo As Precedenc
 End Sub
 
 Private Sub UpdateColIndexAndChoosePart(ByRef CurrentPrecedencyInfo As PrecedencyInfo _
-, ByVal CurrentRange As Range)
+                                        , ByVal CurrentRange As Range)
     
     With CurrentPrecedencyInfo
+        
         If .HasSpill Then
             .ColOrRowIndex = CurrentRange.Column - CurrentRange.Cells(1).SpillParent.Column + 1
             .ChoosePartFormula = GetChooseColPartFormula(CurrentRange, .RangeRef)
@@ -196,6 +221,7 @@ Private Sub UpdateColIndexAndChoosePart(ByRef CurrentPrecedencyInfo As Precedenc
             .ChoosePartFormula = .RangeRef
             .AbsChoosePartFormula = .AbsRangeRef
         End If
+        
     End With
     
 End Sub
@@ -277,10 +303,13 @@ Public Function GetParentCellRefIfNoSpill(ByVal FormulaCell As Range _
                                            , ByVal IsAbsoluteRef As Boolean) As String
     
     Dim CellRef As String
+    
     If FormulaCell.Worksheet.Name <> CurrentRange.Worksheet.Name Then
         CellRef = GetSheetRefForRangeReference(CurrentRange.Worksheet.Name)
     End If
+    
     CellRef = CellRef & CurrentRange.Address(IsAbsoluteRef, IsAbsoluteRef)
+    
     GetParentCellRefIfNoSpill = CellRef
     
 End Function
@@ -392,11 +421,11 @@ Public Function IsTextPresent(ByVal SearchInText As String, ByVal SearchForText 
 End Function
 
 Public Function GenerateFormulaForMapToArrayExceptTile(ByVal ValidCellForParam As Collection _
-                                                       , ByVal FormulaCell As Range _
-                                                        , ByVal OuterFormulaName As String) As String
+                                                       , ByVal OuterFormulaName As String _
+                                                        , ByVal StructuredFormula As String) As String
                                                      
     Dim CalculationPart As String
-    CalculationPart = FormulaCell.Formula2
+    CalculationPart = StructuredFormula
     
     Dim StepNamePrefix As String
     StepNamePrefix = GetStepNamePrefix(CalculationPart, ValidCellForParam.Count)
@@ -439,28 +468,30 @@ Public Sub RunRobotCommand(CommandName As String)
 End Sub
 
 Public Function GenerateFormulaIfByRow(ByVal FormulaCell As Range _
-                                       , ByVal ValidCellsForByRow As Collection) As String
+                                       , ByVal ValidCellsForByRow As Collection _
+                                       , ByVal StructuredFormula As String) As String
     
     Dim Formula As String
     ' By Row is only for one spill range. That's why we need to TILE
     If FormulaCell.HasSpill Or ValidCellsForByRow.Count > 1 Then
-        Formula = GenerateFillTileWhenByRowOrCol(FormulaCell.Formula2, ValidCellsForByRow, True)
+        Formula = GenerateFillTileWhenByRowOrCol(StructuredFormula, ValidCellsForByRow, True)
     Else
-        Formula = GenerateFormulaForMapToArrayExceptTile(ValidCellsForByRow, FormulaCell, BYROW_FN_NAME)
+        Formula = GenerateFormulaForMapToArrayExceptTile(ValidCellsForByRow, BYROW_FN_NAME, StructuredFormula)
     End If
     GenerateFormulaIfByRow = Formula
     
 End Function
 
 Public Function GenerateFormulaIfByCol(ByVal FormulaCell As Range _
-, ByVal ValidCellsForByCol As Collection) As String
+                                        , ByVal ValidCellsForByCol As Collection _
+                                        , ByVal StructuredFormula As String) As String
     
     Dim Formula As String
     ' By Row is only for one spill range. That's why we need to TILE
     If FormulaCell.HasSpill Or ValidCellsForByCol.Count > 1 Then
-        Formula = GenerateFillTileWhenByRowOrCol(FormulaCell.Formula2, ValidCellsForByCol, False)
+        Formula = GenerateFillTileWhenByRowOrCol(StructuredFormula, ValidCellsForByCol, False)
     Else
-        Formula = GenerateFormulaForMapToArrayExceptTile(ValidCellsForByCol, FormulaCell, BYCOL_FN_NAME)
+        Formula = GenerateFormulaForMapToArrayExceptTile(ValidCellsForByCol, BYCOL_FN_NAME, StructuredFormula)
     End If
     GenerateFormulaIfByCol = Formula
     
@@ -1866,18 +1897,36 @@ Public Sub ChangeNonArraysDataRangeToSameSize(ByVal ValidCells As Collection _
     Dim CurrentPrecedency As PrecedencyInfo
     For Each CurrentPrecedency In ValidCells
         With CurrentPrecedency
-            If Not .HasSpill Then
+            
+            Dim IsValidToResize As Boolean
+            IsValidToResize = True
+            
+            Dim NewRange As Range
+            Set NewRange = IIf(TypeOfFill = Fill_DOWN, .NameInFormulaRange.Resize(Size), .NameInFormulaRange.Resize(, Size))
+            
+            If .HasSpill Then
+                IsValidToResize = False
+            ElseIf NewRange.Worksheet.Name = FormulaCell.Worksheet.Name Then
+                If IsNotNothing(Intersect(NewRange, FormulaCell)) Then
+                    .IsOverlapWithFormulaCellIfResized = True
+                    IsValidToResize = False
+                End If
+            End If
+            
+            If IsValidToResize Then
+                
+                .RangeRef = GetParentCellRefIfNoSpill(FormulaCell, NewRange, False)
+                .AbsRangeRef = GetParentCellRefIfNoSpill(FormulaCell, NewRange, True)
+                .ChoosePartFormula = .RangeRef
+                
                 If TypeOfFill = Fill_DOWN Then
-                    .RangeRef = GetParentCellRefIfNoSpill(FormulaCell, .NameInFormulaRange.Resize(Size), False)
-                    .AbsRangeRef = GetParentCellRefIfNoSpill(FormulaCell, .NameInFormulaRange.Resize(Size), True)
                     .RowCount = Size
                 Else
-                    .RangeRef = GetParentCellRefIfNoSpill(FormulaCell, .NameInFormulaRange.Resize(, Size), False)
-                    .AbsRangeRef = GetParentCellRefIfNoSpill(FormulaCell, .NameInFormulaRange.Resize(, Size), True)
                     .ColCount = Size
                 End If
-                .ChoosePartFormula = .RangeRef
+        
             End If
+            
         End With
     Next CurrentPrecedency
     
@@ -1931,13 +1980,17 @@ Public Function IsAllPrecedencyAreSameSize(ByVal ValidCells As Collection _
     End If
     
     Dim CurrentPrecedency As PrecedencyInfo
-    Set CurrentPrecedency = ValidCells.Item(1)
     Dim Size As Long
-    If TypeOfFill = Fill_DOWN Then
-        Size = CurrentPrecedency.RowCount
-    Else
-        Size = CurrentPrecedency.ColCount
-    End If
+    
+    For Each CurrentPrecedency In ValidCells
+        If Not CurrentPrecedency.IsOverlapWithFormulaCellIfResized Then
+            If TypeOfFill = Fill_DOWN Then
+                Size = CurrentPrecedency.RowCount
+            Else
+                Size = CurrentPrecedency.ColCount
+            End If
+        End If
+    Next CurrentPrecedency
     
     For Each CurrentPrecedency In ValidCells
         
@@ -1948,7 +2001,7 @@ Public Function IsAllPrecedencyAreSameSize(ByVal ValidCells As Collection _
             CurrentSize = CurrentPrecedency.ColCount
         End If
         
-        If CurrentSize <> Size Then
+        If CurrentSize <> Size And Not CurrentPrecedency.IsOverlapWithFormulaCellIfResized Then
             IsAllPrecedencyAreSameSize = False
             Exit Function
         End If
@@ -2474,3 +2527,219 @@ Public Sub SelectFillingRegionIfNotDA(ByVal FillingBeans As Collection)
     End If
     
 End Sub
+
+Public Function GetFormulaIfScanOption(ByVal FormulaCell As Range _
+                                        , ByVal ValidCellsForFillDown As Collection _
+                                         , ByVal KeyToAnswer As Variant _
+                                          , ByVal IsFillDown As Boolean _
+                                          , ByVal StructuredFormula As String)
+    
+    Dim ScanInitializerCellPrecedency As PrecedencyInfo
+    
+    Dim SpillRanges As Collection
+    Set SpillRanges = New Collection
+    
+    Dim ScanInitializerCellRef As String
+    If IsFillDown Then
+        ScanInitializerCellRef = GetRangeRefWithSheetName(FormulaCell.Offset(-1, 0).Cells(1))
+    Else
+        ScanInitializerCellRef = GetRangeRefWithSheetName(FormulaCell.Offset(0, -1).Cells(1))
+    End If
+    
+    Dim CurrentItem As PrecedencyInfo
+    For Each CurrentItem In ValidCellsForFillDown
+        
+        If GetRangeRefWithSheetName(CurrentItem.NameInFormulaRange.Cells(1)) = ScanInitializerCellRef Then
+            Set ScanInitializerCellPrecedency = CurrentItem
+        ElseIf CurrentItem.HasSpill Then
+            SpillRanges.Add CurrentItem
+        End If
+        
+    Next CurrentItem
+    
+    If SpillRanges.Count = 0 Then Exit Function
+    If IsNothing(ScanInitializerCellPrecedency) Then Exit Function
+    
+    Dim Result As String
+    Result = GenerateScanFillFormula(StructuredFormula, ScanInitializerCellPrecedency, SpillRanges, IsFillDown)
+    AddCustomLambdaIfNeeded FormulaCell.Worksheet.Parent, Result
+    
+    Dim FirstArray As Variant
+    FirstArray = GetFormulaResult(Result, FormulaCell)
+    If Not IsBothSame(FirstArray, KeyToAnswer) Then
+        Result = vbNullString
+    End If
+    
+    GetFormulaIfScanOption = Result
+    
+End Function
+
+Private Function GenerateScanFillFormula(ByVal StructuredFormula As String _
+                                         , ByVal OneCellAboveRef As PrecedencyInfo _
+                                          , ByVal SpillRanges As Collection _
+                                           , ByVal IsFillDown As Boolean) As String
+    
+    If SpillRanges.Count = 0 Then Exit Function
+    
+    Dim FirstSpillRange As PrecedencyInfo
+    Set FirstSpillRange = SpillRanges.Item(1)
+    
+    Dim ScanCalcPart As String
+    ScanCalcPart = EQUAL_SIGN & SCAN_FN_NAME & FIRST_PARENTHESIS_OPEN _
+                   & OneCellAboveRef.NameInFormula & COMMA
+    
+    Dim CalcPart As String
+    CalcPart = StructuredFormula
+    CalcPart = ReplaceTokenWithNewToken(CalcPart, OneCellAboveRef.NameInFormula, SCAN_LAMBDA_ACC_VAR_TEXT)
+    
+    Dim ChooseFnName As String
+    ChooseFnName = IIf(IsFillDown, CHOOSEROWS_FN_NAME, CHOOSECOLS_FN_NAME)
+    
+    Dim IsValidForSeqRow As Boolean
+    If IsFillDown And FirstSpillRange.NameInFormulaRange.Columns.CountLarge > 1 Then
+        IsValidForSeqRow = True
+    ElseIf Not IsFillDown And FirstSpillRange.NameInFormulaRange.Rows.CountLarge > 1 Then
+        IsValidForSeqRow = True
+    End If
+    
+    If SpillRanges.Count = 1 And Not IsValidForSeqRow Then
+        CalcPart = ReplaceTokenWithNewToken(CalcPart, FirstSpillRange.NameInFormula, SCAN_LAMBDA_VAL_VAR_TEXT)
+        ScanCalcPart = ScanCalcPart & FirstSpillRange.ChoosePartFormula
+    Else
+        ScanCalcPart = ScanCalcPart _
+                       & SEQUENCE_FN_NAME & FIRST_PARENTHESIS_OPEN _
+                       & IIf(IsFillDown, ROWS_FN_NAME, COMMA & COLUMNS_FN_NAME) _
+                       & FIRST_PARENTHESIS_OPEN & FirstSpillRange.ChoosePartFormula & FIRST_PARENTHESIS_CLOSE _
+                       & FIRST_PARENTHESIS_CLOSE
+        
+        Dim LetPart As String
+        LetPart = LET_AND_OPEN_PAREN
+        
+        Dim StepNamePrefix As String
+        StepNamePrefix = GetStepNamePrefix(CalcPart, SpillRanges.Count)
+        
+        Dim Counter As Long
+        
+        Dim CurrentPrecedencyRef As PrecedencyInfo
+    
+        For Each CurrentPrecedencyRef In SpillRanges
+        
+            Dim ParamName As String
+            ParamName = GetParamNameFromCounter(StepNamePrefix, Counter + 1, SpillRanges.Count)
+        
+            LetPart = LetPart & ParamName & LIST_SEPARATOR _
+                      & ChooseFnName & FIRST_PARENTHESIS_OPEN _
+                      & CurrentPrecedencyRef.ChoosePartFormula & LIST_SEPARATOR & SCAN_LAMBDA_VAL_VAR_TEXT _
+                      & FIRST_PARENTHESIS_CLOSE _
+                      & COMMA
+        
+            CalcPart = ReplaceTokenWithNewToken(CalcPart _
+                                                , CurrentPrecedencyRef.NameInFormula, ParamName)
+            Counter = Counter + 1
+        Next CurrentPrecedencyRef
+        
+        CalcPart = LetPart & RemoveStartingEqualSign(CalcPart) & FIRST_PARENTHESIS_CLOSE
+        
+    End If
+    
+    
+    CalcPart = RemoveStartingEqualSign(CalcPart)
+    
+    Dim LambdaCalcPart As String
+    LambdaCalcPart = LAMBDA_AND_OPEN_PAREN & SCAN_LAMBDA_ACC_VAR_TEXT & COMMA & SCAN_LAMBDA_VAL_VAR_TEXT _
+                     & COMMA & CalcPart & FIRST_PARENTHESIS_CLOSE
+    
+    Dim Result As String
+    Result = ScanCalcPart & COMMA & LambdaCalcPart & FIRST_PARENTHESIS_CLOSE
+    
+    GenerateScanFillFormula = Result
+    
+End Function
+
+Public Function GetStructuredFormulaForFill(ByVal FormulaCell As Range, ByVal TypeOfFill As FillType) As String
+    
+    If Not FormulaCell.HasFormula Then Exit Function
+    
+    Dim DirectPrecedents As Variant
+    DirectPrecedents = GetDirectPrecedents(FormulaCell.Formula2, FormulaCell.Worksheet)
+    
+    If Not IsArray(DirectPrecedents) Then Exit Function
+    If IsArrayOfNullString(DirectPrecedents) Then Exit Function
+    
+    Dim Formula As String
+    Formula = FormulaCell.Formula2
+    
+    Dim CurrentPrecedency As Variant
+    Dim CurrentRange As Range
+    For Each CurrentPrecedency In DirectPrecedents
+        
+        Dim PrecedentCellAsText As String
+        PrecedentCellAsText = CStr(CurrentPrecedency)
+        Set CurrentRange = RangeResolver.GetRangeForDependency(PrecedentCellAsText, FormulaCell)
+        
+        If IsValidForArrayVersion(FormulaCell, PrecedentCellAsText, TypeOfFill) Then
+            Dim SplittedFormula As String
+            SplittedFormula = SplitMultipleSpillRanges(CurrentRange, FormulaCell.Worksheet)
+        
+            If SplittedFormula <> vbNullString Then
+                Formula = ReplaceTokenWithNewToken(Formula, PrecedentCellAsText, SplittedFormula)
+            End If
+        End If
+        
+    Next CurrentPrecedency
+    
+    GetStructuredFormulaForFill = Formula
+    
+End Function
+
+Public Function SplitMultipleSpillRanges(ByVal DependencyRange As Range, ByVal FormulaInSheet As Worksheet) As String
+    
+    Dim Temp As Range
+    If Not DependencyRange.Cells(1).HasSpill Or DependencyRange.Cells.CountLarge = 1 Then
+        Exit Function
+    ElseIf DependencyRange.Columns.CountLarge > 1 And DependencyRange.Rows.CountLarge > 1 Then
+        Exit Function
+    End If
+    
+    Dim CurrentSpillingRange As Range
+    Set CurrentSpillingRange = DependencyRange.Cells(1).SpillParent.SpillingToRange
+    
+    Dim SoFarExtractedRange As Range
+    Set SoFarExtractedRange = Intersect(DependencyRange, CurrentSpillingRange)
+    
+    If SoFarExtractedRange.Address = DependencyRange.Address Then Exit Function
+    
+    Dim IsMultiCols As Boolean
+    IsMultiCols = (DependencyRange.Columns.CountLarge > 1)
+    
+    Dim Prefix As String
+    If DependencyRange.Worksheet.Name <> FormulaInSheet.Name Then
+        Prefix = SINGLE_QUOTE & DependencyRange.Worksheet.Name & SINGLE_QUOTE & "!"
+    End If
+    
+    Dim Offset As Long
+    Dim Formula As String
+    Formula = IIf(IsMultiCols, HSTACK_FN_NAME, VSTACK_FN_NAME) & "(" & Prefix & SoFarExtractedRange.Address(False, False)
+    
+    Do While True
+        
+        If SoFarExtractedRange.Address = DependencyRange.Address Then Exit Do
+        
+        Dim NextCheckCell As Range
+        If IsMultiCols Then
+            Set NextCheckCell = DependencyRange.Cells(1, SoFarExtractedRange.Columns.CountLarge + 1)
+        Else
+            Set NextCheckCell = DependencyRange.Cells(SoFarExtractedRange.Rows.CountLarge + 1, 1)
+        End If
+        
+        Set SoFarExtractedRange = Union(SoFarExtractedRange, Intersect(NextCheckCell.SpillingToRange, DependencyRange))
+        Formula = Formula & COMMA & Prefix & Intersect(NextCheckCell.SpillingToRange, DependencyRange).Address(False, False)
+
+    Loop
+    
+    If Formula <> vbNullString Then Formula = Formula & FIRST_PARENTHESIS_CLOSE
+    
+    SplitMultipleSpillRanges = Formula
+    
+End Function
+

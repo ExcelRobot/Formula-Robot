@@ -22,9 +22,26 @@ Private Type TPrecedencyInfo
     NameInFormulaRange As Range
     AbsRangeRef As String
     AbsChoosePartFormula As String
+    FillLagWithCell As Range
+    IsOverlapWithFormulaCellIfResized As Boolean
 End Type
-
 Private this As TPrecedencyInfo
+
+Public Property Get IsOverlapWithFormulaCellIfResized() As Boolean
+    IsOverlapWithFormulaCellIfResized = this.IsOverlapWithFormulaCellIfResized
+End Property
+
+Public Property Let IsOverlapWithFormulaCellIfResized(ByVal RHS As Boolean)
+    this.IsOverlapWithFormulaCellIfResized = RHS
+End Property
+
+Public Property Get FillLagWithCell() As Range
+    Set FillLagWithCell = this.FillLagWithCell
+End Property
+
+Public Property Set FillLagWithCell(ByVal RHS As Range)
+    Set this.FillLagWithCell = RHS
+End Property
 
 Public Property Get AbsRangeRef() As String
     AbsRangeRef = this.AbsRangeRef

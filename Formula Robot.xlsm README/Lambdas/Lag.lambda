@@ -1,0 +1,28 @@
+Lag = LAMBDA(array,[lag_by],[pad_with],[scan_by_column], LET(
+   \\LambdaName, "Lag",
+   \\CommandName, "Lag By N",
+   \\Description, "Return the array shifted back by the specified number of positions.",
+   \\Parameters, {"array","original array";"[lag_by]","number of positions to lag by (default: 1)";"[pad_with]","value to fill empty position with (default: #N/A)";"[scan_by_column]","TRUE - scans by columns, FALSE - scans by rows (default)"},
+   \\Source, "Excel Robot (@ExcelRobot)",
+   _LagBy, IF(ISOMITTED(lag_by), 1, lag_by),
+   _PadWith, IF(ISOMITTED(pad_with), NA(), pad_with),
+   _ScanByColumn, IF(ISOMITTED(scan_by_column), FALSE, scan_by_column),
+   _ToCol, TOCOL(array, , _ScanByColumn),
+   _Lag, MAKEARRAY(
+      ROWS(_ToCol),
+      1,
+      LAMBDA(x,y,
+         IF(
+            OR(x - _LagBy < 1, x - _LagBy > ROWS(_ToCol)),
+            _PadWith,
+            INDEX(_ToCol, x - _LagBy, 1)
+         )
+      )
+   ),
+   _Result, IF(
+      _ScanByColumn,
+      WRAPCOLS(_Lag, ROWS(array)),
+      WRAPROWS(_Lag, COLUMNS(array))
+   ),
+   _Result
+));

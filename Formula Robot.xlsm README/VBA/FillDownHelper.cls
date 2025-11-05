@@ -119,8 +119,11 @@ Private Function FillBeanForDynamicArrayFormula(ByVal FormulaCell As Range) As F
     
     If Not FormulaCell.HasFormula Then Exit Function
     
+    Dim StructuredFormula As String
+    StructuredFormula = GetStructuredFormulaForFill(FormulaCell, Fill_DOWN)
+    
     Dim DirectPrecedents As Variant
-    DirectPrecedents = GetDirectPrecedents(FormulaCell.Formula2, FormulaCell.Worksheet)
+    DirectPrecedents = GetDirectPrecedents(StructuredFormula, FormulaCell.Worksheet)
     
     If Not IsArray(DirectPrecedents) Then Exit Function
     If IsArrayOfNullString(DirectPrecedents) Then Exit Function
@@ -150,20 +153,19 @@ Private Function FillBeanForDynamicArrayFormula(ByVal FormulaCell As Range) As F
             IsAtleastOnePrecedentSpilledRange = True
             RowHeight = SpillRangeRowCount(CurrentRange)
             
-            If IsSpillParent(CurrentRange) And IsOneColSpillRange(CurrentRange) Then
-                modUtility.UpdateValidCells ValidCellsForFillDown, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_NONE
-            ElseIf IsInFirstRowOfSpillRange(CurrentRange) Then
-                modUtility.UpdateValidCells ValidCellsForFillDown, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_COLS
-            ElseIf IsValidRangeUsedForByRow(CurrentRange) Then
-                modUtility.UpdateValidCells ValidCellsForFillDown, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_COLS
-            End If
+            UpdateValidCellsForSpillRange CurrentRange, ValidCellsForFillDown, PrecedentCellAsText, FormulaCell, Nothing
+        
+        ElseIf CurrentRange.Cells.CountLarge = 1 And CurrentRange.Offset(1, 0).Cells(1).HasSpill Then
+            
+            ' Case for Lag lambda with fill option.
+            UpdateValidCellsForSpillRange CurrentRange.Offset(1, 0), ValidCellsForFillDown, PrecedentCellAsText, FormulaCell, CurrentRange
             
         ElseIf Not CurrentRange.Cells(1).HasSpill Then
             
             If CurrentRange.Columns.Count = 1 Then
-                modUtility.UpdateValidCells ValidCellsForFillDown, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_NONE
+                modUtility.UpdateValidCells ValidCellsForFillDown, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_NONE, Nothing
             ElseIf CurrentRange.Columns.Count > 1 Then
-                modUtility.UpdateValidCells ValidCellsForFillDown, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_COLS
+                modUtility.UpdateValidCells ValidCellsForFillDown, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_COLS, Nothing
             End If
             
         End If
@@ -186,7 +188,7 @@ Continue:
     If Not IsAllBlankAndNoFormulas(DropFirstCell(FormulaCell.Resize(RowHeight))) Then Exit Function
     
     Dim Formula As String
-    Formula = GenerateFormulaForFillDown(FormulaCell, ValidCellsForFillDown)
+    Formula = GenerateFormulaForFillDown(FormulaCell, ValidCellsForFillDown, StructuredFormula, RowHeight)
     
     If Formula <> vbNullString Then
         Dim UndoOperator As UndoHandler
@@ -199,22 +201,35 @@ Continue:
     
 End Function
 
-Private Function GenerateFormulaForFillDown(ByVal FormulaCell As Range _
-                                            , ByVal ValidCellsForFillDown As Collection) As String
+Private Sub UpdateValidCellsForSpillRange(ByVal CurrentRange As Range _
+                                          , ByRef ValidCellsForFillDown As Collection _
+                                           , ByVal PrecedentCellAsText As String _
+                                           , ByVal FormulaCell As Range _
+                                           , ByVal FillLagWithCell As Range)
     
-    Dim RowCount As Long
-    Dim CurrentPrecedencyInfo As PrecedencyInfo
-    Set CurrentPrecedencyInfo = ValidCellsForFillDown.Item(1)
-    RowCount = CurrentPrecedencyInfo.RowCount
+    If IsSpillParent(CurrentRange) And IsOneColSpillRange(CurrentRange) Then
+        modUtility.UpdateValidCells ValidCellsForFillDown, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_NONE, FillLagWithCell
+    ElseIf IsInFirstRowOfSpillRange(CurrentRange) Then
+        modUtility.UpdateValidCells ValidCellsForFillDown, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_COLS, FillLagWithCell
+    ElseIf IsValidRangeUsedForByRow(CurrentRange) Then
+        modUtility.UpdateValidCells ValidCellsForFillDown, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_COLS, FillLagWithCell
+    End If
+            
+End Sub
+
+Private Function GenerateFormulaForFillDown(ByVal FormulaCell As Range _
+                                            , ByVal ValidCellsForFillDown As Collection _
+                                            , ByVal StructuredFormula As String _
+                                            , ByVal RowHeight As Long) As String
     
     Dim KeyToAnswer As Variant
-    KeyToAnswer = GetKeyToAnswerByFillingFormula(FormulaCell, RowCount)
+    KeyToAnswer = GetKeyToAnswerByFillingFormula(FormulaCell, RowHeight)
     
     Dim FormulaWithoutFX As String
-    FormulaWithoutFX = GenerateFormulaByReplacingRef(FormulaCell.Formula2, ValidCellsForFillDown)
+    FormulaWithoutFX = GenerateFormulaByReplacingRef(StructuredFormula, ValidCellsForFillDown)
     
     Dim FormulaWithFX As String
-    FormulaWithFX = GenerateFormulaForFillDownIfMapByRowOrTile(FormulaCell, ValidCellsForFillDown)
+    FormulaWithFX = GenerateFormulaForFillDownIfMapByRowOrTile(FormulaCell, ValidCellsForFillDown, StructuredFormula)
     Logger.Log DEBUG_LOG, "With Function: " & FormulaWithFX
     Logger.Log DEBUG_LOG, "Without Function: " & FormulaWithoutFX
     
@@ -222,8 +237,14 @@ Private Function GenerateFormulaForFillDown(ByVal FormulaCell As Range _
     Dim CorrectFormula As String
     CorrectFormula = GetCorrectFormula(FormulaCell, FormulaWithoutFX, FormulaWithFX, KeyToAnswer)
     
+    ' Try ByRowA option.
     If CorrectFormula = vbNullString Then
-        CorrectFormula = GetFormulaByCheckingOutputType(FormulaCell, ValidCellsForFillDown, KeyToAnswer)
+        CorrectFormula = GetFormulaByCheckingOutputType(FormulaCell, ValidCellsForFillDown, KeyToAnswer, StructuredFormula)
+    End If
+    
+    ' Try Scan option
+    If CorrectFormula = vbNullString Then
+        CorrectFormula = GetFormulaIfScanOption(FormulaCell, ValidCellsForFillDown, KeyToAnswer, True, StructuredFormula)
     End If
     
     GenerateFormulaForFillDown = CorrectFormula
@@ -232,7 +253,8 @@ End Function
 
 Private Function GetFormulaByCheckingOutputType(ByVal FormulaCell As Range _
                                                 , ByVal ValidCellsForFillDown As Collection _
-                                                 , ByVal KeyToAnswer As Variant) As String
+                                                 , ByVal KeyToAnswer As Variant _
+                                                 , ByVal StructuredFormula As String) As String
     
     Dim CorrectFormula As String
     
@@ -244,7 +266,7 @@ Private Function GetFormulaByCheckingOutputType(ByVal FormulaCell As Range _
     
     If IsNumeric(TypeOutput) Then
         If TypeOutput = TYPE_OUTPUT_FOR_ARR Then
-            CorrectFormula = GenerateFormulaForFillDownIfArrayOutput(FormulaCell, ValidCellsForFillDown)
+            CorrectFormula = GenerateFormulaForFillDownIfArrayOutput(FormulaCell, ValidCellsForFillDown, StructuredFormula)
         End If
     End If
     
@@ -259,7 +281,8 @@ Private Function GetFormulaByCheckingOutputType(ByVal FormulaCell As Range _
     
 End Function
 
-Private Function GetKeyToAnswerByFillingFormula(ByVal FormulaCell As Range, ByVal RowCount As Long) As Variant
+Private Function GetKeyToAnswerByFillingFormula(ByVal FormulaCell As Range _
+                                                , ByVal RowCount As Long) As Variant
     
     Dim OldFormula As String
     OldFormula = FormulaCell.Cells(1).Formula2
@@ -332,20 +355,21 @@ Private Function GetMaxSpillColCount(ByVal FormulaCells As Range) As Long
 End Function
 
 Private Function GenerateFormulaForFillDownIfMapByRowOrTile(ByVal FormulaCell As Range _
-                                                            , ByVal ValidCellsForFillDown As Collection) As String
+                                                            , ByVal ValidCellsForFillDown As Collection _
+                                                            , ByVal StructuredFormula As String) As String
     
     Dim Formula As String
     
     If FormulaCell.HasSpill Then
-        Formula = GenerateFormulaForFillDownIfArrayOutput(FormulaCell, ValidCellsForFillDown)
+        Formula = GenerateFormulaForFillDownIfArrayOutput(FormulaCell, ValidCellsForFillDown, StructuredFormula)
     Else
         
         If IsValidToUseByRowOrCol(ValidCellsForFillDown, Fill_DOWN) Then
-            Formula = GenerateFormulaIfByRow(FormulaCell, ValidCellsForFillDown)
+            Formula = GenerateFormulaIfByRow(FormulaCell, ValidCellsForFillDown, StructuredFormula)
         ElseIf IsValidToUseMapWithoutSequence(ValidCellsForFillDown, Fill_DOWN) Then
-            Formula = GenerateFormulaForMapToArrayExceptTile(ValidCellsForFillDown, FormulaCell, MAP_FN_NAME)
+            Formula = GenerateFormulaForMapToArrayExceptTile(ValidCellsForFillDown, MAP_FN_NAME, StructuredFormula)
         Else
-            Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillDown, Fill_DOWN, MAP_FN_NAME)
+            Formula = modFillArray.GenerateFillWithSequence(StructuredFormula, ValidCellsForFillDown, Fill_DOWN, MAP_FN_NAME)
         End If
     
     End If
@@ -355,13 +379,14 @@ Private Function GenerateFormulaForFillDownIfMapByRowOrTile(ByVal FormulaCell As
 End Function
 
 Private Function GenerateFormulaForFillDownIfArrayOutput(ByVal FormulaCell As Range _
-                                                            , ByVal ValidCellsForFillDown As Collection)
+                                                            , ByVal ValidCellsForFillDown As Collection _
+                                                            , ByVal StructuredFormula As String)
     
     Dim Formula As String
     If IsValidToUseByRowOrCol(ValidCellsForFillDown, Fill_DOWN) Then
-        Formula = GenerateFillWhenByRowAOrColA(FormulaCell.Formula2, ValidCellsForFillDown, True)
+        Formula = GenerateFillWhenByRowAOrColA(StructuredFormula, ValidCellsForFillDown, True)
     Else
-        Formula = modFillArray.GenerateFillWithSequence(FormulaCell.Formula2, ValidCellsForFillDown, Fill_DOWN, TILE_FN_NAME)
+        Formula = modFillArray.GenerateFillWithSequence(StructuredFormula, ValidCellsForFillDown, Fill_DOWN, TILE_FN_NAME)
     End If
     
     GenerateFormulaForFillDownIfArrayOutput = Formula
