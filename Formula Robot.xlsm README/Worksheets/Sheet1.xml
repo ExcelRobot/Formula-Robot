@@ -15,11 +15,6 @@
    <NumberFormat/>
    <Protection/>
   </Style>
-  <Style ss:ID="s23">
-   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
-   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="16"
-    ss:Color="#000000" ss:Bold="1"/>
-  </Style>
   <Style ss:ID="s24">
    <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="11"
     ss:Color="#000000"/>
@@ -61,13 +56,21 @@
    <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="11"
     ss:Color="#000000"/>
   </Style>
+  <Style ss:ID="s77">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <Font ss:FontName="Aptos Narrow" x:Family="Swiss" ss:Size="16"
+    ss:Color="#000000" ss:Bold="1" ss:Underline="Single"/>
+  </Style>
  </Styles>
  <Names>
   <NamedRange ss:Name="_xleta.ASC" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xleta.CHOOSECOLS" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xleta.CHOOSEROWS" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xleta.HSTACK" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xleta.IF" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xleta.ISNUMBER" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xleta.REPLACE" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xleta.VSTACK" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlop.b" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlop.c" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlop.column_list" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
@@ -78,6 +81,7 @@
   <NamedRange ss:Name="_xlop.InstanceNum" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlop.lag_by" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlop.lookup_value" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlop.n" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlop.pad_with" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlop.scan_by_column" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.\\CommandName" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
@@ -89,6 +93,10 @@
   <NamedRange ss:Name="_xlpm._2" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._3" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._4" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._Accum" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._ArrayHeight" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._ArrayWidth" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._Choose" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._ColumnIndex1" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._Criteria" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._Criteria1" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
@@ -98,9 +106,11 @@
   <NamedRange ss:Name="_xlpm._FilteredDataWithHeader" ss:RefersTo="=#NAME?"
    ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._Header" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._IsByCol" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._Iterate" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._Lag" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._LagBy" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._Last" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._LookupColumn1" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._PadWith" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._Param1" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
@@ -109,9 +119,12 @@
    ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._ReturnColumns" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._ScanByColumn" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._Stack" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._StartTimer" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._Step1" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._Table" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._TilesAcross" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm._TilesDown" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._Timing" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm._ToCol" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.a" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
@@ -186,11 +199,13 @@
   <NamedRange ss:Name="_xlpm.FunctionSets" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.FunctionStart" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.FXName_Criteria" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.hist" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.Idx" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.InArray" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.include_output" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.Indexes" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.InDoubleQuote" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.initial_value" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.InputIndexes" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.Inputs" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.InputText" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
@@ -319,7 +334,10 @@
   <NamedRange ss:Name="_xlpm.start" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.StartInvokeIndex" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.StartParamIndex" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.tc" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.TermType" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.tile_height" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.tile_width" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.Token" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.TokenIndex" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.TokenIndex2" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
@@ -342,6 +360,7 @@
   <NamedRange ss:Name="_xlpm.TokenTypePass3" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.tokentypes" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.tot" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
+  <NamedRange ss:Name="_xlpm.tr" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.typenum" ss:RefersTo="=#NAME?" ss:Hidden="1"/>
   <NamedRange ss:Name="_xlpm.UniqueFunctionName" ss:RefersTo="=#NAME?"
    ss:Hidden="1"/>
@@ -367,21 +386,25 @@
   <NamedRange ss:Name="ByRowA"
    ss:RefersTo="=LAMBDA(array,function,[fill], LET(_fill_corr, IF(ISOMITTED(fill), NA(), fill), _Iterate, LAMBDA(fn,arr, LET(n, ROWS(arr), IF(n &gt; 1, IFERROR(VSTACK(fn(fn, TAKE(arr, n / 2)), fn(fn, DROP(arr, n / 2))), _fill_corr), function(arr)))), _Result, _Iterate(_Iterate, array), _Result))"/>
   <NamedRange ss:Name="Lag"
-   ss:RefersTo="= LAMBDA(array,[lag_by],[pad_with],[scan_by_column], LET(&#10;   \\LambdaName, &quot;Lag&quot;,&#10;   \\CommandName, &quot;Lag By N&quot;,&#10;   \\Description, &quot;Return the array shifted back by the specified number of positions.&quot;,&#10;   \\Parameters, {&quot;array&quot;,&quot;original array&quot;;&quot;[lag_by]&quot;,&quot;number of positions to lag by (default: 1)&quot;;&quot;[pad_with]&quot;,&quot;value to fill empty position with (default: #N/A)&quot;;&quot;[scan_by_column]&quot;,&quot;TRUE - scans by columns, FALSE - scans by rows (default)&quot;},&#10;   \\Source, &quot;Excel Robot (@ExcelRobot)&quot;,&#10;   _LagBy, IF(ISOMITTED(lag_by), 1, lag_by),&#10;   _PadWith, IF(ISOMITTED(pad_with), NA(), pad_with),&#10;   _ScanByColumn, IF(ISOMITTED(scan_by_column), FALSE, scan_by_column),&#10;   _ToCol, TOCOL(array, , _ScanByColumn),&#10;   _Lag, MAKEARRAY(&#10;      ROWS(_ToCol),&#10;      1,&#10;      LAMBDA(x,y,&#10;         IF(&#10;            OR(x - _LagBy &lt; 1, x - _LagBy &gt; ROWS(_ToCol)),&#10;            _PadWith,&#10;            INDEX(_ToCol, x - _LagBy, 1)&#10;         )&#10;      )&#10;   ),&#10;   _Result, IF(&#10;      _ScanByColumn,&#10;      WRAPCOLS(_Lag, ROWS(array)),&#10;      WRAPROWS(_Lag, COLUMNS(array))&#10;   ),&#10;   _Result&#10;))"/>
+   ss:RefersTo="=LAMBDA(array,[lag_by],[pad_with],[scan_by_column],LET(\\LambdaName, &quot;Lag&quot;, \\CommandName, &quot;Lag By N&quot;, \\Description, &quot;Return the array shifted back by the specified number of positions.&quot;, \\Parameters, {&quot;array&quot;,&quot;original array&quot;;&quot;[lag_by]&quot;,&quot;number of positions to lag by (default: 1)&quot;;&quot;[pad_with]&quot;,&quot;value to fill empty position with (default: #N/A)&quot;;&quot;[scan_by_column]&quot;,&quot;TRUE - scans by columns, FALSE - scans by rows (default)&quot;}, \\Source, &quot;Excel Robot (@ExcelRobot)&quot;, _LagBy, IF(ISOMITTED(lag_by), 1, lag_by), _PadWith, IF(ISOMITTED(pad_with), NA(), pad_with), _ScanByColumn, IF(ISOMITTED(scan_by_column), FALSE, scan_by_column), _ToCol, TOCOL(array, , _ScanByColumn), _Lag, MAKEARRAY(ROWS(_ToCol), 1, LAMBDA(x,y, IF(OR(x - _LagBy &lt; 1, x - _LagBy &gt; ROWS(_ToCol)), _PadWith, INDEX(_ToCol, x - _LagBy, 1)))), _Result, IF(_ScanByColumn, WRAPCOLS(_Lag, ROWS(array)), WRAPROWS(_Lag, COLUMNS(array))), _Result))"/>
+  <NamedRange ss:Name="ScanA"
+   ss:RefersTo="=LAMBDA(initial_value,array,function,LET(\\LambdaName, &quot;ScanA&quot;, _IsByCol, ROWS(array) &gt; 1, _Stack, IF(_IsByCol, VSTACK, HSTACK), _Choose, IF(_IsByCol, CHOOSECOLS, CHOOSEROWS), _Accum, REDUCE(initial_value, array, LAMBDA(hist,curr, LET(_Last, IF(_IsByCol, TAKE(hist, -1), TAKE(hist, , -1)), _Stack(hist, function(LAMBDA([n], IF(ISOMITTED(n), _Last, @_Choose(_Last, n))), curr))))), IF(_IsByCol, DROP(_Accum, 1), DROP(_Accum, , 1))))"/>
   <NamedRange ss:Name="Timer"
    ss:RefersTo="=LET(_StartTimer, NOW(),&#10;   LAMBDA(formula,[include_output], LET(&#10;      _Timing, TEXT(NOW() - _StartTimer, &quot;[s].000\s&quot;),&#10;      _Result, IF(include_output,IFERROR(VSTACK(_Timing, formula), &quot;&quot;),_Timing),&#10;      _Result&#10;   ))&#10;)"/>
+  <NamedRange ss:Name="UnTile"
+   ss:RefersTo="=LAMBDA(array,tile_height,tile_width,function, LET(&#10;   \\LambdaName, &quot;UnTile&quot;,&#10;   _ArrayHeight, ROWS(array),&#10;   _ArrayWidth, COLUMNS(array),&#10;   _TilesAcross, ROUNDUP(_ArrayWidth / tile_width, 0),&#10;   _TilesDown, ROUNDUP(_ArrayHeight / tile_height, 0),&#10;   _Result, MAKEARRAY(&#10;      _TilesDown,&#10;      _TilesAcross,&#10;      LAMBDA(tr,tc,&#10;         function(&#10;            INDEX(&#10;               array,&#10;               tile_height * (tr - 1) + SEQUENCE(tile_height),&#10;               tile_width * (tc - 1) + SEQUENCE(1, tile_width)&#10;            )&#10;         )&#10;      )&#10;   ),&#10;   _Result&#10;))"/>
  </Names>
  <Worksheet ss:Name="Notes">
   <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="51" ss:StyleID="s24"
    ss:DefaultColumnWidth="66" ss:DefaultRowHeight="15">
    <Column ss:StyleID="s24" ss:AutoFitWidth="0" ss:Width="20.25"/>
-   <Column ss:StyleID="s25" ss:Width="207.75"/>
+   <Column ss:StyleID="s25" ss:Width="219"/>
    <Column ss:StyleID="s26" ss:Width="906.75"/>
    <Column ss:Index="5" ss:StyleID="s24" ss:Width="199.5"/>
    <Column ss:StyleID="s24" ss:AutoFitWidth="0" ss:Width="109.5"/>
    <Column ss:StyleID="s24" ss:Width="114"/>
    <Row ss:Height="21">
-    <Cell ss:StyleID="s23"><Data ss:Type="String">Formula Robot</Data></Cell>
+    <Cell ss:StyleID="s77"><Data ss:Type="String">Formula Robot</Data></Cell>
    </Row>
    <Row ss:Index="3" ss:Height="18.75" ss:StyleID="s27">
     <Cell ss:Index="2"><Data ss:Type="String">Fill Related Commands</Data></Cell>

@@ -1,0 +1,21 @@
+UnTile =LAMBDA(array,tile_height,tile_width,function, LET(
+   \\LambdaName, "UnTile",
+   _ArrayHeight, ROWS(array),
+   _ArrayWidth, COLUMNS(array),
+   _TilesAcross, ROUNDUP(_ArrayWidth / tile_width, 0),
+   _TilesDown, ROUNDUP(_ArrayHeight / tile_height, 0),
+   _Result, MAKEARRAY(
+      _TilesDown,
+      _TilesAcross,
+      LAMBDA(tr,tc,
+         function(
+            INDEX(
+               array,
+               tile_height * (tr - 1) + SEQUENCE(tile_height),
+               tile_width * (tc - 1) + SEQUENCE(1, tile_width)
+            )
+         )
+      )
+   ),
+   _Result
+));

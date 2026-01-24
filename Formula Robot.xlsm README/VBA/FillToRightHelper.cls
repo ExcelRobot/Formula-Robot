@@ -134,6 +134,9 @@ Private Function FillBeanForDynamicArrayFormula(ByVal FormulaCell As Range) As F
     Dim ValidCellsForFillRight As Collection
     Set ValidCellsForFillRight = New Collection
     
+    Dim InitializerCells As Collection
+    Set InitializerCells = New Collection
+    
     Dim ColWidth As Long
     Dim IsAtleastOnePrecedentSpilledRange As Boolean
     Dim CurrentPrecedency As Variant
@@ -144,6 +147,23 @@ Private Function FillBeanForDynamicArrayFormula(ByVal FormulaCell As Range) As F
         Set CurrentRange = RangeResolver.GetRangeForDependency(PrecedentCellAsText, FormulaCell)
         
         If CurrentRange Is Nothing Then GoTo Continue
+        
+        If IsValidInitializerCell(FormulaCell, CurrentRange, FILL_TO_RIGHT) Then
+            
+            Dim FullInitializerRange As Range
+            If CurrentRange.HasSpill Then
+                Set FullInitializerRange = CurrentRange.Cells(1).SpillParent.SpillingToRange
+            Else
+                If FormulaCell.HasSpill Then
+                    Set FullInitializerRange = FormulaCell.Offset(0, -1).Resize(FormulaCell.Cells(1).SpillingToRange.Rows.CountLarge, 1)
+                Else
+                    Set FullInitializerRange = FormulaCell.Offset(0, -1)
+                End If
+            End If
+            
+            AddInitializerCellRef InitializerCells, CurrentRange, FILL_TO_RIGHT, PrecedentCellAsText, FullInitializerRange
+            GoTo Continue
+        End If
         
         Dim IsValidCell As Boolean
         IsValidCell = IsValidForArrayVersion(FormulaCell, PrecedentCellAsText, FILL_TO_RIGHT)
@@ -186,7 +206,7 @@ Continue:
     If this.IsInvalidForOpt Then Exit Function
     If Not IsAllBlankAndNoFormulas(DropFirstCell(FormulaCell.Resize(, ColWidth))) Then Exit Function
     
-    Formula = GenerateFormulaForFillToRight(FormulaCell, ValidCellsForFillRight, StructuredFormula, ColWidth)
+    Formula = GenerateFormulaForFillToRight(FormulaCell, ValidCellsForFillRight, StructuredFormula, ColWidth, InitializerCells)
     If Formula <> vbNullString Then
         Dim UndoOperator As UndoHandler
         Set UndoOperator = UndoHandler.Create(DYNAMIC_ARRAY_VERSION, FormulaCell, FormulaCell.Cells(1).Formula2)
@@ -217,7 +237,8 @@ End Sub
 Private Function GenerateFormulaForFillToRight(ByVal FormulaCell As Range _
                                                , ByVal ValidCellsForFillRight As Collection _
                                                 , ByVal StructuredFormula As String _
-                                                , ByVal ColWidth As Long) As String
+                                                , ByVal ColWidth As Long _
+                                                , ByVal InitializerCells As Collection) As String
     
     Dim KeyToAnswer As Variant
     KeyToAnswer = GetKeyToAnswerByFillingFormula(FormulaCell, ColWidth)
@@ -243,7 +264,7 @@ Private Function GenerateFormulaForFillToRight(ByVal FormulaCell As Range _
     
     ' Try Scan option
     If CorrectFormula = vbNullString Then
-        CorrectFormula = GetFormulaIfScanOption(FormulaCell, ValidCellsForFillRight, KeyToAnswer, False, StructuredFormula)
+        CorrectFormula = GetFormulaIfScanOption(FormulaCell, ValidCellsForFillRight, KeyToAnswer, False, StructuredFormula, InitializerCells)
     End If
     
     GenerateFormulaForFillToRight = CorrectFormula
@@ -285,7 +306,7 @@ Private Function GetKeyToAnswerByFillingFormula(ByVal FormulaCell As Range, ByVa
     Dim OldFormula As String
     OldFormula = FormulaCell.Cells(1).Formula2
     On Error GoTo ResetFormula
-    FormulaCell.Resize(, ColCount).Formula2 = ReplaceInvalidCharFromFormulaWithValid(ConvertSpillRangeDependencyToAbsRef(FormulaCell.Cells(1)))
+    FormulaCell.Resize(, ColCount).Formula2 = ReplaceInvalidCharFromFormulaWithValid(ConvertSpillRangeDependencyToAbsRef(FormulaCell.Cells(1), False))
     
     Dim MaxRowCount As Long
     MaxRowCount = GetMaxSpillRowCount(FormulaCell.Resize(, ColCount))

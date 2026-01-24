@@ -131,6 +131,9 @@ Private Function FillBeanForDynamicArrayFormula(ByVal FormulaCell As Range) As F
     Dim ValidCellsForFillDown As Collection
     Set ValidCellsForFillDown = New Collection
     
+    Dim InitializerCells As Collection
+    Set InitializerCells = New Collection
+    
     Dim CurrentPrecedency As Variant
     Dim CurrentRange As Range
     Dim IsAtleastOnePrecedentSpilledRange As Boolean
@@ -142,6 +145,23 @@ Private Function FillBeanForDynamicArrayFormula(ByVal FormulaCell As Range) As F
         Set CurrentRange = RangeResolver.GetRangeForDependency(PrecedentCellAsText, FormulaCell)
         
         If CurrentRange Is Nothing Then GoTo Continue
+        
+        If IsValidInitializerCell(FormulaCell, CurrentRange, Fill_DOWN) Then
+            
+            Dim FullInitializerRange As Range
+            If CurrentRange.HasSpill Then
+                Set FullInitializerRange = CurrentRange.Cells(1).SpillParent.SpillingToRange
+            Else
+                If FormulaCell.HasSpill Then
+                    Set FullInitializerRange = FormulaCell.Offset(-1, 0).Resize(1, FormulaCell.Cells(1).SpillingToRange.Columns.CountLarge)
+                Else
+                    Set FullInitializerRange = FormulaCell.Offset(-1, 0)
+                End If
+            End If
+            
+            AddInitializerCellRef InitializerCells, CurrentRange, Fill_DOWN, PrecedentCellAsText, FullInitializerRange
+            GoTo Continue
+        End If
         
         Dim IsValidCell As Boolean
         IsValidCell = IsValidForArrayVersion(FormulaCell, PrecedentCellAsText, Fill_DOWN)
@@ -188,7 +208,7 @@ Continue:
     If Not IsAllBlankAndNoFormulas(DropFirstCell(FormulaCell.Resize(RowHeight))) Then Exit Function
     
     Dim Formula As String
-    Formula = GenerateFormulaForFillDown(FormulaCell, ValidCellsForFillDown, StructuredFormula, RowHeight)
+    Formula = GenerateFormulaForFillDown(FormulaCell, ValidCellsForFillDown, StructuredFormula, RowHeight, InitializerCells)
     
     If Formula <> vbNullString Then
         Dim UndoOperator As UndoHandler
@@ -219,8 +239,9 @@ End Sub
 
 Private Function GenerateFormulaForFillDown(ByVal FormulaCell As Range _
                                             , ByVal ValidCellsForFillDown As Collection _
-                                            , ByVal StructuredFormula As String _
-                                            , ByVal RowHeight As Long) As String
+                                             , ByVal StructuredFormula As String _
+                                              , ByVal RowHeight As Long _
+                                               , ByVal InitializerCells As Collection) As String
     
     Dim KeyToAnswer As Variant
     KeyToAnswer = GetKeyToAnswerByFillingFormula(FormulaCell, RowHeight)
@@ -244,7 +265,11 @@ Private Function GenerateFormulaForFillDown(ByVal FormulaCell As Range _
     
     ' Try Scan option
     If CorrectFormula = vbNullString Then
-        CorrectFormula = GetFormulaIfScanOption(FormulaCell, ValidCellsForFillDown, KeyToAnswer, True, StructuredFormula)
+        CorrectFormula = GetFormulaIfScanOption(FormulaCell _
+                                                , ValidCellsForFillDown _
+                                                 , KeyToAnswer _
+                                                  , True _
+                                                   , StructuredFormula, InitializerCells)
     End If
     
     GenerateFormulaForFillDown = CorrectFormula
@@ -287,7 +312,7 @@ Private Function GetKeyToAnswerByFillingFormula(ByVal FormulaCell As Range _
     Dim OldFormula As String
     OldFormula = FormulaCell.Cells(1).Formula2
     On Error GoTo ResetFormula
-    FormulaCell.Resize(RowCount).Formula2 = ReplaceInvalidCharFromFormulaWithValid(ConvertSpillRangeDependencyToAbsRef(FormulaCell.Cells(1)))
+    FormulaCell.Resize(RowCount).Formula2 = ReplaceInvalidCharFromFormulaWithValid(ConvertSpillRangeDependencyToAbsRef(FormulaCell.Cells(1), True))
     
     Dim MaxColCount As Long
     MaxColCount = GetMaxSpillColCount(FormulaCell.Resize(RowCount))

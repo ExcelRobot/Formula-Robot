@@ -15,7 +15,7 @@ End Sub
 Public Sub AddCustomLambdaIfNeeded(ByVal AddToBook As Workbook, ByVal CheckForCustomFNOnFormula As String)
     
     Dim Lambdas As Variant
-    Lambdas = Array(TILE_FN_NAME, BY_ROW_A_FN_NAME, BY_COL_A_FN_NAME, LAG_FN_NAME)
+    Lambdas = Array(TILE_FN_NAME, BY_ROW_A_FN_NAME, BY_COL_A_FN_NAME, LAG_FN_NAME, SCAN_A_FN_NAME, UN_TILE_FN_NAME)
     
     Dim CurrentLambda As Variant
     For Each CurrentLambda In Lambdas
@@ -1902,7 +1902,11 @@ Public Sub ChangeNonArraysDataRangeToSameSize(ByVal ValidCells As Collection _
             IsValidToResize = True
             
             Dim NewRange As Range
-            Set NewRange = IIf(TypeOfFill = Fill_DOWN, .NameInFormulaRange.Resize(Size), .NameInFormulaRange.Resize(, Size))
+            If TypeOfFill = Fill_DOWN Then
+                Set NewRange = .NameInFormulaRange.Resize(Size)
+            Else
+                Set NewRange = .NameInFormulaRange.Resize(, Size)
+            End If
             
             If .HasSpill Then
                 IsValidToResize = False
@@ -2035,13 +2039,71 @@ Public Function IsValidForArrayVersion(ByVal FormulaCell As Range _
         IsValidCell = False
     ElseIf IsColAbsolute(PrecedentCellAsText) And TypeOfFill = FILL_TO_RIGHT Then
         IsValidCell = False
-    ElseIf Text.IsEndsWith(PrecedentCellAsText, HASH_SIGN) Then
-        IsValidCell = False
     Else
         IsValidCell = True
     End If
     
     IsValidForArrayVersion = IsValidCell
+        
+End Function
+
+Public Function IsValidInitializerCell(ByVal FormulaCell As Range _
+                                       , ByVal CurrentRange As Range _
+                                        , ByVal TypeOfFill As FillType) As Boolean
+    
+    Dim IsOneCellOrWholeSpillRange As Boolean
+    IsOneCellOrWholeSpillRange = False
+    
+    If CurrentRange.Cells.CountLarge = 1 Then
+        IsOneCellOrWholeSpillRange = True
+    ElseIf CurrentRange.HasSpill Then
+        If CurrentRange.Address = CurrentRange.Cells(1).SpillParent.SpillingToRange.Address Then
+            IsOneCellOrWholeSpillRange = True
+        End If
+    End If
+    
+    
+    Dim IsValidCell As Boolean
+    Dim FormulaStartIndex As Long
+    Dim FormulaEndIndex As Long
+    
+    If TypeOfFill = Fill_DOWN And FormulaCell.Row - CurrentRange.Row = 1 Then
+        
+        If FormulaCell.HasSpill Then
+            FormulaStartIndex = FormulaCell.Cells(1).SpillParent.Column
+            FormulaEndIndex = FormulaStartIndex + FormulaCell.SpillingToRange.Columns.CountLarge - 1
+        Else
+            FormulaStartIndex = FormulaCell.Column
+            FormulaEndIndex = FormulaStartIndex
+        End If
+        
+        IsValidCell = ( _
+                      (CurrentRange.Column >= FormulaStartIndex) _
+                      And (CurrentRange.Cells(CurrentRange.Columns.CountLarge).Column <= FormulaEndIndex) _
+                      And IsOneCellOrWholeSpillRange _
+                      )
+        
+    ElseIf TypeOfFill = FILL_TO_RIGHT And FormulaCell.Column - CurrentRange.Column = 1 Then
+        
+        If FormulaCell.HasSpill Then
+            FormulaStartIndex = FormulaCell.Cells(1).SpillParent.Row
+            FormulaEndIndex = FormulaStartIndex + FormulaCell.SpillingToRange.Rows.CountLarge - 1
+        Else
+            FormulaStartIndex = FormulaCell.Row
+            FormulaEndIndex = FormulaStartIndex
+        End If
+        
+        IsValidCell = ( _
+                      (CurrentRange.Row >= FormulaStartIndex) _
+                      And (CurrentRange.Cells(CurrentRange.Rows.CountLarge).Row <= FormulaEndIndex) _
+                      And IsOneCellOrWholeSpillRange _
+                      )
+        
+    Else
+        IsValidCell = False
+    End If
+    
+    IsValidInitializerCell = IsValidCell
         
 End Function
 
@@ -2158,7 +2220,7 @@ Public Function WorkbookNameFromRange(ByVal FromRange As Range) As String
     WorkbookNameFromRange = FromRange.Worksheet.Parent.Name
 End Function
 
-Public Function ConvertSpillRangeDependencyToAbsRef(ByVal FormulaCell As Range) As String
+Public Function ConvertSpillRangeDependencyToAbsRef(ByVal FormulaCell As Range, ByVal IsFillDown As Boolean) As String
     
     ' This will convert spill range reference to absolute form.
     ' For example if the formula is =SUM(FILTER(Q183#,P183#=S183)) then it will convert it to
@@ -2185,15 +2247,27 @@ Public Function ConvertSpillRangeDependencyToAbsRef(ByVal FormulaCell As Range) 
         If Text.IsEndsWith(PrecedentCellAsText, HASH_SIGN) Then
             
             Set CurrentRange = RangeResolver.GetRangeForDependency(PrecedentCellAsText, FormulaCell)
-            Dim ReplaceWith As String
-            ReplaceWith = vbNullString
-            If CurrentRange.Worksheet.Name <> FormulaCell.Worksheet.Name Then
-                ReplaceWith = GetSheetRefForRangeReference(CurrentRange.Worksheet.Name, True)
+            
+            Dim IsInvalidDueToScanOpt As Boolean
+            If IsFillDown And CurrentRange.Row + 1 = FormulaCell.Row Then
+                IsInvalidDueToScanOpt = True
+            ElseIf Not IsFillDown And CurrentRange.Column + 1 = FormulaCell.Column Then
+                IsInvalidDueToScanOpt = True
+            Else
+                IsInvalidDueToScanOpt = False
             End If
             
-            ReplaceWith = ReplaceWith & CurrentRange.Cells(1).Address & HASH_SIGN
-            
-            Result = ReplaceTokenWithNewToken(Result, PrecedentCellAsText, ReplaceWith)
+            If Not IsInvalidDueToScanOpt Then
+                Dim ReplaceWith As String
+                ReplaceWith = vbNullString
+                If CurrentRange.Worksheet.Name <> FormulaCell.Worksheet.Name Then
+                    ReplaceWith = GetSheetRefForRangeReference(CurrentRange.Worksheet.Name, True)
+                End If
+                
+                ReplaceWith = ReplaceWith & CurrentRange.Cells(1).Address & HASH_SIGN
+                
+                Result = ReplaceTokenWithNewToken(Result, PrecedentCellAsText, ReplaceWith)
+            End If
             
         End If
         
@@ -2532,36 +2606,31 @@ Public Function GetFormulaIfScanOption(ByVal FormulaCell As Range _
                                         , ByVal ValidCellsForFillDown As Collection _
                                          , ByVal KeyToAnswer As Variant _
                                           , ByVal IsFillDown As Boolean _
-                                          , ByVal StructuredFormula As String)
-    
-    Dim ScanInitializerCellPrecedency As PrecedencyInfo
+                                          , ByVal StructuredFormula As String _
+                                          , ByVal InitializerCells As Collection)
     
     Dim SpillRanges As Collection
     Set SpillRanges = New Collection
     
-    Dim ScanInitializerCellRef As String
-    If IsFillDown Then
-        ScanInitializerCellRef = GetRangeRefWithSheetName(FormulaCell.Offset(-1, 0).Cells(1))
-    Else
-        ScanInitializerCellRef = GetRangeRefWithSheetName(FormulaCell.Offset(0, -1).Cells(1))
-    End If
-    
     Dim CurrentItem As PrecedencyInfo
     For Each CurrentItem In ValidCellsForFillDown
         
-        If GetRangeRefWithSheetName(CurrentItem.NameInFormulaRange.Cells(1)) = ScanInitializerCellRef Then
-            Set ScanInitializerCellPrecedency = CurrentItem
-        ElseIf CurrentItem.HasSpill Then
+        If CurrentItem.HasSpill Then
             SpillRanges.Add CurrentItem
         End If
         
     Next CurrentItem
     
     If SpillRanges.Count = 0 Then Exit Function
-    If IsNothing(ScanInitializerCellPrecedency) Then Exit Function
+    If InitializerCells.Count = 0 Then Exit Function
     
     Dim Result As String
-    Result = GenerateScanFillFormula(StructuredFormula, ScanInitializerCellPrecedency, SpillRanges, IsFillDown)
+    If FormulaCell.HasSpill Then
+        Result = GenerateScanAFillFormula(FormulaCell, StructuredFormula, SpillRanges, IsFillDown, InitializerCells)
+    Else
+        Result = GenerateScanFillFormula(FormulaCell, StructuredFormula, SpillRanges, IsFillDown, InitializerCells)
+    End If
+    
     AddCustomLambdaIfNeeded FormulaCell.Worksheet.Parent, Result
     
     Dim FirstArray As Variant
@@ -2574,23 +2643,128 @@ Public Function GetFormulaIfScanOption(ByVal FormulaCell As Range _
     
 End Function
 
-Private Function GenerateScanFillFormula(ByVal StructuredFormula As String _
-                                         , ByVal OneCellAboveRef As PrecedencyInfo _
+Private Function GenerateScanAFillFormula(ByVal FormulaCell As Range _
+                                         , ByVal StructuredFormula As String _
                                           , ByVal SpillRanges As Collection _
-                                           , ByVal IsFillDown As Boolean) As String
+                                           , ByVal IsFillDown As Boolean _
+                                            , ByVal InitializerCells As Collection) As String
     
-    If SpillRanges.Count = 0 Then Exit Function
+    Dim ParentInitializerCellRef As String
+    ParentInitializerCellRef = InitializerCells.Item(1).ParentCellRef
+    
+    Dim CalcPart As String
+    CalcPart = StructuredFormula
+    
+    Dim CurrentInitializerRef As InitializerCellRef
+    For Each CurrentInitializerRef In InitializerCells
+        ' All parent initializer cell ref must be part of one spill range
+        If CurrentInitializerRef.ParentCellRef <> ParentInitializerCellRef Then
+            Exit Function
+        End If
+        
+        If CurrentInitializerRef.IsWholeInitializerRangeUsed Then
+            CalcPart = ReplaceTokenWithNewToken(CalcPart, CurrentInitializerRef.NameInFormula, SCAN_LAMBDA_ACC_VAR_TEXT & "()")
+        Else
+            CalcPart = ReplaceTokenWithNewToken(CalcPart, CurrentInitializerRef.NameInFormula, SCAN_LAMBDA_ACC_VAR_TEXT & "(" & CurrentInitializerRef.Index & ")")
+        End If
+        
+    Next CurrentInitializerRef
+    
+    Dim FirstSpillRange As PrecedencyInfo
+    Set FirstSpillRange = SpillRanges.Item(1)
+    
+    Dim ScanCalcPart As String
+    ScanCalcPart = EQUAL_SIGN & SCAN_A_FN_NAME & FIRST_PARENTHESIS_OPEN _
+                   & ParentInitializerCellRef & COMMA
+    
+    Dim ChooseFnName As String
+    ChooseFnName = IIf(IsFillDown, CHOOSEROWS_FN_NAME, CHOOSECOLS_FN_NAME)
+    
+    Dim IsValidForSeqRow As Boolean
+    
+    If SpillRanges.Count > 1 Then
+        IsValidForSeqRow = True
+    ElseIf IsFillDown And FirstSpillRange.NameInFormulaRange.Columns.CountLarge > 1 Then
+        IsValidForSeqRow = True
+    ElseIf Not IsFillDown And FirstSpillRange.NameInFormulaRange.Rows.CountLarge > 1 Then
+        IsValidForSeqRow = True
+    End If
+    
+    If SpillRanges.Count = 1 And Not IsValidForSeqRow Then
+        CalcPart = ReplaceTokenWithNewToken(CalcPart, FirstSpillRange.NameInFormula, SCAN_LAMBDA_VAL_VAR_TEXT)
+        ScanCalcPart = ScanCalcPart & FirstSpillRange.ChoosePartFormula
+    Else
+        ScanCalcPart = ScanCalcPart _
+                       & SEQUENCE_FN_NAME & FIRST_PARENTHESIS_OPEN _
+                       & IIf(IsFillDown, ROWS_FN_NAME, COMMA & COLUMNS_FN_NAME) _
+                       & FIRST_PARENTHESIS_OPEN & FirstSpillRange.ChoosePartFormula & FIRST_PARENTHESIS_CLOSE _
+                       & FIRST_PARENTHESIS_CLOSE
+        
+        Dim LetPart As String
+        LetPart = LET_AND_OPEN_PAREN
+        
+        Dim StepNamePrefix As String
+        StepNamePrefix = GetStepNamePrefix(CalcPart, SpillRanges.Count)
+        
+        Dim Counter As Long
+        
+        Dim CurrentPrecedencyRef As PrecedencyInfo
+    
+        For Each CurrentPrecedencyRef In SpillRanges
+        
+            Dim ParamName As String
+            ParamName = GetParamNameFromCounter(StepNamePrefix, Counter + 1, SpillRanges.Count)
+        
+            LetPart = LetPart & ParamName & LIST_SEPARATOR _
+                      & ChooseFnName & FIRST_PARENTHESIS_OPEN _
+                      & CurrentPrecedencyRef.ChoosePartFormula & LIST_SEPARATOR & SCAN_LAMBDA_VAL_VAR_TEXT _
+                      & FIRST_PARENTHESIS_CLOSE _
+                      & COMMA
+        
+            CalcPart = ReplaceTokenWithNewToken(CalcPart _
+                                                , CurrentPrecedencyRef.NameInFormula, ParamName)
+            Counter = Counter + 1
+        Next CurrentPrecedencyRef
+        
+        CalcPart = LetPart & RemoveStartingEqualSign(CalcPart) & FIRST_PARENTHESIS_CLOSE
+        
+    End If
+    
+    
+    CalcPart = RemoveStartingEqualSign(CalcPart)
+    
+    Dim LambdaCalcPart As String
+    LambdaCalcPart = LAMBDA_AND_OPEN_PAREN & SCAN_LAMBDA_ACC_VAR_TEXT & COMMA & SCAN_LAMBDA_VAL_VAR_TEXT _
+                     & COMMA & CalcPart & FIRST_PARENTHESIS_CLOSE
+    
+    Dim Result As String
+    Result = ScanCalcPart & COMMA & LambdaCalcPart & FIRST_PARENTHESIS_CLOSE
+    
+    GenerateScanAFillFormula = Result
+    
+End Function
+
+Private Function GenerateScanFillFormula(ByVal FormulaCell As Range _
+                                         , ByVal StructuredFormula As String _
+                                          , ByVal SpillRanges As Collection _
+                                           , ByVal IsFillDown As Boolean _
+                                            , ByVal InitializerCells As Collection) As String
+    
+    If InitializerCells.Count > 1 Then Exit Function
+    
+    Dim InitializerCellNameInFormula As String
+    InitializerCellNameInFormula = InitializerCells.Item(1).NameInFormula
     
     Dim FirstSpillRange As PrecedencyInfo
     Set FirstSpillRange = SpillRanges.Item(1)
     
     Dim ScanCalcPart As String
     ScanCalcPart = EQUAL_SIGN & SCAN_FN_NAME & FIRST_PARENTHESIS_OPEN _
-                   & OneCellAboveRef.NameInFormula & COMMA
+                   & InitializerCellNameInFormula & COMMA
     
     Dim CalcPart As String
     CalcPart = StructuredFormula
-    CalcPart = ReplaceTokenWithNewToken(CalcPart, OneCellAboveRef.NameInFormula, SCAN_LAMBDA_ACC_VAR_TEXT)
+    CalcPart = ReplaceTokenWithNewToken(CalcPart, InitializerCellNameInFormula, SCAN_LAMBDA_ACC_VAR_TEXT)
     
     Dim ChooseFnName As String
     ChooseFnName = IIf(IsFillDown, CHOOSEROWS_FN_NAME, CHOOSECOLS_FN_NAME)
@@ -2742,4 +2916,41 @@ Public Function SplitMultipleSpillRanges(ByVal DependencyRange As Range, ByVal F
     SplitMultipleSpillRanges = Formula
     
 End Function
+
+Public Sub AddInitializerCellRef(ByRef AddToColl As Collection _
+                                 , ByVal CellRef As Range _
+                                  , ByVal TypeOfFill As FillType _
+                                  , ByVal PrecedentText As String _
+                                  , ByVal FullInitializerCells As Range)
+    
+    Dim InitRef As InitializerCellRef
+    Set InitRef = New InitializerCellRef
+    With InitRef
+        
+        .HasSpill = CellRef.HasSpill
+        .NameInFormula = PrecedentText
+        
+        .IsWholeInitializerRangeUsed = (CellRef.Address = FullInitializerCells.Address)
+        If .HasSpill Then
+            .ParentCellRef = FullInitializerCells.Cells(1).Address(False, False) & HASH_SIGN
+        Else
+            .ParentCellRef = FullInitializerCells.Address(False, False)
+        End If
+        
+        If Not .IsWholeInitializerRangeUsed Then
+            
+            If TypeOfFill = Fill_DOWN Then
+                .Index = CellRef.Column - FullInitializerCells.Cells(1).Column + 1
+            ElseIf TypeOfFill = FILL_TO_RIGHT Then
+                .Index = CellRef.Row - FullInitializerCells.Cells(1).Row + 1
+            End If
+            
+        End If
+        
+    End With
+    
+    AddToColl.Add InitRef
+    
+End Sub
+
 
