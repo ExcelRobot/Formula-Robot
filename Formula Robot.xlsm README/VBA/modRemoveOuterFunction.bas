@@ -105,7 +105,7 @@ Private Sub TestRemoveOuterFromLet()
     Dim TestSetupRange As Range
     Set TestSetupRange = Range("RemoveOuterFromLet")
     Dim Counter As Long
-    For Counter = 1 To TestSetupRange.Rows.Count
+    For Counter = 1 To TestSetupRange.Rows.CountLarge
         RunRemoveOuterFromLetOrLambdaTest TestSetupRange.Cells(Counter, 1).Formula2 _
                                           , TestSetupRange.Cells(Counter, 2).Formula2, True
     Next Counter
@@ -223,7 +223,7 @@ Private Sub TestRemoveOuterFromLambda()
     Dim TestSetupRange As Range
     Set TestSetupRange = Range("RemoveOuterFromLambda")
     Dim Counter As Long
-    For Counter = 1 To TestSetupRange.Rows.Count
+    For Counter = 1 To TestSetupRange.Rows.CountLarge
         RunRemoveOuterFromLetOrLambdaTest TestSetupRange.Cells(Counter, 1).Formula2 _
                                           , TestSetupRange.Cells(Counter, 2).Formula2, False
     Next Counter

@@ -49,7 +49,7 @@ End Function
 
 Public Function IsInFirstRowOfSpillRange(ByVal CheckOnCell As Range) As Boolean
     
-    If CheckOnCell.Cells.Count > 1 Or Not CheckOnCell.Cells(1).HasSpill Then
+    If CheckOnCell.Cells.CountLarge > 1 Or Not CheckOnCell.Cells(1).HasSpill Then
         IsInFirstRowOfSpillRange = False
     Else
         IsInFirstRowOfSpillRange = (Not Intersect(CheckOnCell.Cells(1).SpillParent.SpillingToRange.Rows(1) _
@@ -60,7 +60,7 @@ End Function
 
 Public Function IsInFirstColOfSpillRange(ByVal CheckOnCell As Range) As Boolean
     
-    If CheckOnCell.Cells.Count > 1 Or Not CheckOnCell.Cells(1).HasSpill Then
+    If CheckOnCell.Cells.CountLarge > 1 Or Not CheckOnCell.Cells(1).HasSpill Then
         IsInFirstColOfSpillRange = False
     Else
         IsInFirstColOfSpillRange = (Not Intersect(CheckOnCell.SpillParent.Cells(1).SpillingToRange.Columns(1) _
@@ -74,7 +74,7 @@ Public Function IsSpillParent(ByVal CheckOnCell As Range) As Boolean
     Dim Result As Boolean
     If Not CheckOnCell.HasSpill Then
         Result = False
-    ElseIf CheckOnCell.Cells.Count > 1 Then
+    ElseIf CheckOnCell.Cells.CountLarge > 1 Then
         Result = False
     ElseIf CheckOnCell.SpillParent.Address = CheckOnCell.Address Then
         Result = True
@@ -93,8 +93,8 @@ Public Function IsValidRangeUsedForByRow(ByVal CurrentRange As Range) As Boolean
     Set IntersectingRange = Intersect(SpillToRange.Rows(1), CurrentRange)
     If Not IntersectingRange Is Nothing Then
         IsValidRangeUsedForByRow = ((CurrentRange.Address = IntersectingRange.Address) _
-                                And SpillToRange.Rows.Count > 1 _
-                                And IntersectingRange.Columns.Count > 1)
+                                And SpillToRange.Rows.CountLarge > 1 _
+                                And IntersectingRange.Columns.CountLarge > 1)
     End If
     
 End Function
@@ -108,8 +108,8 @@ Public Function IsValidRangeUsedForByCol(ByVal CurrentRange As Range) As Boolean
     Set IntersectingRange = Intersect(SpillToRange.Columns(1), CurrentRange)
     If Not IntersectingRange Is Nothing Then
         IsValidRangeUsedForByCol = (CurrentRange.Address = IntersectingRange.Address _
-                                And SpillToRange.Columns.Count > 1 _
-                                And IntersectingRange.Rows.Count > 1)
+                                And SpillToRange.Columns.CountLarge > 1 _
+                                And IntersectingRange.Rows.CountLarge > 1)
     End If
     
 End Function
@@ -134,8 +134,8 @@ Public Sub UpdateValidCells(ByVal PrecedencyVsCellsInfoMap As Collection _
             .AbsRangeRef = GetParentCellRef(FormulaCell, CurrentRange, True)
             Dim SpillRange As Range
             Set SpillRange = CurrentRange.Cells(1).SpillParent.SpillingToRange
-            .RowCount = SpillRange.Rows.Count
-            .ColCount = SpillRange.Columns.Count
+            .RowCount = SpillRange.Rows.CountLarge
+            .ColCount = SpillRange.Columns.CountLarge
             .TopLeftCellRowNo = CurrentRange.Cells(1).SpillParent.Row
             .TopLeftCellColNo = CurrentRange.Cells(1).SpillParent.Column
             Set .FillLagWithCell = FillLagWithCell
@@ -143,8 +143,8 @@ Public Sub UpdateValidCells(ByVal PrecedencyVsCellsInfoMap As Collection _
             '@TODO: Need to check if we can use Table Ref or not.
             .RangeRef = GetParentCellRefIfNoSpill(FormulaCell, CurrentRange, False)
             .AbsRangeRef = GetParentCellRefIfNoSpill(FormulaCell, CurrentRange, True)
-            .RowCount = CurrentRange.Rows.Count
-            .ColCount = CurrentRange.Columns.Count
+            .RowCount = CurrentRange.Rows.CountLarge
+            .ColCount = CurrentRange.Columns.CountLarge
             .TopLeftCellRowNo = CurrentRange.Cells(1).Row
             .TopLeftCellColNo = CurrentRange.Cells(1).Column
         End If
@@ -235,8 +235,8 @@ Private Function GetChooseColPartFormula(ByVal CurrentRange As Range _
     ColIndex = CurrentRange.Column - CurrentRange.Cells(1).SpillParent.Column + 1
     
     Dim SecondArgOfChoose As String
-    If CurrentRange.Columns.Count > 1 And CurrentRange.Address <> SpillRange.Rows(1).Address Then
-        SecondArgOfChoose = GenerateArraySeq(ColIndex, CurrentRange.Columns.Count, False)
+    If CurrentRange.Columns.CountLarge > 1 And CurrentRange.Address <> SpillRange.Rows(1).Address Then
+        SecondArgOfChoose = GenerateArraySeq(ColIndex, CurrentRange.Columns.CountLarge, False)
     Else
         SecondArgOfChoose = ColIndex
     End If
@@ -261,8 +261,8 @@ Private Function GetChooseRowPartFormula(ByVal CurrentRange As Range _
     
     Dim SecondArgOfChoose As String
     
-    If CurrentRange.Rows.Count > 1 And CurrentRange.Address <> SpillRange.Columns(1).Address Then
-        SecondArgOfChoose = GenerateArraySeq(RowIndex, CurrentRange.Rows.Count, False)
+    If CurrentRange.Rows.CountLarge > 1 And CurrentRange.Address <> SpillRange.Columns(1).Address Then
+        SecondArgOfChoose = GenerateArraySeq(RowIndex, CurrentRange.Rows.CountLarge, False)
     Else
         SecondArgOfChoose = RowIndex
     End If
@@ -603,7 +603,7 @@ Public Function SpillRangeColCount(ByVal CellInsideSpillRange As Range) As Long
     
     SpillRangeColCount = 1
     If CellInsideSpillRange.Cells(1).HasSpill Then
-        SpillRangeColCount = CellInsideSpillRange.Cells(1).SpillParent.SpillingToRange.Columns.Count
+        SpillRangeColCount = CellInsideSpillRange.Cells(1).SpillParent.SpillingToRange.Columns.CountLarge
     End If
 
 End Function
@@ -612,18 +612,18 @@ Public Function SpillRangeRowCount(ByVal CellInsideSpillRange As Range) As Long
     
     SpillRangeRowCount = 1
     If CellInsideSpillRange.Cells(1).HasSpill Then
-        SpillRangeRowCount = CellInsideSpillRange.Cells(1).SpillParent.SpillingToRange.Rows.Count
+        SpillRangeRowCount = CellInsideSpillRange.Cells(1).SpillParent.SpillingToRange.Rows.CountLarge
     End If
     
 End Function
 
 Public Function DropFirstCell(ByVal FromRange As Range) As Range
     
-    If FromRange.Cells.Count > 1 Then
-        If FromRange.Rows.Count > 1 And FromRange.Columns.Count = 1 Then
-            Set DropFirstCell = FromRange.Offset(1).Resize(FromRange.Rows.Count - 1, FromRange.Columns.Count)
-        ElseIf FromRange.Columns.Count > 1 And FromRange.Rows.Count = 1 Then
-            Set DropFirstCell = FromRange.Offset(, 1).Resize(FromRange.Rows.Count, FromRange.Columns.Count - 1)
+    If FromRange.Cells.CountLarge > 1 Then
+        If FromRange.Rows.CountLarge > 1 And FromRange.Columns.CountLarge = 1 Then
+            Set DropFirstCell = FromRange.Offset(1).Resize(FromRange.Rows.CountLarge - 1, FromRange.Columns.CountLarge)
+        ElseIf FromRange.Columns.CountLarge > 1 And FromRange.Rows.CountLarge = 1 Then
+            Set DropFirstCell = FromRange.Offset(, 1).Resize(FromRange.Rows.CountLarge, FromRange.Columns.CountLarge - 1)
         End If
     End If
     
@@ -1781,7 +1781,7 @@ End Function
 
 Public Function IsBlankCellNoError(ByVal CheckCell As Range) As Boolean
     
-    If CheckCell.Cells.Count = 1 Then
+    If CheckCell.Cells.CountLarge = 1 Then
         If IsError(CheckCell.Value) Then
             IsBlankCellNoError = False
         ElseIf CheckCell.Value = vbNullString Then
@@ -1943,12 +1943,12 @@ Public Function IsValidToUseMapWithoutSequence(ByVal ValidCellsForFillDown As Co
     Dim CurrentPrecedency As PrecedencyInfo
     For Each CurrentPrecedency In ValidCellsForFillDown
         If TypeOfFill = Fill_DOWN Then
-            If CurrentPrecedency.NameInFormulaRange.Columns.Count > 1 Then
+            If CurrentPrecedency.NameInFormulaRange.Columns.CountLarge > 1 Then
                 IsValidToUseMapWithoutSequence = False
                 Exit Function
             End If
         ElseIf TypeOfFill = FILL_TO_RIGHT Then
-            If CurrentPrecedency.NameInFormulaRange.Rows.Count > 1 Then
+            If CurrentPrecedency.NameInFormulaRange.Rows.CountLarge > 1 Then
                 IsValidToUseMapWithoutSequence = False
                 Exit Function
             End If
@@ -1964,9 +1964,9 @@ Public Function IsValidToUseByRowOrCol(ByVal ValidCellsForFillDown As Collection
         Dim CurrentPrecedencyInfo As PrecedencyInfo
         Set CurrentPrecedencyInfo = ValidCellsForFillDown.Item(1)
         If TypeOfFill = Fill_DOWN Then
-            IsValidToUseByRowOrCol = (CurrentPrecedencyInfo.NameInFormulaRange.Columns.Count > 1)
+            IsValidToUseByRowOrCol = (CurrentPrecedencyInfo.NameInFormulaRange.Columns.CountLarge > 1)
         ElseIf TypeOfFill = FILL_TO_RIGHT Then
-            IsValidToUseByRowOrCol = (CurrentPrecedencyInfo.NameInFormulaRange.Rows.Count > 1)
+            IsValidToUseByRowOrCol = (CurrentPrecedencyInfo.NameInFormulaRange.Rows.CountLarge > 1)
         End If
     End If
     
@@ -2137,7 +2137,7 @@ Public Function GetRangeReference(ByVal GivenCells As Range _
     GetRangeReference = GivenCells.Address(IsAbsolute, IsAbsolute)
 
     ' Check if the given range is part of a dynamic array formula.
-    If GivenCells.Cells.Count > 1 And GivenCells.Cells(1, 1).HasSpill Then
+    If GivenCells.Cells.CountLarge > 1 And GivenCells.Cells(1, 1).HasSpill Then
         Dim TempRange As Range
         Set TempRange = GivenCells.Cells(1, 1)
 
@@ -2530,7 +2530,7 @@ Public Function IsBlankRange(ByVal CheckRange As Range) As Boolean
     On Error Resume Next
     Dim FormulaCells As Range
     IsBlankRange = True
-    If CheckRange.Cells.Count = 1 Then
+    If CheckRange.Cells.CountLarge = 1 Then
         If CheckRange.HasFormula Then
             IsBlankRange = False
         ElseIf CheckRange.Value <> vbNullString Then
@@ -2569,7 +2569,7 @@ Public Sub AutoFitRange(ByVal ForRange As Range, ByVal MaximumColumnWidth As Lon
         CurrentRange.Columns.AutoFit
 
         Dim Counter As Long
-        For Counter = 1 To CurrentRange.Columns.Count
+        For Counter = 1 To CurrentRange.Columns.CountLarge
             ' Check and adjust column width if it exceeds the specified limits.
             Dim ColWidth As Double
             ColWidth = CurrentRange.Columns(Counter).ColumnWidth

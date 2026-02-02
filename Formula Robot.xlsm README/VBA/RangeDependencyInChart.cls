@@ -370,7 +370,7 @@ Public Sub ProcessSheetForDataLabels(ByVal CurrentSheet As Worksheet, ByVal Give
     
     ' Process the worksheet for data labels in the chart series
     
-    If GivenRange.Cells.Count > 1 Then Exit Sub
+    If GivenRange.Cells.CountLarge > 1 Then Exit Sub
     If Not CurrentSeries.HasDataLabels Then Exit Sub
     Dim Counter As Long
     For Counter = 1 To CurrentSeries.DataLabels.Count

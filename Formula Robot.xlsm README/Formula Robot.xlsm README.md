@@ -96,7 +96,7 @@
 | Property | Value |
 | --- | --- |
 | Macro Expression | <code>[modApplyFilterToArray.ApplyFilterToArray](./VBA/modApplyFilterToArray.bas#L11)([[ActiveCell]],[[ActiveCell.Offset(0,1)]])</code> |
-| User Context Filter | ExcelActiveCellContainsNonSpillingFormula AND ExcelActiveCellValueIsBoolean |
+| User Context Filter | ExcelActiveCellValueIsBoolean AND ExcelActiveCellContainsFormula |
 
 [^Top](#oa-robot-definitions)
 

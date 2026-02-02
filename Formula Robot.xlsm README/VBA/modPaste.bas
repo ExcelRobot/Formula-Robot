@@ -14,8 +14,8 @@ Sub PasteExactFormula(rngCopied As Range)
     
     If rngCopied Is Nothing Then Exit Sub
     
-    nRowsCopied = rngCopied.Rows.Count
-    nColumnsCopied = rngCopied.Columns.Count
+    nRowsCopied = rngCopied.Rows.CountLarge
+    nColumnsCopied = rngCopied.Columns.CountLarge
     
     Set rngSelection = Selection
     Set rngActiveCell = ActiveCell
@@ -26,13 +26,13 @@ Sub PasteExactFormula(rngCopied As Range)
     Application.ScreenUpdating = False
     
     For nAreaCtr = 1 To rngSelection.Areas.Count
-        If rngSelection.Areas(nAreaCtr).Cells.Count = 1 Then
+        If rngSelection.Areas(nAreaCtr).Cells.CountLarge = 1 Then
             Set rngTarget = rngSelection.Areas(nAreaCtr).Cells.Resize(nRowsCopied, nColumnsCopied)
         Else
             Set rngTarget = rngSelection.Areas(nAreaCtr).Cells
         End If
-        For nRowCtr = 1 To rngTarget.Rows.Count
-            For nColCtr = 1 To rngTarget.Columns.Count
+        For nRowCtr = 1 To rngTarget.Rows.CountLarge
+            For nColCtr = 1 To rngTarget.Columns.CountLarge
                 rngTarget.Cells(nRowCtr, nColCtr).Formula2 = rngCopied.Cells(((nRowCtr - 1) Mod nRowsCopied) + 1, ((nColCtr - 1) Mod nColumnsCopied) + 1).Formula2
                 rngTarget.Cells(nRowCtr, nColCtr).NumberFormat = rngCopied.Cells(((nRowCtr - 1) Mod nRowsCopied) + 1, ((nColCtr - 1) Mod nColumnsCopied) + 1).NumberFormat
                 If rngNewSelection Is Nothing Then

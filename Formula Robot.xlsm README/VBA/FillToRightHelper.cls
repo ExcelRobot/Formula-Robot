@@ -32,10 +32,10 @@ Public Sub FillToRight(ByVal FormulaCell As Range)
     
     Dim FillWidth As Long
     Dim Bean As FillBean
-    If FormulaCell.Rows.Count > 1 And FormulaCell.Columns.Count = 1 Then
+    If FormulaCell.Rows.CountLarge > 1 And FormulaCell.Columns.CountLarge = 1 Then
     
         Dim Counter As Long
-        For Counter = 1 To FormulaCell.Rows.Count
+        For Counter = 1 To FormulaCell.Rows.CountLarge
             
             Set Bean = GetFillBean(FormulaCell.Rows(Counter))
             If IsNotNothing(Bean) Then
@@ -83,7 +83,7 @@ End Sub
 Private Function GetFillBean(ByVal FormulaCell As Range) As FillBean
     
     Dim Bean As FillBean
-    If FormulaCell.Cells.Count = 1 Then
+    If FormulaCell.Cells.CountLarge = 1 Then
         If FormulaCell.HasFormula Then
             
             ' If more than one col spill range then put same formula and exit
@@ -103,12 +103,12 @@ Private Function GetFillBean(ByVal FormulaCell As Range) As FillBean
             Set Bean = FillBeanForVBAFillToRight(FormulaCell)
         End If
         
-    ElseIf FormulaCell.Columns.Count > 1 Then
+    ElseIf FormulaCell.Columns.CountLarge > 1 Then
         
         Set Bean = New FillBean
         With Bean
             Set .OnRange = FormulaCell
-            .ProbableFillDimension = FormulaCell.Columns.Count
+            .ProbableFillDimension = FormulaCell.Columns.CountLarge
             .TypeOfFill = FILL_TO_RIGHT
             Set .Filler = New NativeFiller
         End With
@@ -182,9 +182,9 @@ Private Function FillBeanForDynamicArrayFormula(ByVal FormulaCell As Range) As F
             
         ElseIf Not CurrentRange.Cells(1).HasSpill Then
             
-            If CurrentRange.Rows.Count = 1 Then
+            If CurrentRange.Rows.CountLarge = 1 Then
                 modUtility.UpdateValidCells ValidCellsForFillRight, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_NONE, Nothing
-            ElseIf CurrentRange.Rows.Count > 1 Then
+            ElseIf CurrentRange.Rows.CountLarge > 1 Then
                 modUtility.UpdateValidCells ValidCellsForFillRight, PrecedentCellAsText, CurrentRange, FormulaCell, CHOOSE_ROWS, Nothing
             End If
             
@@ -317,7 +317,7 @@ Private Function GetKeyToAnswerByFillingFormula(ByVal FormulaCell As Range, ByVa
     Dim Result As Variant
     Result = DataRange.Value
     
-    If DataRange.Rows.Count > 1 Then
+    If DataRange.Rows.CountLarge > 1 Then
         
         Dim ColIndex As Long
         For ColIndex = LBound(Result, 2) To UBound(Result, 2)
@@ -326,13 +326,13 @@ Private Function GetKeyToAnswerByFillingFormula(ByVal FormulaCell As Range, ByVa
             Dim FirstCell As Range
             Set FirstCell = DataRange.Cells(1, ColIndex - LBound(Result, 2) + 1)
             If FirstCell.HasSpill Then
-                SpillCellsCount = FirstCell.SpillingToRange.Cells.Count
+                SpillCellsCount = FirstCell.SpillingToRange.Cells.CountLarge
             Else
                 SpillCellsCount = 1
             End If
             
             Dim RowIndex As Long
-            For RowIndex = SpillCellsCount + 1 To DataRange.Rows.Count
+            For RowIndex = SpillCellsCount + 1 To DataRange.Rows.CountLarge
                 Result(RowIndex - LBound(Result, 1) + 1, ColIndex) = CVErr(xlErrNA)
             Next RowIndex
             
@@ -364,7 +364,7 @@ Private Function GetMaxSpillRowCount(ByVal FormulaCells As Range) As Long
     Dim CurrentCell As Range
     For Each CurrentCell In FormulaCells.Cells
         If CurrentCell.HasSpill Then
-            CurrentRowCount = CurrentCell.SpillingToRange.Rows.Count
+            CurrentRowCount = CurrentCell.SpillingToRange.Rows.CountLarge
             If CurrentRowCount > MaxRowCount Then MaxRowCount = CurrentRowCount
         End If
     Next CurrentCell
@@ -426,15 +426,15 @@ Private Function FillBeanForVBAFillToRight(ByVal FormulaCell As Range) As FillBe
     Set FormulaCell = GetRightRangeFromCurrentReg(FormulaCell)
     
     Dim Bean As FillBean
-    If FormulaCell.Cells.Count > 1 Then
+    If FormulaCell.Cells.CountLarge > 1 Then
         
         Dim ColCount As Long
-        ColCount = FormulaCell.Columns.Count
+        ColCount = FormulaCell.Columns.CountLarge
         Dim UndoOperator As UndoHandler
         Set UndoOperator = UndoHandler.Create(VBA_VERSION, DropFirstCell(FormulaCell), vbNullString)
         If IsAllBlankAndNoFormulas(DropFirstCell(FormulaCell)) Then
             Set Bean = CreateVBAFillerBean(FormulaCell.Cells(1), ColCount, UndoOperator, FILL_TO_RIGHT)
-        ElseIf ConsistentFormulaCount(DropFirstCell(FormulaCell.Resize(, FormulaCell.Worksheet.Columns.Count - FormulaCell.Column)), False) <> ColCount - 1 Then
+        ElseIf ConsistentFormulaCount(DropFirstCell(FormulaCell.Resize(, FormulaCell.Worksheet.Columns.CountLarge - FormulaCell.Column)), False) <> ColCount - 1 Then
             this.IsInvalidForOpt = True
             Exit Function
         Else
@@ -455,18 +455,18 @@ Public Function GetRightRangeFromCurrentReg(ByVal FormulaCell As Range) As Range
     Set TopLeftCell = FormulaCell.Cells(1)
     
     ' If no columns to fill to, we'll try to guess how far to fill
-    If FormulaCell.Columns.Count = 1 Then
+    If FormulaCell.Columns.CountLarge = 1 Then
         Dim ReferenceArea As Range
         Dim LastColumn As Range
         
         ' First try current region
         Set ReferenceArea = TopLeftCell.CurrentRegion
-        Set LastColumn = ReferenceArea.Columns(ReferenceArea.Columns.Count).EntireColumn
+        Set LastColumn = ReferenceArea.Columns(ReferenceArea.Columns.CountLarge).EntireColumn
         
         ' Then try current region of whatever is directly above
         If LastColumn.Column = TopLeftCell.Column Then
             Set ReferenceArea = TopLeftCell.End(xlUp).CurrentRegion
-            Set LastColumn = ReferenceArea.Columns(ReferenceArea.Columns.Count).EntireColumn
+            Set LastColumn = ReferenceArea.Columns(ReferenceArea.Columns.CountLarge).EntireColumn
         End If
         
         Set FormulaCell = FormulaCell.Worksheet.Range(FormulaCell, Intersect(FormulaCell.EntireRow, LastColumn))

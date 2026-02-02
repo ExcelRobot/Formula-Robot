@@ -17,7 +17,7 @@ Public Sub PasteFillDown(ByVal ClipboardRange As Range, ByVal DestinationRange A
     If ClipboardRange Is Nothing Then Exit Sub
     If DestinationRange Is Nothing Then Exit Sub
     CopyPasteIfNotSameFirstCell ClipboardRange, DestinationRange
-    Set DestinationRange = DestinationRange.Resize(ClipboardRange.Rows.Count, ClipboardRange.Columns.Count)
+    Set DestinationRange = DestinationRange.Resize(ClipboardRange.Rows.CountLarge, ClipboardRange.Columns.CountLarge)
     FillDown DestinationRange
     
 End Sub
@@ -56,7 +56,7 @@ Public Sub PasteFillToRight(ByVal ClipboardRange As Range, ByVal DestinationRang
     If ClipboardRange Is Nothing Then Exit Sub
     If DestinationRange Is Nothing Then Exit Sub
     CopyPasteIfNotSameFirstCell ClipboardRange, DestinationRange
-    Set DestinationRange = DestinationRange.Resize(ClipboardRange.Rows.Count, ClipboardRange.Columns.Count)
+    Set DestinationRange = DestinationRange.Resize(ClipboardRange.Rows.CountLarge, ClipboardRange.Columns.CountLarge)
     FillToRight DestinationRange
     
 End Sub
@@ -131,7 +131,7 @@ Public Function GenerateFillWithSequence(ByVal StartFormula As String _
         
         If TypeOfFill = Fill_DOWN Then
             ' if only one col then Index is perfect.
-            If CurrentItem.NameInFormulaRange.Columns.Count = 1 Then
+            If CurrentItem.NameInFormulaRange.Columns.CountLarge = 1 Then
                 LetPart = LetPart & ParamName & LIST_SEPARATOR _
                           & ONE_SPACE & INDEX_FN_NAME & FIRST_PARENTHESIS_OPEN _
                           & IIf(IsTile, CurrentItem.AbsRangeRef, CurrentItem.RangeRef) _
@@ -147,7 +147,7 @@ Public Function GenerateFillWithSequence(ByVal StartFormula As String _
             End If
             
         ElseIf TypeOfFill = FILL_TO_RIGHT Then
-            If CurrentItem.NameInFormulaRange.Rows.Count = 1 Then
+            If CurrentItem.NameInFormulaRange.Rows.CountLarge = 1 Then
                 LetPart = LetPart & ParamName & LIST_SEPARATOR _
                           & ONE_SPACE & INDEX_FN_NAME & FIRST_PARENTHESIS_OPEN _
                           & IIf(IsTile, CurrentItem.AbsRangeRef, CurrentItem.RangeRef) _
@@ -306,14 +306,6 @@ Public Sub CopyPasteIfNotSameFirstCell(ByVal ClipboardRange As Range, ByVal Dest
     If Not modUtility.IsStartCellSame(ClipboardRange, DestinationRange) Then
         With ClipboardRange
             .Copy DestinationRange
-'            Set DestinationRange = DestinationRange.Resize(.Rows.Count, .Columns.Count)
-'            Dim RowIndex As Long
-'            For RowIndex = 1 To .Rows.Count
-'                Dim ColIndex As Long
-'                For ColIndex = 1 To .Columns.Count
-'                    DestinationRange.Cells(RowIndex, ColIndex).Formula2 = .Cells(RowIndex, ColIndex).Formula2
-'                Next ColIndex
-'            Next RowIndex
         End With
     End If
 

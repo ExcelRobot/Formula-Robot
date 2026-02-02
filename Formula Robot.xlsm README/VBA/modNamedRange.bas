@@ -412,7 +412,7 @@ Private Function FindDefaultName(ByVal FromRange As Range, ByVal IgnorePrefix As
     Logger.Log TRACE_LOG, "Enter modNamedRange.FindDefaultName"
 
     ' Check if FromRange has more than one cell and the first cell is A1. If so, return the worksheet name as the default name.
-    If FromRange.Cells.Count > 1 And FromRange.Cells(1).Address = "$A$1" Then
+    If FromRange.Cells.CountLarge > 1 And FromRange.Cells(1).Address = "$A$1" Then
         FindDefaultName = FromRange.Worksheet.Name
         Exit Function
     End If
@@ -585,7 +585,7 @@ Private Function GetReferenceForTable(ByVal DataSource As Range _
         ' Return the normal range reference
         GetReferenceForTable = NormalRangeRef
         ' If the count of rows in the intersection is equal to the count of rows in the table's body
-    ElseIf Temp.Rows.Count = Table.DataBodyRange.Rows.Count Then
+    ElseIf Temp.Rows.CountLarge = Table.DataBodyRange.Rows.CountLarge Then
         ' Return a reference to the entire data body of the table
         GetReferenceForTable = EQUAL_SIGN & Table.Name & ConvertDataBodyReference(Table, DataSource)
         ' In other cases
@@ -622,7 +622,7 @@ Private Function GetReferenceForNamedRange(ByVal DataSource As Range _
                                         & LIST_SEPARATOR & "0" & LIST_SEPARATOR _
                                         & "0" & LIST_SEPARATOR & ROWS_FN_NAME & FIRST_PARENTHESIS_OPEN _
                                         & CurrentName.Name & FIRST_PARENTHESIS_CLOSE & LIST_SEPARATOR _
-                                        & SelectionRange.Columns.Count & FIRST_PARENTHESIS_CLOSE
+                                        & SelectionRange.Columns.CountLarge & FIRST_PARENTHESIS_CLOSE
         End If
         ' If it is not valid to use structured reference
     Else
@@ -636,7 +636,7 @@ Private Function IsValidToUseStructuredRef(ByVal SelectionRange As Range, ByVal 
 
     IsValidToUseStructuredRef = ((FindIntersection(CurrentName.RefersToRange _
                                                    , SelectionRange).Address = SelectionRange.Address) _
-                                 And (SelectionRange.Rows.Count = CurrentName.RefersToRange.Rows.Count))
+                                 And (SelectionRange.Rows.CountLarge = CurrentName.RefersToRange.Rows.Count))
 
 End Function
 

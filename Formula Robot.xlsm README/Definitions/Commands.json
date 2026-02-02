@@ -4,7 +4,7 @@
       "Name": "Apply Filter To Array",
       "Description": "Create Filter formula based on top row spill range formula.",
       "Type": "VBAMacroCommand",
-      "UserContextFilter": "ExcelActiveCellContainsNonSpillingFormula;ExcelActiveCellValueIsBoolean",
+      "UserContextFilter": "ExcelActiveCellValueIsBoolean;ExcelActiveCellContainsFormula",
       "MacroExpression": "modApplyFilterToArray.ApplyFilterToArray([[ActiveCell]],[[ActiveCell.Offset(0,1)]])",
       "Tags": [
         "Formula"

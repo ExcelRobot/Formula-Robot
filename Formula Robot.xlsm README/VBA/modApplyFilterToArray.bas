@@ -40,7 +40,9 @@ Public Sub ApplyFilterToArray(ByVal FormulaCell As Range, Optional ByVal PlaceFo
         If Not IsNothing(CurrentRange) Then
             If CurrentRange.Cells(1).HasSpill Then
                 If Not Intersect(CurrentRange, CurrentRange.Cells(1).SpillParent.SpillingToRange.Rows(1)) Is Nothing Then
-                    IsValidForMap = True
+                    If Not (IsRowAbsolute(CurrentPrecedency) Or IsColAbsolute(CurrentPrecedency)) Then
+                        IsValidForMap = True
+                    End If
                 End If
             End If
         End If
@@ -48,7 +50,7 @@ Public Sub ApplyFilterToArray(ByVal FormulaCell As Range, Optional ByVal PlaceFo
         
         If IsValidForMap Then
                     
-            If CurrentRange.Cells.Count = 1 Then
+            If CurrentRange.Cells.CountLarge = 1 Then
                 UpdateValidCells ValidCellsForMAP, CStr(CurrentPrecedency), CurrentRange, FormulaCell, CHOOSE_COLS, Nothing
             End If
                     
@@ -75,7 +77,18 @@ Public Sub ApplyFilterToArray(ByVal FormulaCell As Range, Optional ByVal PlaceFo
     
     ' If less than or equal three then variable name will be x,y,z order otherwise a,b,c...z
     Dim MaskPartFormula As String
-    MaskPartFormula = GenerateFilterFormula(ValidCellsForMAP, FormulaCell.Formula2)
+    If FormulaCell.HasSpill Then
+        If FormulaCell.SpillingToRange.Columns.CountLarge = 1 Then
+            MaskPartFormula = FormulaCell.Formula2
+        Else
+            MsgBox "Apply Filter To Array is not valid for multi column spill range output." _
+                   , vbCritical + vbInformation, "Apply Filter ToArray Command"
+            Exit Sub
+        End If
+    Else
+        MaskPartFormula = GenerateFilterFormula(ValidCellsForMAP, FormulaCell.Formula2)
+    End If
+    
     If PlaceFormulaToCell Is Nothing Then Set PlaceFormulaToCell = FormulaCell
     
     Dim FullFormula As String

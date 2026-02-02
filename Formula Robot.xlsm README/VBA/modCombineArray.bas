@@ -129,11 +129,11 @@ Public Function IsSplitNeeded(ByVal AreaRange As Range) As Boolean
                 ' This number comes from VSTACK and HSTACK maximum number of parameters count.
                 Const MAX_NUMBER_OF_FORMULA_CELLS_ALLOWED As Long = 254
                 If IsNull(AreaRange.HasSpill) Then
-                    Result = (AreaRange.SpecialCells(xlCellTypeFormulas).Cells.Count <= MAX_NUMBER_OF_FORMULA_CELLS_ALLOWED)
+                    Result = (AreaRange.SpecialCells(xlCellTypeFormulas).Cells.CountLarge <= MAX_NUMBER_OF_FORMULA_CELLS_ALLOWED)
                 ElseIf AreaRange.HasSpill Then
                     Result = True
                 Else
-                    Result = (AreaRange.SpecialCells(xlCellTypeFormulas).Cells.Count <= MAX_NUMBER_OF_FORMULA_CELLS_ALLOWED)
+                    Result = (AreaRange.SpecialCells(xlCellTypeFormulas).Cells.CountLarge <= MAX_NUMBER_OF_FORMULA_CELLS_ALLOWED)
                 End If
             Else
                 Result = False
@@ -202,7 +202,7 @@ Private Function SplitByRows(ByVal AreaRange As Range) As String
     NextRowIndex = 1
     Dim RowIndex As Long
     
-    For RowIndex = 1 To AreaRange.Rows.Count
+    For RowIndex = 1 To AreaRange.Rows.CountLarge
         If RowIndex = NextRowIndex Then
             
             Dim RowHeight As Long
@@ -237,7 +237,7 @@ Private Function SplitByColumns(ByVal AreaRange As Range) As String
     Dim NextColIndex As Long
     NextColIndex = 1
     Dim ColIndex As Long
-    For ColIndex = 1 To AreaRange.Columns.Count
+    For ColIndex = 1 To AreaRange.Columns.CountLarge
         If ColIndex = NextColIndex Then
             
             Dim ColWidth As Long
@@ -272,7 +272,7 @@ Private Function CountRowSplits(ByVal AreaRange As Range) As Long
     
     NextRowIndex = 1
     Dim RowIndex As Long
-    For RowIndex = 1 To AreaRange.Rows.Count
+    For RowIndex = 1 To AreaRange.Rows.CountLarge
         If RowIndex = NextRowIndex Then
             NextRowIndex = RowIndex + MaxRowHeight(AreaRange.Rows(RowIndex).Cells)
             RowCount = RowCount + 1
@@ -290,7 +290,7 @@ Private Function CountColumnSplits(ByVal AreaRange As Range) As Long
     
     NextColIndex = 1
     Dim ColIndex As Long
-    For ColIndex = 1 To AreaRange.Columns.Count
+    For ColIndex = 1 To AreaRange.Columns.CountLarge
         If ColIndex = NextColIndex Then
             NextColIndex = ColIndex + MaxColumnWidth(AreaRange.Columns(ColIndex))
             ColCount = ColCount + 1
@@ -311,7 +311,7 @@ Private Function MaxRowHeight(ByVal RowRange As Range) As Long
         
         If CurrentCell.HasSpill Then
             Dim SpillRowCount As Long
-            SpillRowCount = CurrentCell.SpillParent.SpillingToRange.Rows.Count
+            SpillRowCount = CurrentCell.SpillParent.SpillingToRange.Rows.CountLarge
                 
             If CurrentCell.SpillParent.Address = CurrentCell.Address Then
                 MaxHeight = modUtility.MaxValue(MaxHeight, SpillRowCount)
@@ -336,7 +336,7 @@ Private Function MaxColumnWidth(ByVal ColRange As Range) As Long
         
         If CurrentCell.HasSpill Then
             Dim SpillColCount As Long
-            SpillColCount = CurrentCell.SpillParent.SpillingToRange.Columns.Count
+            SpillColCount = CurrentCell.SpillParent.SpillingToRange.Columns.CountLarge
             
             If CurrentCell.SpillParent.Address = CurrentCell.Address Then
                 MaxWidth = modUtility.MaxValue(MaxWidth, SpillColCount)

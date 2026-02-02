@@ -71,7 +71,7 @@ Public Sub GenerateTableLookupLambdas(ByVal TableCell As Range, ByVal SelectedCe
     FilterInvocationPart = Text.RemoveFromEndIfPresent(Replace(Replace(DefPart, "[", vbNullString), "]", vbNullString), LIST_SEPARATOR)
     
     Dim ColIndex As Long
-    For ColIndex = 1 To DataRangeWithHeader.Columns.Count
+    For ColIndex = 1 To DataRangeWithHeader.Columns.CountLarge
         
         Dim CurrentColParamName As String
         CurrentColParamName = DataRangeWithHeader.Cells(1, ColIndex).Value
@@ -186,7 +186,7 @@ Private Function GetSelectedHeaders(ByVal SelectedCells As Range, ByVal DataRang
         Temp(Counter, 2) = CurrentCell.Column
     Next CurrentCell
     
-    If ValidHeaders.Cells.Count > 1 Then
+    If ValidHeaders.Cells.CountLarge > 1 Then
         ' We need sorting only we have more than one valid headers. Otherwise sort convert 2D array to vector.
         Temp = Application.WorksheetFunction.Sort(Temp, 2, 1)
     End If
