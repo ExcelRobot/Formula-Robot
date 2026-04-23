@@ -342,21 +342,23 @@ Public Function GetParamNameFromCounter(ByVal StartStepName As String _
 End Function
 
 Public Function FindLambdas(ByVal FromBook As Workbook) As Collection
-    
+
     ' Finds all lambda functions in the given workbook and returns a collection of their names.
+    ' IsLambdaFunction short-circuits via string checks for the canonical "=LAMBDA(..." form
+    ' and for any RefersTo that can't be a function call, so iterating every Name here no
+    ' longer pays the parser cost per entry.
     Dim CurrentName As Name
     Dim AllLambda As Collection
     Set AllLambda = New Collection
     For Each CurrentName In FromBook.Names
-        ' Check if the name refers to a lambda function.
         If IsLambdaFunction(CurrentName.RefersTo) Then
-            ' Add the name to the collection of lambda functions.
             AllLambda.Add CurrentName, CStr(CurrentName.Name)
         End If
     Next CurrentName
     Set FindLambdas = AllLambda
-    
+
 End Function
+
 
 Public Function IsExistInCollection(ByVal GivenCollection As Collection _
                                     , ByVal Key As String) As Boolean

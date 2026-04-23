@@ -88,30 +88,43 @@ Private Function GetDirectPrecedentsFromExpr(ByVal Formula As String _
            
 End Function
 
-' Check if the outer function is LAMBDA or not and it is the entire function.
+' Check if the formula parses as a lambda definition or invocation. Fast string checks
+' short-circuit the common canonical cases so callers that iterate many formulas (e.g.
+' FindLambdas over every Name in the workbook) don't pay the parser cost per entry.
 Public Function IsLambdaFunction(ByVal Formula As String) As Boolean
-    
+    ' Fast negative: if "LAMBDA" doesn't appear anywhere in the text, it cannot be a lambda
+    ' (definitions and invocations both mention the keyword). Catches range refs, structured
+    ' refs, scalar literals, errors, and any other function (=SUM(...), =IF(...), etc.).
+    If InStr(1, Formula, "LAMBDA", vbTextCompare) = 0 Then Exit Function
+
+    ' Fast positive: canonical "=LAMBDA(..." (tolerate leading whitespace and optional '=').
+    Dim Stripped As String
+    Stripped = LTrim$(Formula)
+    If Left$(Stripped, 1) = "=" Then Stripped = LTrim$(Mid$(Stripped, 2))
+    If Len(Stripped) >= 7 Then
+        If StrComp(Left$(Stripped, 7), "LAMBDA(", vbTextCompare) = 0 Then
+            IsLambdaFunction = True
+            Exit Function
+        End If
+    End If
+
+    ' Parser fallback: handles wrapped / invocation forms such as =IF(TRUE, LAMBDA(x,x))
+    ' or =MyLambda(1, 2) where the outer function name is itself a user lambda.
     #If DEVELOPMENT_MODE Then
         Dim ParsedFormulaResult As OARobot.FormulaParseResult
     #Else
         Dim ParsedFormulaResult As Object
     #End If
-    
+
     Set ParsedFormulaResult = ParseFormula(Formula)
-    
-    If Not ParsedFormulaResult.ParseSuccess Then
-        IsLambdaFunction = False
-        Exit Function
-    End If
-    
+    If Not ParsedFormulaResult.ParseSuccess Then Exit Function
+
     If ParsedFormulaResult.Expr.IsLambda Then
         IsLambdaFunction = True
     ElseIf ParsedFormulaResult.Expr.IsFunction Then
         IsLambdaFunction = ParsedFormulaResult.Expr.AsFunction.FunctionName.IsLambda
-    Else
-        IsLambdaFunction = False
     End If
-    
+
 End Function
 
 Private Sub Test()
